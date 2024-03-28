@@ -171,8 +171,7 @@ mosdef_res_check(res_macrophage_IFNg_vs_naive)
 
 `r BiocStyle::Biocpkg("topGO")` is a widely used option to obtain a set of spot-on Gene Ontology terms, removing some of the more generic ones and therefore also reducing the redundancy which is inherent in the GO database [@Ashburner2000].
 
-The `run_topGO` function will return a table with the analysis for all possible GO terms (when using the BP ontology that is 6547 terms).
-Not all of these results are significant, and this list can (should) be further subset/filtered. For example by using a p-value cutoff. 
+
 
 ```{r runtopgo}
 library("topGO")
@@ -190,6 +189,9 @@ res_enrich_macrophage_topGO <- run_topGO(
   verbose = TRUE
 )
 ```
+
+The `run_topGO` function will return a table with the analysis for all possible GO terms (currently when using the "BP" ontology on the macrophage dataset that is `r nrow(res_enrich_macrophage_topGO)` terms).
+Not all of these results are significant, and this list can (should) be further subset/filtered. For example by using a p-value cutoff. 
 
 The key parameters for `run_topGO()` are defined as follows:
 
