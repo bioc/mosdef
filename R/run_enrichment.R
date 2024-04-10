@@ -14,6 +14,7 @@
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes in the assays
 #' @param top_de numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
 #'  Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de. Default is 0.05
 #' @param min_counts numeric, min number of counts a gene needs to have to be included
 #' in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.
 #' @param ontology Which Gene Ontology domain to analyze: \code{BP} (Biological Process), \code{MF} (Molecular Function), or \code{CC} (Cellular Component)
@@ -73,6 +74,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                       de_genes = NULL,
                       bg_genes = NULL,
                       top_de = NULL,
+                      FDR_threshold = 0.05,
                       min_counts = 0,
                       ontology = "BP", # could use also "MF"
                       annot = annFUN.org, # parameters for creating topGO object
@@ -183,12 +185,12 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
     resOrdered <- as.data.frame(res_de[order(res_de$padj), ])
 
     if (de_type == "up_and_down") {
-      de_df <- resOrdered[resOrdered$padj <= .05 & !is.na(resOrdered$padj), ]
+      de_df <- resOrdered[resOrdered$padj <= FDR_threshold & !is.na(resOrdered$padj), ]
     } else if (de_type == "up") {
-      de_df <- resOrdered[resOrdered$padj <= .05 & !is.na(resOrdered$padj), ]
+      de_df <- resOrdered[resOrdered$padj <= FDR_threshold & !is.na(resOrdered$padj), ]
       de_df <- de_df[de_df$log2FoldChange >= 0, ]
     } else if (de_type == "down") {
-      de_df <- resOrdered[resOrdered$padj <= .05 & !is.na(resOrdered$padj), ]
+      de_df <- resOrdered[resOrdered$padj <= FDR_threshold & !is.na(resOrdered$padj), ]
       de_df <- de_df[de_df$log2FoldChange <= 0, ]
     }
     de_genes <- de_df$symbol
@@ -323,6 +325,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' @param res_de A DESeqResults object created using \code{DESeq2}
 #' @param top_de numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
 #'  Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de. Default is 0.05
 #' @param min_counts numeric, min number of counts a gene needs to have to be included
 #' in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.
 #' @param genome A string identifying the genome that genes refer to, as in the
@@ -376,6 +379,7 @@ run_goseq <- function(res_de = NULL,
                       de_genes = NULL, # Differentially expressed genes
                       bg_genes = NULL, # background genes, normally = rownames(cds) or filtering to genes,
                       top_de = NULL,
+                      FDR_threshold = 0.05,
                       min_counts = 0,
                       #  with at least 1 read - could also be ls(org.Mm.egGO)
                       genome = "hg38",
@@ -457,12 +461,12 @@ run_goseq <- function(res_de = NULL,
     }
 
     if (de_type == "up_and_down") {
-      res_de_subset <- deseqresult2df(res_de, FDR = 0.05)
+      res_de_subset <- deseqresult2df(res_de, FDR = FDR_threshold)
     } else if (de_type == "up") {
-      res_de_subset <- deseqresult2df(res_de, FDR = 0.05)
+      res_de_subset <- deseqresult2df(res_de, FDR = FDR_threshold)
       res_de_subset <- res_de_subset[res_de_subset$log2FoldChange >= 0, ]
     } else if (de_type == "down") {
-      res_de_subset <- deseqresult2df(res_de, FDR = 0.05)
+      res_de_subset <- deseqresult2df(res_de, FDR = FDR_threshold)
       res_de_subset <- res_de_subset[res_de_subset$log2FoldChange <= 0, ]
     }
 
@@ -584,6 +588,7 @@ run_goseq <- function(res_de = NULL,
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes in the assays
 #' @param top_de numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
 #'  Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de. Default is 0.05
 #' @param min_counts numeric, min number of counts a gene needs to have to be included
 #' in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.
 #' @param mapping Which \code{org.XX.eg.db} to use for annotation - select according to the species
@@ -629,6 +634,7 @@ run_cluPro <- function(res_de = NULL,
                        de_genes = NULL,
                        bg_genes = NULL,
                        top_de = NULL,
+                       FDR_threshold = 0.05,
                        min_counts = 0,
                        mapping = "org.Hs.eg.db",
                        de_type = "up_and_down",
@@ -731,12 +737,12 @@ run_cluPro <- function(res_de = NULL,
     resOrdered <- as.data.frame(res_de[order(res_de$padj), ])
 
     if (de_type == "up_and_down") {
-      de_df <- resOrdered[resOrdered$padj <= .05 & !is.na(resOrdered$padj), ]
+      de_df <- resOrdered[resOrdered$padj <= FDR_threshold & !is.na(resOrdered$padj), ]
     } else if (de_type == "up") {
-      de_df <- resOrdered[resOrdered$padj <= .05 & !is.na(resOrdered$padj), ]
+      de_df <- resOrdered[resOrdered$padj <= FDR_threshold & !is.na(resOrdered$padj), ]
       de_df <- de_df[de_df$log2FoldChange >= 0, ]
     } else if (de_type == "down") {
-      de_df <- resOrdered[resOrdered$padj <= .05 & !is.na(resOrdered$padj), ]
+      de_df <- resOrdered[resOrdered$padj <= FDR_threshold & !is.na(resOrdered$padj), ]
       de_df <- de_df[de_df$log2FoldChange <= 0, ]
     }
 
