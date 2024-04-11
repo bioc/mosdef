@@ -251,8 +251,8 @@ Importantly, the feature length retrieval is based on the `goseq()` function, an
 
 ```{r rungoseq, eval = FALSE}
 goseq_macrophage <- run_goseq(
-  res_de = res_macrophage_IFNg_vs_naive,
   dds = dds_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
   mapping = "org.Hs.eg.db",
   testCats = "GO:BP" # which categories to test of ("GO:BP, "GO:MF", "GO:CC")
 )
@@ -287,8 +287,8 @@ For example, as we are doing in the chunk that follows, we set Biological Proces
 
 ```{r runclupro, eval = FALSE}
 clupro_macrophage <- run_cluPro(
-  res_de = res_macrophage_IFNg_vs_naive,
   dds = dds_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
   mapping = "org.Hs.eg.db",
   keyType = "SYMBOL",
   ont = "BP"
