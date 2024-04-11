@@ -14,7 +14,7 @@ A sample enrichment object, generated in the \code{mosdef} and \code{clusterProf
 This enrichment object is on the data from the \code{macrophage} package
 
 Specifically, this set of enrichment results was created using the
-Biological Process ontology, mapping the gene symbol identifiers through the
+Biological Process ontology, mapping the gene identifiers through the
 \code{org.Hs.eg.db} package.
 
 Details on how this object has been created are included in the \code{create_mosdef_data.R}
