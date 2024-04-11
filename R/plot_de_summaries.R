@@ -7,7 +7,10 @@
 #' column is provided in \code{res_de}, or else by using the identifiers
 #' specified in the row names
 #'
-#' @param res_de A \code{\link{DESeqResults}} object
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param FDR Numeric value, the significance level for thresholding adjusted
 #' p-values
 #' @param point_alpha Alpha transparency value for the points (0 = transparent,
