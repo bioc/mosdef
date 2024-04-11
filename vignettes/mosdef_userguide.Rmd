@@ -214,6 +214,17 @@ Other possibilities are only up-/down-regulated ("up"/"down") genes.
   If this number is bigger than the total amount of de genes the parameter defaults back to all genes.
 * `verbose`: Whether or not to summarise the analysis in a message.
   
+This will return a table with `r ncol(res_enrich_macrophage_topGO)`  columns. They contain:
+
+* `GO.ID`: The computer readable GO term ID.
+* `Term`: The human readable GO term name.
+* `Annotated`: The number of genes in your dataset that are associated with this term (TODO Or is this the number of genes overall associated with this term.Aand then in the col "Significant" is the number of these term associated genes that are significantly enriched in the analyzed dataset )
+* `Significant`: The number of significantly enriched genes in your data associated with that term
+* `Expected`: The expected number of significant genes associated with that  term based of of the number of genes that were provided.
+* `Rank in p.value_classic`: TODO No idea
+* `p.value_elim`: FDR of your findings and the parameter we suggest to use for further subsetting of your result
+* `p.value_classic`: uncorrected pvalue? TODO
+* `genes`: Which genes from your data, associated with that term, were significantly enriched. This column will later on be used to label the genes in the go_volcano function (see below)
 
 ```{r resultstopgo}
 head(res_enrich_macrophage_topGO)
