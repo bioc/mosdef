@@ -252,11 +252,11 @@ head(goseq_macrophage)
 
 To save time when rendering here we use the provided objects in `r BiocStyle::Biocpkg("mosdef")` to demonstrate the output.
 
+
 ```{r resultsgoseq}
 data(res_enrich_macrophage_goseq, package = "mosdef")
 head(res_enrich_macrophage_goseq)
 ```
-
 The function will return a table with `r ncol(res_enrich_macrophage_goseq)` columns
 
 * `category`: The computer readable GO term ID.
@@ -306,7 +306,7 @@ These columns are:
 * `over_represented_pvalue`: FDR of your findings not corrected for multiple testing
 * `p.adjust`: FDR of your findings adjusted for multiple testing, and the parameter we suggest to use for further subsetting of your result
 * `qvalue`: TOD (no idea)
-* `geneID`: Which genes from your data, associated with that term, were significantly enriched as human readable gene symbols. This column could later on be used to label the genes in the go_volcano function (see below). Note that here they are split with a / not a , so if you use the go_volcano function with a clusterprofiler result ensure to set the `TODO`parameter. (Also test if go_volcano works with clupro at all)
+* `geneID`: Which genes from your data, associated with that term, were significantly enriched as human readable gene symbols. This column could later on be used to label the genes in the go_volcano function (see below). Note that here they are split with a / not a , so if you use the go_volcano function with a clusterprofiler result ensure to set the `gene_col_seperator`parameter. 
 * `Count`: Number of significantly enriched genes in your data associated with the term
 
 ## Alternative ways to run enrichment analyses, within `mosdef`
