@@ -424,7 +424,7 @@ The key parameters:
 * `term_index`: The index(row) where your term of interest is located in your enrichment result.
 * `logfc_cutoff` and `FDR`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05. 
 * `mapping`: The annotation/species: Important to generate symbols for labeling.
-* `n_overlaps`: The number of overlaps `ggrepell` is supposed to allow for labeling (increases  number of labeled genes).
+* `n_overlaps`: The number of overlaps `ggrepel` is supposed to allow for labeling (increases  number of labeled genes).
 * `col_to_use`: Name of the column in your res_de containing the gene symbols.
 * `enrich_col`: Name of the column in your res_enrich containing the gene symbols. For an example see `run_topGO` data provided in mosdef: `data(res_enrich_macrophage_topGO, package = "mosdef")`.
 * `down_col`: Colour for your downregulated genes (genes with a `logfc_cutoff` below the value specified).
