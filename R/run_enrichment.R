@@ -95,7 +95,10 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 
   # Check if de-type is correct
  
-  match.arg(de_type, choices = c("up_and_down", "up", "down"), several.ok = FALSE)
+  de_type <- match.arg(
+    de_type, 
+    choices = c("up_and_down", "up", "down"), 
+    several.ok = FALSE)
 
   # Check if there is any input at all
   if (is.null(c(de_genes, bg_genes, dds, res_de))) {
@@ -394,7 +397,10 @@ run_goseq <- function(res_de = NULL,
                       verbose = TRUE
 ) {
   ## Checks:
-  match.arg(de_type, choices = c("up_and_down", "up", "down"), several.ok = FALSE)
+  de_type <- match.arg(
+    de_type, 
+    choices = c("up_and_down", "up", "down"), 
+    several.ok = FALSE)
 
   # Check if there is any input at all
   if (is.null(c(de_genes, bg_genes, dds, res_de))) {
@@ -649,8 +655,11 @@ run_cluPro <- function(res_de = NULL,
 
   # Check if de_type is correct
 
-  match.arg(de_type, choices = c("up_and_down", "up", "down"), several.ok = FALSE)
-
+  de_type <- match.arg(
+    de_type, 
+    choices = c("up_and_down", "up", "down"), 
+    several.ok = FALSE)
+  
   # Check if there is any input at all
   if (is.null(c(de_genes, bg_genes, dds, res_de))) {
     stop(

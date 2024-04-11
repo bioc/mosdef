@@ -52,7 +52,7 @@ buttonifier <- function(df,
       " to the 'col_to_use' parameter. Please watch spelling as well as capital letters."
     )
   }
-
+  
   if (!is.null(c(ens_col, ens_species))) {
     df[[ens_col]] <- create_link_ENS(df[[ens_col]], species = ens_species)
   } else if (!is.null(ens_col) & is.null(ens_species)) {
@@ -66,10 +66,14 @@ buttonifier <- function(df,
       "You only provided a species."
     )
   }
-
+  
   val <- df[[col_to_use]]
-
-  match.arg(new_cols, choices = c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED"), several.ok = TRUE)
+  
+  new_cols <- match.arg(
+    new_cols, 
+    choices = c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED"),
+    several.ok = TRUE)
+  
   for (i in seq_len(length(new_cols))) {
     if ((new_cols[i] %in% c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED")) == FALSE) {
       warning(
@@ -79,36 +83,38 @@ buttonifier <- function(df,
       )
     }
   }
-
-  match.arg(output_format, choices = c("DT", "DF"))
-
+  
+  output_format <- match.arg(
+    output_format, 
+    choices = c("DT", "DF"))
+  
   if ("GC" %in% new_cols) {
     df$SYMBOL_GC <- create_link_genecards(df[[col_to_use]])
   }
   if ("NCBI" %in% new_cols) {
     df$SYMBOL_NCBI <- create_link_NCBI(df[[col_to_use]])
   }
-
+  
   if ("GTEX" %in% new_cols) {
     df$SYMBOL_GTEX <- create_link_GTEX(df[[col_to_use]])
   }
-
+  
   if ("UNIPROT" %in% new_cols) {
     df$SYMBOL_UNIPROT <- create_link_UniProt(df[[col_to_use]])
   }
-
+  
   if ("dbPTM" %in% new_cols) {
     df$SYMBOL_dbPTM <- create_link_dbPTM(df[[col_to_use]])
   }
-
+  
   if ("HPA" %in% new_cols) {
     df$SYMBOL_HPA <- create_link_HPA(df[[col_to_use]])
   }
-
+  
   if ("PUBMED" %in% new_cols) {
     df$SYMBOL_PUBM <- create_link_pubmed(df[[col_to_use]])
   }
-
+  
   if (output_format == "DT") {
     return(DT::datatable(df, escape = FALSE, rownames = FALSE))
   } else if (output_format == "DF") {
