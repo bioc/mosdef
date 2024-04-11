@@ -538,8 +538,11 @@ res_subset <- buttonifier(res_subset,
 
 DT::datatable(res_subset,
   escape = FALSE,
-  rownames = FALSE
-  # other parameters...
+  rownames = FALSE,
+  # other parameters specifically controlling the look of the DT...
+  options = list(
+    scrollX = TRUE
+  )
 )
 ```
 
@@ -575,7 +578,11 @@ res_subset$symbol_GTEX <- create_link_GTEX(res_subset$symbol)
 res_subset$symbol_UniP <- create_link_UniProt(res_subset$symbol)
 res_subset$symbol_HPA <- create_link_HPA(res_subset$symbol)
 
-DT::datatable(res_subset, escape = FALSE)
+DT::datatable(res_subset, escape = FALSE,
+              options = list(
+                scrollX = TRUE
+              )
+)
 ```
 
 For information on singular genes you can use:
@@ -600,7 +607,12 @@ This can be a practical way to generate some HTML content to be embedded e.g. in
 ```{r golink}
 res_enrich_macrophage_topGO$GO.ID <- create_link_GO(res_enrich_macrophage_topGO$GO.ID)
 
-DT::datatable(res_enrich_macrophage_topGO, escape = FALSE)
+DT::datatable(res_enrich_macrophage_topGO, 
+              escape = FALSE,
+              options = list(
+                scrollX = TRUE
+              )
+)
 ```
 
 Setting `escape = FALSE` is important here to ensure the link is turned into a button - since we are dealing with a `datatable` where we need to interpret some content directly as HTML code. 
