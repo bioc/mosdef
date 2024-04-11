@@ -57,10 +57,13 @@ mosdef_res_check <- function(res_de,
   return(invisible(NULL))
 }
 
-#' A function checking if your dds contains everything you need
+#' A function checking if your `de_container` contains everything you need
 #'
-#' @param dds A DESeqDataset object created using \code{DESeq2}
-#' @param verbose  Logical, whether to add messages telling the user which steps
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
+#' @param verbose Logical, whether to add messages telling the user which steps
 #' were taken.
 #'
 #' @return An invisible `NULL` after performing the checks
@@ -78,15 +81,15 @@ mosdef_res_check <- function(res_de,
 #' dds_macrophage <- DESeq(dds_macrophage)
 #'
 #' mosdef_de_container_check(dds_macrophage)
-mosdef_de_container_check <- function(dds,
+mosdef_de_container_check <- function(de_container,
                                       verbose = FALSE) {
-  if (all(grep(pattern = "^ENS", rownames(dds)))) {
+  if (all(grep(pattern = "^ENS", rownames(de_container)))) {
     if (verbose) message("Rownames are ENSEMBL IDs.")
   } else {
     warning("Rownames are not ENSEMBL IDs. Please change them to ENSEMBL IDs by using
             AnnotationDbis 'mapIDs'")
   }
-  if ("counts" %in% names(assays(dds))) {
+  if ("counts" %in% names(assays(de_container))) {
 
     if (verbose) message("Found a 'counts' assay!")
   } else {

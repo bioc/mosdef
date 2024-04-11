@@ -2,12 +2,15 @@
 % Please edit documentation in R/mosdef_check_inputs.R
 \name{mosdef_de_container_check}
 \alias{mosdef_de_container_check}
-\title{A function checking if your dds contains everything you need}
+\title{A function checking if your \code{de_container} contains everything you need}
 \usage{
-mosdef_de_container_check(dds, verbose = FALSE)
+mosdef_de_container_check(de_container, verbose = FALSE)
 }
 \arguments{
-\item{dds}{A DESeqDataset object created using \code{DESeq2}}
+\item{de_container}{An object containing the data for a Differential
+Expression workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqDataSet} object, normally obtained after
+running your data through the \code{DESeq2} framework.}
 
 \item{verbose}{Logical, whether to add messages telling the user which steps
 were taken.}
@@ -16,7 +19,7 @@ were taken.}
 An invisible \code{NULL} after performing the checks
 }
 \description{
-A function checking if your dds contains everything you need
+A function checking if your \code{de_container} contains everything you need
 }
 \examples{
 library("macrophage")
