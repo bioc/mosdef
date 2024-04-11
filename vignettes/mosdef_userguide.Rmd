@@ -257,6 +257,18 @@ data(res_enrich_macrophage_goseq, package = "mosdef")
 head(res_enrich_macrophage_goseq)
 ```
 
+The function will return a table with `r ncol(res_enrich_macrophage_goseq)` columns
+
+* `category`: The computer readable GO term ID.
+* `over_represented_pvalue`: FDR of your findings 
+* `under_represented_pvalue`: TODO No idea
+* `numDEInCat`: The number of genes differentially expressed in your data associated with this term
+* `numInCat` The number of genes overall associated with this term
+* `term`: The human readable GO term name.
+* `ontology`: The ontology analysed (usually BP for Biological process for more info on the different ontologies please consult AMIGO (TODO can we say this here?))
+* `p.adj`: FDR of your findings adjusted for multiple testing, and the parameter we suggest to use for further subsetting of your result
+* `genes`: Which genes from your data, associated with that term, were significantly enriched as Ensemble IDs. 
+* `genesymbols`: Which genes from your data, associated with that term, were significantly enriched as human readable gene symbols. This column could later on be used to label the genes in the go_volcano function (see below)
 
 ## `mosdef` and `clusterProfiler`
 
