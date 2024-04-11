@@ -25,8 +25,8 @@ through the \code{DESeq2} framework.}
 \item{gene}{Character, specifies the identifier of the feature (gene) to be
 plotted}
 
-\item{intgroup}{A character vector of names in \code{colData(dds)} to use for grouping.
-Note: the vector components should be categorical variables.}
+\item{intgroup}{A character vector of names in \code{colData(dds)} to use for
+grouping. Note: the vector components should be categorical variables.}
 
 \item{assay}{Character, specifies with assay of the \code{dds} object to use for
 reading out the expression values. Defaults to "counts".}

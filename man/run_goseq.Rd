@@ -31,13 +31,17 @@ run_goseq(
 \item{bg_genes}{A vector of background genes, e.g. all (expressed) genes
 in the assays}
 
-\item{top_de}{numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
-Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).}
+\item{top_de}{numeric, how many of the top differentially expressed genes to
+use for the enrichment analysis.
+Attempts to reduce redundancy. Assumes the data is sorted by padj
+(default in DESeq2).}
 
-\item{FDR_threshold}{The pvalue threshold to us for counting genes as de. Default is 0.05}
+\item{FDR_threshold}{The pvalue threshold to us for counting genes as de.
+Default is 0.05}
 
-\item{min_counts}{numeric, min number of counts a gene needs to have to be included
-in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.}
+\item{min_counts}{numeric, min number of counts a gene needs to have to be
+included in the geneset that the de genes are compared to. Default is 0,
+recommended only for advanced users.}
 
 \item{genome}{A string identifying the genome that genes refer to, as in the
 \code{\link{goseq}} function}
@@ -45,18 +49,21 @@ in the geneset that the de genes are compared to. Default is 0, recommended only
 \item{id}{A string identifying the gene identifier used by genes, as in the
 \code{\link{goseq}} function}
 
-\item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:
-upregulated, downregulated or both}
+\item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for
+GOterm calculations: upregulated, downregulated or both}
 
-\item{testCats}{A vector specifying which categories to test for over representation amongst DE genes - can be any combination of "GO:CC", "GO:BP", "GO:MF" & "KEGG"}
+\item{testCats}{A vector specifying which categories to test for
+overrepresentation amongst DE genes - can be any combination of "GO:CC",
+"GO:BP", "GO:MF" & "KEGG"}
 
 \item{mapping}{Character string, named as the \code{org.XX.eg.db}
 package which should be available in Bioconductor}
 
-\item{add_gene_to_terms}{Logical, whether to add a column with all genes annotated
-to each GO term}
+\item{add_gene_to_terms}{Logical, whether to add a column with all genes
+annotated to each GO term}
 
-\item{verbose}{Logical, whether to add messages telling the user which steps were taken}
+\item{verbose}{Logical, whether to add messages telling the user which steps
+were taken}
 }
 \value{
 A table containing the computed GO Terms and related enrichment scores
@@ -66,8 +73,9 @@ A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 based on the algorithm and the implementation in the goseq package
 }
 \details{
-Note: the feature length retrieval is based on the \code{\link{goseq}} function,
-and requires that the corresponding TxDb packages are installed and available
+Note: the feature length retrieval is based on the \code{\link{goseq}}
+function, and requires that the corresponding TxDb packages are installed
+and available
 }
 \examples{
 library("macrophage")

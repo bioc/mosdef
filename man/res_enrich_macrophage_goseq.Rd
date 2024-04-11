@@ -18,8 +18,9 @@ Biological Process ontology, mapping the gene symbol identifiers through the
 \code{org.Hs.eg.db} package - the gene length information is retrieved by the
 internal routines of \code{goseq}.
 
-Details on how this object has been created are included in the \code{create_mosdef_data.R}
-script, included in the \code{scripts} folder of the \code{mosdef} package.
+Details on how this object has been created are included in the
+\code{create_mosdef_data.R} script, included in the \code{scripts} folder of the
+\code{mosdef} package.
 }
 \references{
 Alasoo, et al. "Shared genetic effects on chromatin and gene

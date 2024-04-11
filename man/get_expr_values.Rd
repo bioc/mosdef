@@ -13,20 +13,19 @@ through the \code{DESeq2} framework.}
 \item{gene}{Character, specifies the identifier of the feature (gene) to be
 extracted}
 
-\item{intgroup}{A character vector of names in \code{colData(dds)} to use for grouping.}
+\item{intgroup}{A character vector of names in \code{colData(dds)} to use for
+grouping.}
 
 \item{assay}{Character, specifies with assay of the \code{dds} object to use for
 reading out the expression values. Defaults to "counts".}
 
 \item{normalized}{Logical value, whether the expression values should be
 normalized by their size factor. Defaults to TRUE, applies when \code{assay} is
-"counts"
-specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
-of the list \emph{must} be specified following the content they are expecting}
+"counts"}
 }
 \value{
-A tidy data.frame with the expression values and covariates for further
-processing
+A tidy data.frame with the expression values and covariates for
+further processing
 }
 \description{
 Extract expression values, with the possibility to select other assay slots

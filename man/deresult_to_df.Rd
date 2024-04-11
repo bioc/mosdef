@@ -10,13 +10,13 @@ deresult_to_df(res_de, FDR = NULL)
 \item{res_de}{A \code{DESeqResults} object.}
 
 \item{FDR}{Numeric value, specifying the significance level for thresholding
-adjusted p-values. Defaults to NULL, which would return the full set of results
-without performing any subsetting based on FDR.}
+adjusted p-values. Defaults to NULL, which would return the full set of
+results without performing any subsetting based on FDR.}
 }
 \value{
 A tidy \code{data.frame} with the results from differential expression,
-sorted by adjusted p-value. If FDR is specified, the table contains only genes
-with adjusted p-value smaller than the value.
+sorted by adjusted p-value. If FDR is specified, the table contains only
+genes with adjusted p-value smaller than the value.
 }
 \description{
 Generate a tidy table with the results of \code{DESeq2}

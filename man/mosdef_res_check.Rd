@@ -9,7 +9,8 @@ mosdef_res_check(res_de, verbose = FALSE)
 \arguments{
 \item{res_de}{A DESeqResults object created using \code{DESeq2}}
 
-\item{verbose}{Logical, whether to add messages telling the user which steps were taken}
+\item{verbose}{Logical, whether to add messages telling the user which steps
+were taken}
 }
 \value{
 An invisible \code{NULL} after performing the checks

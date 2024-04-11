@@ -24,11 +24,12 @@ argument of ggplot}
 \item{FDR}{The pvalue threshold to us for counting genes as de
 and therefore also where to draw the line in the plot. Default is 0.05}
 
-\item{labeled_genes}{A numeric value describing the amount of genes to be labeled.
-This uses the Top(x) highest differentially expressed genes}
+\item{labeled_genes}{A numeric value describing the amount of genes to be
+labeled. This uses the Top(x) highest differentially expressed genes}
 }
 \value{
-A  \code{ggplot2} volcano plot object that can be extended upon by the user
+A  \code{ggplot2} volcano plot object that can be extended upon by the
+user
 }
 \description{
 This function generates a base volcanoplot for differentially expressed genes

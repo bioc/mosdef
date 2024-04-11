@@ -26,37 +26,46 @@ go_volcano(
 \arguments{
 \item{res_de}{A DESeqResults object created using \code{DESeq2}}
 
-\item{res_enrich}{A enrichment result object created by for example using \code{\link[=run_topGO]{run_topGO()}}}
+\item{res_enrich}{A enrichment result object created by for example using
+\code{\link[=run_topGO]{run_topGO()}}}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select according to the species}
+\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
+according to the species}
 
-\item{term_index}{The location (row) of your GO term of interest in your enrichment result}
+\item{term_index}{The location (row) of your GO term of interest in your
+enrichment result}
 
-\item{logfc_cutoff}{A numeric value that sets the cutoff for the xintercept argument of ggplot}
+\item{logfc_cutoff}{A numeric value that sets the cutoff for the xintercept
+argument of ggplot}
 
 \item{FDR}{The pvalue threshold to us for counting genes as de
 and therefore also where to draw the line in the plot. Default is 0.05}
 
-\item{col_to_use}{The column in your differential expression results containing your gene symbols.
-If you don't have one it is created automatically}
+\item{col_to_use}{The column in your differential expression results
+containing your gene symbols. If you don't have one it is created
+automatically}
 
-\item{enrich_col}{column name from your res_enrich where the genes associated with your GOterm are stored (for example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)}
+\item{enrich_col}{column name from your res_enrich where the genes associated
+with your GOterm are stored (for example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)}
 
 \item{gene_col_separator}{The separator used to split the genes.
-If you used topGO or goseq this is a "," which is the default. (For an example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)
-If you used clusterProfiler this has to be set to "/". (For example see the \code{\link[=run_cluPro]{run_cluPro()}} result in mosdef)}
+If you used topGO or goseq this is a "," which is the default. (For an
+example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)
+If you used clusterProfiler this has to be set to "/". (For example see the
+\code{\link[=run_cluPro]{run_cluPro()}} result in mosdef)}
 
 \item{down_col}{The colour for your downregulated genes, default is "gray"}
 
 \item{up_col}{The colour for your upregulated genes, default is "gray"}
 
-\item{highlight_col}{The colour for the genes associated with your GOterm default is "tomato"}
+\item{highlight_col}{The colour for the genes associated with your GOterm
+default is "tomato"}
 
-\item{n_overlaps}{Number of overlaps ggrepel is supposed to allow when labeling
-(for more info check ggrepel documentation)}
+\item{n_overlaps}{Number of overlaps ggrepel is supposed to allow when
+labeling (for more info check ggrepel documentation)}
 }
 \value{
-A  \code{ggplot2} volcano plot object that can be extended upon by the user
+A \code{ggplot2} volcano plot object that can be extended upon by the user
 }
 \description{
 Generates a volcano plot using ggplot2

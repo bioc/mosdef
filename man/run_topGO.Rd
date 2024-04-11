@@ -19,7 +19,6 @@ run_topGO(
   full_names_in_rows = TRUE,
   add_gene_to_terms = TRUE,
   de_type = "up_and_down",
-  output_file = "",
   topGO_method2 = "elim",
   do_padj = FALSE,
   verbose = TRUE
@@ -32,49 +31,61 @@ run_topGO(
 
 \item{de_genes}{A vector of (differentially expressed) genes}
 
-\item{bg_genes}{A vector of background genes, e.g. all (expressed) genes in the assays}
+\item{bg_genes}{A vector of background genes, e.g. all (expressed) genes in
+the assays}
 
-\item{top_de}{numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
-Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).}
+\item{top_de}{numeric, how many of the top differentially expressed genes to
+use for the enrichment analysis.
+Attempts to reduce redundancy. Assumes the data is sorted by padj (default
+in DESeq2).}
 
-\item{FDR_threshold}{The pvalue threshold to us for counting genes as de. Default is 0.05}
+\item{FDR_threshold}{The pvalue threshold to us for counting genes as de.
+Default is 0.05}
 
-\item{min_counts}{numeric, min number of counts a gene needs to have to be included
-in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.}
+\item{min_counts}{numeric, min number of counts a gene needs to have to be
+included in the geneset that the de genes are compared to. Default is 0,
+recommended only for advanced users.}
 
-\item{ontology}{Which Gene Ontology domain to analyze: \code{BP} (Biological Process), \code{MF} (Molecular Function), or \code{CC} (Cellular Component)}
+\item{ontology}{Which Gene Ontology domain to analyze: \code{BP} (Biological
+Process), \code{MF} (Molecular Function), or \code{CC} (Cellular Component)}
 
-\item{annot}{Which function to use for annotating genes to GO terms. Defaults to \code{annFUN.org}}
+\item{annot}{Which function to use for annotating genes to GO terms. Defaults
+to \code{annFUN.org}}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select according to the species}
+\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
+according to the species}
 
-\item{gene_id}{Which format the genes are provided. Defaults to \code{symbol}, could also be
+\item{gene_id}{Which format the genes are provided. Defaults to \code{symbol},
+could also be
 \code{entrez} or \code{ENSEMBL}}
 
-\item{full_names_in_rows}{Logical, whether to display or not the full names for the GO terms}
+\item{full_names_in_rows}{Logical, whether to display or not the full names
+for the GO terms}
 
-\item{add_gene_to_terms}{Logical, whether to add a column with all genes annotated to each GO term}
+\item{add_gene_to_terms}{Logical, whether to add a column with all genes
+annotated to each GO term}
 
-\item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:
-upregulated, downregulated or both}
+\item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for
+GOterm calculations: upregulated, downregulated or both}
 
-\item{output_file}{Name of the file the result should be written into}
+\item{topGO_method2}{Character, specifying which of the methods implemented
+by \code{topGO} should be used, in addition to the \code{classic} algorithm.
+Defaults to \code{elim}}
 
-\item{topGO_method2}{Character, specifying which of the methods implemented by \code{topGO} should be used, in addition to the \code{classic} algorithm. Defaults to \code{elim}}
+\item{do_padj}{Logical, whether to perform the adjustment on the p-values
+from the specific topGO method, based on the FDR correction. Defaults to
+FALSE, since the assumption of independent hypotheses is somewhat violated
+by the intrinsic DAG-structure of the Gene Ontology Terms}
 
-\item{do_padj}{Logical, whether to perform the adjustment on the p-values from the specific
-topGO method, based on the FDR correction. Defaults to FALSE, since the assumption of
-independent hypotheses is somewhat violated by the intrinsic DAG-structure of the Gene
-Ontology Terms}
-
-\item{verbose}{Logical, whether to add messages telling the user which steps were taken}
+\item{verbose}{Logical, whether to add messages telling the user which steps
+were taken}
 }
 \value{
 A table containing the computed GO Terms and related enrichment scores
 }
 \description{
-A wrapper for extracting functional GO terms enriched in the DE genes, based on
-the algorithm and the implementation in the topGO package
+A wrapper for extracting functional GO terms enriched in the DE genes, based
+on the algorithm and the implementation in the topGO package
 }
 \details{
 Allowed values assumed by the \code{topGO_method2} parameter are one of the

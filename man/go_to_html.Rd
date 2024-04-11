@@ -11,8 +11,8 @@ go_to_html(go_id, res_enrich = NULL)
 to retrieve information}
 
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. If not provided, the experiment-related information is not
-shown, and only some generic info on the identifier is displayed.}
+enrichment analysis. If not provided, the experiment-related information is
+not shown, and only some generic info on the identifier is displayed.}
 }
 \value{
 HTML content related to a GeneOntology identifier, to be displayed in
