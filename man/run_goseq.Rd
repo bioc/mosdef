@@ -5,8 +5,8 @@
 \title{Extract functional terms enriched in the DE genes, based on goseq}
 \usage{
 run_goseq(
-  res_de = NULL,
   dds = NULL,
+  res_de = NULL,
   de_genes = NULL,
   bg_genes = NULL,
   top_de = NULL,
@@ -22,9 +22,9 @@ run_goseq(
 )
 }
 \arguments{
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
-
 \item{dds}{A DESeqDataset object created using \code{DESeq2}}
+
+\item{res_de}{A DESeqResults object created using \code{DESeq2}}
 
 \item{de_genes}{A vector of (differentially expressed) genes}
 

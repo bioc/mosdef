@@ -335,11 +335,11 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' function, and requires that the corresponding TxDb packages are installed
 #' and available
 #'
+#' @param dds A DESeqDataset object created using \code{DESeq2}
+#' @param res_de A DESeqResults object created using \code{DESeq2}
 #' @param de_genes A vector of (differentially expressed) genes
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes
 #' in the assays
-#' @param dds A DESeqDataset object created using \code{DESeq2}
-#' @param res_de A DESeqResults object created using \code{DESeq2}
 #' @param top_de numeric, how many of the top differentially expressed genes to
 #' use for the enrichment analysis.
 #' Attempts to reduce redundancy. Assumes the data is sorted by padj
@@ -397,8 +397,8 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' )
 #'
 #' head(mygo)
-run_goseq <- function(res_de = NULL,
-                      dds = NULL,
+run_goseq <- function(dds = NULL,
+                      res_de = NULL,
                       de_genes = NULL,
                       bg_genes = NULL,
                       top_de = NULL,
@@ -605,8 +605,8 @@ run_goseq <- function(res_de = NULL,
 #' Note: the feature length retrieval is based on the \code{\link{enrichGO}}
 #' function
 #'
-#' @param res_de A DESeqResults object created using \code{DESeq2}
 #' @param dds A DESeqDataset object created using \code{DESeq2}
+#' @param res_de A DESeqResults object created using \code{DESeq2}
 #' @param de_genes A vector of (differentially expressed) genes
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes in
 #' the assays
@@ -664,8 +664,8 @@ run_goseq <- function(res_de = NULL,
 #'   dds = dds_macrophage,
 #'   mapping = "org.Hs.eg.db"
 #' )
-run_cluPro <- function(res_de = NULL,
-                       dds = NULL,
+run_cluPro <- function(dds = NULL,
+                       res_de = NULL,
                        de_genes = NULL,
                        bg_genes = NULL,
                        top_de = NULL,
