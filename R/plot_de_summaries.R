@@ -87,7 +87,7 @@ plot_ma <- function(res_de,
   }
 
   ma_df$logmean <- log10(ma_df$mean) # TO ALLOW FOR BRUSHING!!
-  # ma_df$DE <- ifelse(ma_df$isDE,"yes","no")
+  
   ma_df$DE <- ifelse(ma_df$isDE, "red", "black")
 
   p <- ggplot(ma_df, aes(x = .data$logmean, y = .data$lfc, colour = .data$DE))
@@ -133,7 +133,7 @@ plot_ma <- function(res_de,
       df_intgenes$myids <- rownames(df_intgenes)
     }
 
-    # df_intgenes <- res_df[res_df$symbol %in% intgenes,]
+    
     p <- p + geom_point(data = df_intgenes, aes(.data$logmean, .data$log2FoldChange), color = intgenes_color, size = 4)
 
     if (labels_intgenes) {
@@ -226,12 +226,12 @@ de_volcano <- function(res_de,
   x_limit <- ceiling(max(abs(range(df$log2FoldChange, na.rm = TRUE))))
 
   df$diffexpressed <- "NO"
-  # if log2Foldchange > Cutoff and pvalue < 0.05, set as "UP"
+  # if L2FC > L2FC_Cutoff and pvalue < FDR_threshold, set as "UP"
   df$diffexpressed[df$log2FoldChange > L2FC_cutoff & df$pvalue < FDR_threshold] <- "UP"
-  # if log2Foldchange < -Cutoff and pvalue < 0.05, set as "DOWN"
+  # if L2FC < -L2FC_Cutoff and pvalue < FDR_threshold, set as "DOWN"
   df$diffexpressed[df$log2FoldChange < -L2FC_cutoff & df$pvalue < FDR_threshold] <- "DOWN"
 
-  # calculate top 30 degenes based on pvalue
+  # calculate top degenes based on pvalue (the number is specified in labeled_genes)
   df$delabel <- ifelse(df$symbol %in% head(df[order(df$pvalue), "symbol"], labeled_genes), df$symbol, NA)
 
   p <- ggplot(data = df,
@@ -358,7 +358,6 @@ go_volcano <- function(res_de,
       df$de_label[i] <- NA
     }
   }
-  # df$delabel <- ifelse(df$symbol %in% head(df[order(df$de_label), "symbol"], labeled_genes), df$symbol, NA)
 
   p <- ggplot(data = df, aes(
     x = .data$log2FoldChange, y = -log10(.data$pvalue),
