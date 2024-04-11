@@ -274,6 +274,9 @@ de_volcano <- function(res_de,
 #' @param col_to_use The column in your differential expression results containing your gene symbols.
 #'  If you don't have one it is created automatically
 #' @param enrich_col column name from your res_enrich where the genes associated with your GOterm are stored (for example see the [run_topGO()] result in mosdef)
+#' @param gene_col_seperator The seperator used to split the genes. 
+#' If you used topGO or goseq this is a "," which is the default. (For an example see the [run_topGO()] result in mosdef)
+#' If you used clusterProfiler this has to be set to "/". (For example see the [run_cluPro()] result in mosdef)
 #' @param down_col The colour for your downregulated genes, default is "gray"
 #' @param up_col The colour for your upregulated genes, default is "gray"
 #' @param highlight_col The colour for the genes associated with your GOterm default is "tomato"
@@ -323,6 +326,7 @@ go_volcano <- function(res_de,
                        FDR_threshold = 0.05,
                        col_to_use = NULL,
                        enrich_col = "genes",
+                       gene_col_seperator = ",",
                        down_col = "black",
                        up_col = "black",
                        highlight_col = "tomato",
@@ -356,7 +360,7 @@ go_volcano <- function(res_de,
   df$diffexpressed[df$log2FoldChange < -L2FC_cutoff & df$pvalue < FDR_threshold] <- "DOWN"
 
   genes_vec <- res_enrich[[enrich_col]][term_index]
-  genes_vec <- strsplit(genes_vec, ",")
+  genes_vec <- strsplit(genes_vec, gene_col_seperator)
   genes_vec <- as.vector(genes_vec)
 
   for (i in seq_len(length(df$id))) {
