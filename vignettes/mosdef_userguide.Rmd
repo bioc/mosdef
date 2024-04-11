@@ -343,7 +343,7 @@ An elegant way to plot the expression values (by default the normalized counts) 
 
 ```{r geneplot}
 gene_plot(
-  dds = dds_macrophage,
+  de_container = dds_macrophage,
   gene = "ENSG00000125347",
   intgroup = "condition"
 )
@@ -351,7 +351,7 @@ gene_plot(
 
 Key parameters are in this case:
 
-* `dds`: Your `DESeqDataset` 
+* `de_container`: Your `DESeqDataset` 
 * `gene`: The gene of interest
 * `intgroup`: A character vector of names in `colData(dds)` used for grouping the expression values. 
 
