@@ -218,7 +218,7 @@ This will return a table with `r ncol(res_enrich_macrophage_topGO)`  columns. Th
 
 * `GO.ID`: The computer readable GO term ID.
 * `Term`: The human readable GO term name.
-* `Annotated`: The number of genes in your dataset that are associated with this term (TODO Or is this the number of genes overall associated with this term.Aand then in the col "Significant" is the number of these term associated genes that are significantly enriched in the analyzed dataset )
+* `Annotated`: The number of genes in your dataset that are associated with this term (TODO Or is this the number of genes overall associated with this term.And then in the col "Significant" is the number of these term associated genes that are significantly enriched in the analyzed dataset )
 * `Significant`: The number of significantly enriched genes in your data associated with that term
 * `Expected`: The expected number of significant genes associated with that  term based of of the number of genes that were provided.
 * `Rank in p.value_classic`: TODO No idea
