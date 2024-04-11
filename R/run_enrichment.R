@@ -83,7 +83,6 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                       full_names_in_rows = TRUE,
                       add_gene_to_terms = TRUE,
                       de_type = "up_and_down",
-                      output_file = "",
                       topGO_method2 = "elim",
                       do_padj = FALSE,
                       verbose = TRUE) {
