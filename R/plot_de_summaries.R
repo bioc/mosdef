@@ -327,6 +327,14 @@ go_volcano <- function(res_de,
                        up_col = "black",
                        highlight_col = "tomato",
                        overlaps = 20) {
+  # Add a check if the provided result is an enrichResult (check if cluPro was used)
+  # if True, extracts the result into a data.frame
+  if(class(res_enrich_macrophage_cluPro) == "enrichResult" ){
+    
+    res_enrich <- as.data.frame(res_enrich@result)
+    
+  }
+  
   if (is.null(col_to_use)) {
     res_de$symbol <- mapIds(get(mapping),
                             keys = row.names(res_de),
