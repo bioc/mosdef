@@ -20,7 +20,6 @@ Description: This package provides functionality to run a number of tasks in the
 Depends:
     R (>= 4.4.0)
 Imports:
-    dplyr,
     DT,
     ggplot2,
     ggforce, 
