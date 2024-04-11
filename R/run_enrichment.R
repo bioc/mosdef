@@ -20,7 +20,7 @@
 #' @param ontology Which Gene Ontology domain to analyze: \code{BP} (Biological Process), \code{MF} (Molecular Function), or \code{CC} (Cellular Component)
 #' @param annot Which function to use for annotating genes to GO terms. Defaults to \code{annFUN.org}
 #' @param mapping Which \code{org.XX.eg.db} to use for annotation - select according to the species
-#' @param geneID Which format the genes are provided. Defaults to \code{symbol}, could also be
+#' @param gene_id Which format the genes are provided. Defaults to \code{symbol}, could also be
 #' \code{entrez} or \code{ENSEMBL}
 #' @param full_names_in_rows Logical, whether to display or not the full names for the GO terms
 #' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:
@@ -67,7 +67,7 @@
 #'   dds = dds_macrophage,
 #'   ontology = "BP",
 #'   mapping = "org.Hs.eg.db",
-#'   geneID = "symbol",
+#'   gene_id = "symbol",
 #' )
 run_topGO <- function(res_de = NULL, # Differentially expressed genes
                       dds = NULL, # background genes
@@ -79,14 +79,10 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                       ontology = "BP", # could use also "MF"
                       annot = annFUN.org, # parameters for creating topGO object
                       mapping = "org.Mm.eg.db",
-                      geneID = "symbol", # could also beID = "entrez"
-                      # topTablerows = 200,     was used to limit table size. Now just use nrows
+                      gene_id = "symbol", # could also be = "entrez"
                       full_names_in_rows = TRUE,
                       add_gene_to_terms = TRUE,
                       de_type = "up_and_down",
-                      # plot_graph = FALSE,
-                      # plot_nodes = 10,
-                      # write_output = FALSE,
                       output_file = "",
                       topGO_method2 = "elim",
                       do_padj = FALSE,
@@ -249,7 +245,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                   nodeSize = 10,
                   annot = annot,
                   mapping = mapping,
-                  ID = geneID
+                  ID = gene_id
     )
   })
   # performing the test(s)
@@ -336,7 +332,6 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:
 #'  upregulated, downregulated or both
 #' @param testCats A vector specifying which categories to test for over representation amongst DE genes - can be any combination of "GO:CC", "GO:BP", "GO:MF" & "KEGG"
-#' @param FDR_GO_cutoff Numeric value for subsetting the results
 #' @param mapping Character string, named as the \code{org.XX.eg.db}
 #' package which should be available in Bioconductor
 #' @param add_gene_to_terms Logical, whether to add a column with all genes annotated
@@ -377,22 +372,16 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' head(mygo)
 run_goseq <- function(res_de = NULL,
                       dds = NULL,
-                      de_genes = NULL, # Differentially expressed genes
-                      bg_genes = NULL, # background genes, normally = rownames(cds) or filtering to genes,
+                      de_genes = NULL,
+                      bg_genes = NULL,
                       top_de = NULL,
                       FDR_threshold = 0.05,
                       min_counts = 0,
-                      #  with at least 1 read - could also be ls(org.Mm.egGO)
                       genome = "hg38",
                       id = "ensGene",
                       de_type = "up_and_down",
                       testCats = c("GO:BP", "GO:MF", "GO:CC"),
-                      FDR_GO_cutoff = 1,
-                      # nTop = 200,
                       mapping = "org.Hs.eg.db",
-                      # testKegg=TRUE,
-                      # keggObject=mapPathwayToName("mmu"), # need the dedicated function!!
-                      # writeOutput=FALSE,
                       add_gene_to_terms = TRUE,
                       verbose = TRUE
 ) {
@@ -518,8 +507,6 @@ run_goseq <- function(res_de = NULL,
   # creating the vectors
   gene.vector <- as.integer(bg_genes %in% de_genes)
   names(gene.vector) <- bg_genes
-
-  fdr <- FDR_GO_cutoff
 
   pwf <- nullp(DEgenes = gene.vector, genome = genome, id = id, plot.fit = FALSE)
 

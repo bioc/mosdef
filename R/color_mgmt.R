@@ -164,7 +164,7 @@ styleColorBar_divergent <- function(data,
 #' res_df_small <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:100, ]
 #'
 #' buttonified_df <- buttonifier(res_df_small,
-#'                               new_cols = c("NCBI", "HPA"),
+#'                               create_buttons_to = c("NCBI", "HPA"),
 #'                               ens_col = "id",
 #'                               ens_species = "Homo_sapiens",
 #'                               output_format = "DF"

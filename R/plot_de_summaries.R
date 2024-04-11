@@ -168,9 +168,9 @@ plot_ma <- function(res_de,
 #' @param res_de A DESeqResults object created using \code{DESeq2}
 #' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
 #' according to the species
-#' @param L2FC_cutoff A numeric value that sets the cutoff for the xintercept
+#' @param logfc_cutoff A numeric value that sets the cutoff for the xintercept
 #' argument of ggplot
-#' @param FDR_threshold The pvalue threshold to us for counting genes as de
+#' @param FDR The pvalue threshold to us for counting genes as de
 #' and therefore also where to draw the line in the plot. Default is 0.05
 #' @param labeled_genes A numeric value describing the amount of genes to be labeled.
 #' This uses the Top(x) highest differentially expressed genes
@@ -196,7 +196,7 @@ plot_ma <- function(res_de,
 #' data(res_de_macrophage, package = "mosdef")
 #'
 #' p <- de_volcano(res_macrophage_IFNg_vs_naive,
-#'   L2FC_cutoff = 1,
+#'   logfc_cutoff = 1,
 #'   labeled_genes = 20,
 #'   mapping = "org.Hs.eg.db"
 #' )
@@ -204,8 +204,8 @@ plot_ma <- function(res_de,
 #' p
 de_volcano <- function(res_de,
                        mapping = "org.Mm.eg.db",
-                       L2FC_cutoff = 1,
-                       FDR_threshold = 0.05,
+                       logfc_cutoff = 1,
+                       FDR = 0.05,
                        labeled_genes = 30) {
   if (!is(res_de, "DESeqResults")) {
     stop("The provided `res_de` is not a DESeqResults object, please check your input parameters.")
@@ -226,10 +226,10 @@ de_volcano <- function(res_de,
   x_limit <- ceiling(max(abs(range(df$log2FoldChange, na.rm = TRUE))))
 
   df$diffexpressed <- "NO"
-  # if L2FC > L2FC_Cutoff and pvalue < FDR_threshold, set as "UP"
-  df$diffexpressed[df$log2FoldChange > L2FC_cutoff & df$pvalue < FDR_threshold] <- "UP"
-  # if L2FC < -L2FC_Cutoff and pvalue < FDR_threshold, set as "DOWN"
-  df$diffexpressed[df$log2FoldChange < -L2FC_cutoff & df$pvalue < FDR_threshold] <- "DOWN"
+  # if L2FC > logfc_cutoff and pvalue < FDR, set as "UP"
+  df$diffexpressed[df$log2FoldChange > logfc_cutoff & df$pvalue < FDR] <- "UP"
+  # if L2FC < -logfc_cutoff and pvalue < FDR, set as "DOWN"
+  df$diffexpressed[df$log2FoldChange < -logfc_cutoff & df$pvalue < FDR] <- "DOWN"
 
   # calculate top degenes based on pvalue (the number is specified in labeled_genes)
   df$delabel <- ifelse(df$symbol %in% head(df[order(df$pvalue), "symbol"], labeled_genes), df$symbol, NA)
@@ -241,9 +241,9 @@ de_volcano <- function(res_de,
                 colour = .data$diffexpressed,
                 label = .data$delabel
               )) +
-    geom_vline(xintercept = c(-L2FC_cutoff, L2FC_cutoff),
+    geom_vline(xintercept = c(-logfc_cutoff, logfc_cutoff),
                col = "gray", linetype = "dashed") +
-    geom_hline(yintercept = -log10(FDR_threshold),
+    geom_hline(yintercept = -log10(FDR),
                col = "gray", linetype = "dashed") +
     geom_point() +
     theme_classic() +
@@ -268,8 +268,8 @@ de_volcano <- function(res_de,
 #' @param res_enrich A enrichment result object created by for example using [run_topGO()]
 #' @param mapping Which \code{org.XX.eg.db} to use for annotation - select according to the species
 #' @param term_index The location (row) of your GO term of interest in your enrichment result
-#' @param L2FC_cutoff A numeric value that sets the cutoff for the xintercept argument of ggplot
-#' @param FDR_threshold The pvalue threshold to us for counting genes as de
+#' @param logfc_cutoff A numeric value that sets the cutoff for the xintercept argument of ggplot
+#' @param FDR The pvalue threshold to us for counting genes as de
 #' and therefore also where to draw the line in the plot. Default is 0.05
 #' @param col_to_use The column in your differential expression results containing your gene symbols.
 #'  If you don't have one it is created automatically
@@ -280,7 +280,7 @@ de_volcano <- function(res_de,
 #' @param down_col The colour for your downregulated genes, default is "gray"
 #' @param up_col The colour for your upregulated genes, default is "gray"
 #' @param highlight_col The colour for the genes associated with your GOterm default is "tomato"
-#' @param overlaps number of overlaps ggrepel is supposed to allow when labeling
+#' @param n_overlaps Number of overlaps ggrepel is supposed to allow when labeling
 #'  (for more info check ggrepel documentation)
 #'
 #' @return A  `ggplot2` volcano plot object that can be extended upon by the user
@@ -307,9 +307,9 @@ de_volcano <- function(res_de,
 #'   res_macrophage_IFNg_vs_naive,
 #'   res_enrich = res_enrich_macrophage_topGO,
 #'   term_index = 1,
-#'   L2FC_cutoff = 1,
+#'   logfc_cutoff = 1,
 #'   mapping = "org.Hs.eg.db",
-#'   overlaps = 20
+#'   n_overlaps = 20
 #' )
 #'
 #' p
@@ -317,15 +317,15 @@ go_volcano <- function(res_de,
                        res_enrich,
                        mapping = "org.Hs.eg.db",
                        term_index,
-                       L2FC_cutoff = 1,
-                       FDR_threshold = 0.05,
+                       logfc_cutoff = 1,
+                       FDR = 0.05,
                        col_to_use = NULL,
                        enrich_col = "genes",
                        gene_col_separator = ",",
                        down_col = "black",
                        up_col = "black",
                        highlight_col = "tomato",
-                       overlaps = 20) {
+                       n_overlaps = 20) {
   # Add a check if the provided result is an enrichResult (check if cluPro was used)
   # if True, extracts the result into a data.frame
   if(is(res_enrich, "enrichResult")) {
@@ -351,8 +351,8 @@ go_volcano <- function(res_de,
   x_limit <- ceiling(max(abs(range(df$log2FoldChange, na.rm = TRUE))))
 
   df$diffexpressed <- "NO"
-  df$diffexpressed[df$log2FoldChange > L2FC_cutoff & df$pvalue < FDR_threshold] <- "UP"
-  df$diffexpressed[df$log2FoldChange < -L2FC_cutoff & df$pvalue < FDR_threshold] <- "DOWN"
+  df$diffexpressed[df$log2FoldChange > logfc_cutoff & df$pvalue < FDR] <- "UP"
+  df$diffexpressed[df$log2FoldChange < -logfc_cutoff & df$pvalue < FDR] <- "DOWN"
 
   genes_vec <- res_enrich[[enrich_col]][term_index]
   genes_vec <- strsplit(genes_vec, gene_col_separator)
@@ -370,13 +370,13 @@ go_volcano <- function(res_de,
     x = .data$log2FoldChange, y = -log10(.data$pvalue),
     colour = .data$diffexpressed, label = .data$de_label
   )) +
-    geom_vline(xintercept = c(-L2FC_cutoff, L2FC_cutoff), col = "gray", linetype = "dashed") +
-    geom_hline(yintercept = -log10(FDR_threshold), col = "gray", linetype = "dashed") +
+    geom_vline(xintercept = c(-logfc_cutoff, logfc_cutoff), col = "gray", linetype = "dashed") +
+    geom_hline(yintercept = -log10(FDR), col = "gray", linetype = "dashed") +
     geom_point() +
     theme_classic() +
     coord_cartesian(ylim = c(0, max(-log10(df$pvalue))), xlim = c(-x_limit, x_limit)) +
     scale_x_continuous(breaks = seq(-x_limit, x_limit, 2)) +
-    geom_label_repel(max.overlaps = overlaps) # To show all labels
+    geom_label_repel(max.overlaps = n_overlaps) # To show all labels
 
 
   ## Define the genes to highlight

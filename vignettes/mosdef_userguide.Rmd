@@ -191,7 +191,7 @@ res_enrich_macrophage_topGO <- run_topGO(
   dds = dds_macrophage,
   ontology = "BP",
   mapping = "org.Hs.eg.db",
-  geneID = "symbol",
+  gene_id = "symbol",
   de_type = "up_and_down",
   add_gene_to_terms = TRUE,
   topGO_method2 = "elim",
@@ -210,7 +210,7 @@ The key parameters for `run_topGO()` are defined as follows:
 * `dds`: Your `DESeqDataset` object
 * `ontology`: Which gene ontology to analyse, default is "BP"
 * `mapping`: The annotation/species
-* `geneID`: Which format the genes are provided. If you provide a `DESeqDataset` and `DESeqResults`, then `r BiocStyle::Biocpkg("mosdef")` does it for you and uses symbols. If you provide vectors please specify a value.
+* `gene_id`: Which format the genes are provided. If you provide a `DESeqDataset` and `DESeqResults`, then `r BiocStyle::Biocpkg("mosdef")` does it for you and uses symbols. If you provide vectors please specify a value.
 * `de_type`: Which genes to analyse. The default is all ("up_and_down")
 Other possibilities are only up-/down-regulated ("up"/"down") genes.
 * `add_gene_to_terms`: Logical, whether to add a column with all genes annotated to each GO term.
@@ -327,7 +327,7 @@ res_enrich_macrophage_topGO_vec <- run_topGO(
   de_genes = myde,
   bg_genes = myassayed,
   mapping = "org.Hs.eg.db",
-  geneID = "ensembl"
+  gene_id = "ensembl"
 )
 head(res_enrich_macrophage_topGO_vec)
 ```
@@ -369,7 +369,7 @@ volcPlot <- de_volcano(
   res_de = res_macrophage_IFNg_vs_naive,
   mapping = "org.Hs.eg.db",
   labeled_genes = 25,
-  L2FC_cutoff = 1
+  logfc_cutoff = 1
 )
 volcPlot
 ```
@@ -379,7 +379,7 @@ Again, an overview on the key parameters:
 * `res_de`: Your `DESeqResults`
 * `mapping`: The annotation/species: Important to generate symbols for labeling.
 * `labeled_genes`: The number of the top DE genes to be labeled. Default is 30.
-* `L2FC_cutoff`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05.  
+* `logfc_cutoff`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05.  
 
 As mentioned above the user can now expand upon this with all the tools in the ggplot2 toolbox. For example:
 
@@ -402,9 +402,9 @@ Volc_GO <- go_volcano(
   res_de = res_macrophage_IFNg_vs_naive,
   res_enrich = res_enrich_macrophage_topGO,
   term_index = 1,
-  L2FC_cutoff = 1,
+  logfc_cutoff = 1,
   mapping = "org.Hs.eg.db",
-  overlaps = 50,
+  n_overlaps = 50,
   col_to_use = "symbol",
   enrich_col = "genes",
   down_col = "black",
@@ -420,9 +420,9 @@ The key parameters:
 * `res_de`: Your `DESeqResults`
 * `res_enrich`: Your enrichment results
 * `term_index`: The index(row) where your term of interest is located in your enrichment result.
-* `L2FC_cutoff`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05. 
+* `logfc_cutoff`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05. 
 * `mapping`: The annotation/species: Important to generate symbols for labeling.
-* `overlaps`: The number of overlaps `ggrepell` is supposed to allow for labeling (increases  number of labeled genes).
+* `n_overlaps`: The number of overlaps `ggrepell` is supposed to allow for labeling (increases  number of labeled genes).
 * `col_to_use`: Name of the column in your res_de containing the gene symbols.
 * `enrich_col`: Name of the column in your res_enrich containing the gene symbols. For an example see `run_topGO` data provided in mosdef: `data(res_enrich_macrophage_topGO, package = "mosdef")`.
 * `down_col`: Colour for your downregulated genes (genes with a L2FC below your cutoff).
@@ -507,7 +507,7 @@ res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
 buttonifier(
   df = res_subset,
   col_to_use = "symbol",
-  new_cols = c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED"),
+  create_buttons_to = c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED"),
   ens_col = "id",
   ens_species = "Homo_sapiens"
 )
@@ -517,7 +517,7 @@ Again, an overview of the key parameters:
 
 * `df`: A data.frame object containing your data. To get one from your `DESeqResults` data use the function: `deresult_to_df()`.
 * `col_to_use`: Column where the gene names are stored, default is "SYMBOL", in this example however the column is named "symbol".
-* `new_cols`: All of the supported websites. You can pick however many you want.
+* `create_buttons_to`: All of the supported websites. You can pick however many you want.
 * `ens_col`: Where to find the Ensembl IDs in case you want to turn those into buttons too. If not this defaults to NULL and that part is skipped.
 * `ens_species`: The species you are working on. Only needed if you want to turn the Ensembl IDs into buttons.
 
@@ -532,7 +532,7 @@ res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
 
 res_subset <- buttonifier(res_subset,
   col_to_use = "symbol",
-  new_cols = c("GC", "NCBI", "HPA"),
+  create_buttons_to = c("GC", "NCBI", "HPA"),
   output_format = "DF"
 )
 

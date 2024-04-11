@@ -12,7 +12,7 @@ test_that("enrich_result is created and top_de works", {
     bg_genes = myassayed,
     mapping = "org.Hs.eg.db",
     top_de = 400,
-    geneID = "ensembl"
+    gene_id = "ensembl"
   )
   expect_s3_class(res_enrich_macrophage_topGO_topde_vectors, "data.frame")
 })

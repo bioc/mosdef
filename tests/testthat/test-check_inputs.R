@@ -11,7 +11,7 @@ test_that("Early fails are triggered", {
   expect_error({
     de_volcano(
       res_de = myde,
-      L2FC_cutoff = 1,
+      logfc_cutoff = 1,
       labeled_genes = 20,
       mapping = "org.Hs.eg.db"
     )
@@ -50,7 +50,7 @@ test_that("Early fails are triggered", {
       dds = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -85,7 +85,7 @@ test_that("check if dds are dds and vecs are vecs", {
       dds = myassayed,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
@@ -114,7 +114,7 @@ test_that("check if dds are dds and vecs are vecs", {
       bg_genes = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -140,7 +140,7 @@ test_that("Error is thrown with insufficient input", {
     run_topGO(
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -170,7 +170,7 @@ test_that("Check if de_type is correct", {
       dds = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol",
+      gene_id = "symbol",
       de_type = "all"
     )
   })
@@ -211,7 +211,7 @@ test_that("res_de and dds are related", {
         dds = dds_mock,
         ontology = "BP",
         mapping = "org.Hs.eg.db",
-        geneID = "symbol"
+        gene_id = "symbol"
       )
     },
     "not related"
@@ -242,7 +242,7 @@ test_that("DESeq was run on the dds", {
       dds = dds_macrophage_nodeseq,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -271,7 +271,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
       dds = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
@@ -297,7 +297,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
       res_de = res_macrophage_IFNg_vs_naive,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
@@ -324,7 +324,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
       bg_genes = myassayed,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
@@ -351,7 +351,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
       de_genes = myde,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -382,7 +382,7 @@ test_that("de_type can not be used with vectors to avoid confusion", {
       bg_genes = myassayed,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol",
+      gene_id = "symbol",
       de_type = "up"
     )
   })

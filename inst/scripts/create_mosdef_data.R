@@ -29,7 +29,7 @@ res_enrich_macrophage_topGO <- run_topGO(
   dds = dds_macrophage,
   ontology = "BP",
   mapping = "org.Hs.eg.db",
-  geneID = "symbol",
+  gene_id = "symbol",
 )
 
 save(res_enrich_macrophage_topGO, file = "data/res_enrich_macrophage_topGO.RData", compress = "xz")

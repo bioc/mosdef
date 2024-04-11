@@ -227,7 +227,7 @@ create_link_HPA <- function(val) {
 #' go_to_html("GO:0002250")
 #' go_to_html("GO:0043368")
 go_to_html <- function(go_id,
-                      res_enrich = NULL) {
+                       res_enrich = NULL) {
   fullinfo <- GO.db::GOTERM[[go_id]]
   if (is.null(fullinfo)) {
     return(HTML("Gene Ontology term not found!"))

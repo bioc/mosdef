@@ -32,9 +32,6 @@
 #' @param return_data Logical, whether the function should just return the
 #' data.frame of expression values and covariates for custom plotting. Defaults
 #' to FALSE.
-#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
-#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
-#' of the list _must_ be specified following the content they are expecting
 #'
 #' @return A `ggplot` object
 #' @export
@@ -88,8 +85,7 @@ gene_plot <- function(dds,
                       labels_display = TRUE,
                       labels_repel = TRUE,
                       plot_type = "auto",
-                      return_data = FALSE,
-                      gtl = NULL) {
+                      return_data = FALSE) {
   if (!is(dds, "DESeqDataSet")) {
     stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
   }

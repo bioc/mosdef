@@ -6,7 +6,7 @@
 #' Current supported portals are: GeneCards, NCBI, GTEx, Uniprot, dbPTM, Human Protein Atlas
 #'
 #' @param df A dataframe with at least on column with gene Symbols named: SYMBOL
-#' @param new_cols At least one of: "GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA" "PUBMED"
+#' @param create_buttons_to At least one of: "GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA" "PUBMED"
 #' @param col_to_use name of the columns were the gene symbols are stored. Default is SYMBOL
 #' @param output_format a parameter deciding which output format to return,
 #' either a DT:datatable (recommended) or a simple dataframe (DF).
@@ -34,12 +34,12 @@
 #' buttonifier(res_df)
 #'
 #' buttonifier(res_df,
-#'   new_cols = c("NCBI", "HPA"),
+#'   create_buttons_to = c("NCBI", "HPA"),
 #'   ens_col = "id",
 #'   ens_species = "Homo_sapiens"
 #' )
 buttonifier <- function(df,
-                        new_cols = c("PUBMED", "GC", "UNIPROT"),
+                        create_buttons_to = c("PUBMED", "GC", "UNIPROT"),
                         col_to_use = "SYMBOL",
                         output_format = "DT",
                         ens_col = NULL,
@@ -68,8 +68,8 @@ buttonifier <- function(df,
 
   val <- df[[col_to_use]]
 
-  new_cols <- match.arg(
-    new_cols,
+  create_buttons_to <- match.arg(
+    create_buttons_to,
     choices = c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED"),
     several.ok = TRUE)
 
@@ -77,30 +77,30 @@ buttonifier <- function(df,
     output_format,
     choices = c("DT", "DF"))
 
-  if ("GC" %in% new_cols) {
+  if ("GC" %in% create_buttons_to) {
     df$SYMBOL_GC <- create_link_GeneCards(df[[col_to_use]])
   }
-  if ("NCBI" %in% new_cols) {
+  if ("NCBI" %in% create_buttons_to) {
     df$SYMBOL_NCBI <- create_link_NCBI(df[[col_to_use]])
   }
 
-  if ("GTEX" %in% new_cols) {
+  if ("GTEX" %in% create_buttons_to) {
     df$SYMBOL_GTEX <- create_link_GTEX(df[[col_to_use]])
   }
 
-  if ("UNIPROT" %in% new_cols) {
+  if ("UNIPROT" %in% create_buttons_to) {
     df$SYMBOL_UNIPROT <- create_link_UniProt(df[[col_to_use]])
   }
 
-  if ("dbPTM" %in% new_cols) {
+  if ("dbPTM" %in% create_buttons_to) {
     df$SYMBOL_dbPTM <- create_link_dbPTM(df[[col_to_use]])
   }
 
-  if ("HPA" %in% new_cols) {
+  if ("HPA" %in% create_buttons_to) {
     df$SYMBOL_HPA <- create_link_HPA(df[[col_to_use]])
   }
 
-  if ("PUBMED" %in% new_cols) {
+  if ("PUBMED" %in% create_buttons_to) {
     df$SYMBOL_PUBM <- create_link_PubMed(df[[col_to_use]])
   }
 
