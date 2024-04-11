@@ -13,6 +13,10 @@ A sample enrichment object, generated in the \code{mosdef} and \code{clusterProf
 \details{
 This enrichment object is on the data from the \code{macrophage} package
 
+Specifically, this set of enrichment results was created using the
+Biological Process ontology, mapping the gene symbol identifiers through the
+\code{org.Hs.eg.db} package.
+
 Details on how this object has been created are included in the \code{create_mosdef_data.R}
 script, included in the \code{scripts} folder of the \code{mosdef} package.
 }
@@ -20,4 +24,7 @@ script, included in the \code{scripts} folder of the \code{mosdef} package.
 Alasoo, et al. "Shared genetic effects on chromatin and gene
 expression indicate a role for enhancer priming in immune response",
 Nature Genetics, January 2018 doi: 10.1038/s41588-018-0046-7.
+}
+\seealso{
+\link{res_macrophage_IFNg_vs_naive}
 }

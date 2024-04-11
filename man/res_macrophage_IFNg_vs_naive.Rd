@@ -11,7 +11,13 @@ Binary R.Data
 A sample \code{DESeqResults} object, generated in the \code{DESeq2} framework
 }
 \details{
-This \code{DESeqResults} object is on the data from the \code{macrophage} package
+This \code{DESeqResults} object is on the data from the \code{macrophage}
+package. This result set has been created by setting the design to
+\code{~line + condition} to detect the effect of the \code{condition} while accounting
+for the different cell \code{line}s included.
+
+Specifically, this object contains the differences between the \code{IFNg} vs
+\code{naive} samples, testing against a logFC threshold of 1 for robustness.
 
 Details on how this object has been created are included in the \code{create_mosdef_data.R}
 script, included in the \code{scripts} folder of the \code{mosdef} package.
