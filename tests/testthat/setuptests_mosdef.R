@@ -57,6 +57,9 @@ set.seed(42)
 dds_mock <- DESeq2::makeExampleDESeqDataSet(n = 100, m = 8, betaSD = 2)
 dds_mock <- DESeq(dds_mock)
 res_mock <- results(dds_mock)
+# force the rownames to be ENSG *but* make them non-overlapping
+rownames(dds_mock) <- rownames(dds_macrophage)[1:100]
+rownames(res_mock) <- rownames(dds_macrophage)[51:150]
 
 # res_enrich
 data(res_enrich_macrophage_topGO, package = "mosdef")

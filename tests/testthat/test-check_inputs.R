@@ -180,7 +180,7 @@ test_that("res_de and dds are related", {
   expect_warning(
     {
       run_cluPro(
-        res_de = res_macrophage_IFNg_vs_naive,
+        res_de = res_mock,
         dds = dds_mock,
         mapping = "org.Hs.eg.db"
       )
@@ -193,7 +193,7 @@ test_that("res_de and dds are related", {
   expect_warning(
     {
       run_goseq(
-        res_de = res_macrophage_IFNg_vs_naive,
+        res_de = res_mock,
         dds = dds_mock,
         mapping = "org.Hs.eg.db",
         add_gene_to_terms = FALSE
@@ -207,7 +207,7 @@ test_that("res_de and dds are related", {
   expect_warning(
     {
       run_topGO(
-        res_de = res_macrophage_IFNg_vs_naive,
+        res_de = res_mock,
         dds = dds_mock,
         ontology = "BP",
         mapping = "org.Hs.eg.db",
