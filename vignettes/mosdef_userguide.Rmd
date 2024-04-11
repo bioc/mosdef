@@ -427,8 +427,8 @@ The key parameters:
 * `n_overlaps`: The number of overlaps `ggrepell` is supposed to allow for labeling (increases  number of labeled genes).
 * `col_to_use`: Name of the column in your res_de containing the gene symbols.
 * `enrich_col`: Name of the column in your res_enrich containing the gene symbols. For an example see `run_topGO` data provided in mosdef: `data(res_enrich_macrophage_topGO, package = "mosdef")`.
-* `down_col`: Colour for your downregulated genes (genes with a L2FC below your cutoff).
-* `up_col`: Colour for your upregulated genes (genes with a L2FC above your cutoff).
+* `down_col`: Colour for your downregulated genes (genes with a `logfc_cutoff` below the value specified).
+* `up_col`: Colour for your upregulated genes (genes with a `logfc_cutoff` above the value specified).
 * `highlight_col`: Colour for your genes associated with the given term of interest.
 
 
