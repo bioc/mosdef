@@ -271,7 +271,7 @@ The function will return a table with `r ncol(res_enrich_macrophage_goseq)` colu
 * `category`: The computer readable GO term ID.
 * `over_represented_pvalue`: p-value for the overrepresentation test for enrichment (as specified by the `goseq` algorithm)
 * `under_represented_pvalue`: p-value for the underrepresentation test for enrichment
-* `numDEInCat`: The number of DE genes associated with this term (as defined in the `res_de` or in the `de_genes` parameters) (similar to the `Annotated` column of the output from `run_topGO()``)
+* `numDEInCat`: The number of DE genes associated with this term (as defined in the `res_de` or in the `de_genes` parameters) (similar to the `Annotated` column of the output from `run_topGO()`)
 * `numInCat` The overall number of detected genes associated with this term (as defined in the `de_container` or in the `bg_genes` parameters).
 * `term`: The human readable GO term name.
 * `ontology`: The ontology used to run the enrichment tests (BP/MF/CC)
