@@ -4,32 +4,36 @@
 #' additional support to annotate genes if provided.
 #'
 #' The genes of interest are to be provided as gene symbols if a \code{symbol}
-#' column is provided in \code{res_de}, or else by using  the identifiers specified
-#' in the row names
+#' column is provided in \code{res_de}, or else by using the identifiers
+#' specified in the row names
 #'
 #' @param res_de A \code{\link{DESeqResults}} object
-#' @param FDR Numeric value, the significance level for thresholding adjusted p-values
-#' @param point_alpha Alpha transparency value for the points (0 = transparent, 1 = opaque)
-#' @param sig_color Color to use to mark differentially expressed genes. Defaults to red
+#' @param FDR Numeric value, the significance level for thresholding adjusted
+#' p-values
+#' @param point_alpha Alpha transparency value for the points (0 = transparent,
+#' 1 = opaque)
+#' @param sig_color Color to use to mark differentially expressed genes.
+#' Defaults to red
 #' @param annotation_obj A \code{data.frame} object, with row.names as gene
 #' identifiers (e.g. ENSEMBL ids) and a column, \code{gene_name}, containing
 #' e.g. HGNC-based gene symbols. Optional
-#' @param draw_y0 Logical, whether to draw the horizontal line at y=0. Defaults to
-#' TRUE.
-#' @param hlines The y coordinate (in absolute value) where to draw horizontal lines,
-#' optional
+#' @param draw_y0 Logical, whether to draw the horizontal line at y=0. Defaults
+#' to TRUE.
+#' @param hlines The y coordinate (in absolute value) where to draw horizontal
+#' lines, optional
 #' @param title A title for the plot, optional
-#' @param xlab X axis label, defaults to "mean of normalized counts - log10 scale"
+#' @param xlab X axis label, defaults to "mean of normalized counts -
+#' log10 scale"
 #' @param ylim Vector of two numeric values, Y axis limits to restrict the view
 #' @param add_rug Logical, whether to add rug plots in the margins
 #' @param intgenes Vector of genes of interest. Gene symbols if a \code{symbol}
 #' column is provided in \code{res_de}, or else the identifiers specified in the
 #' row names
 #' @param intgenes_color The color to use to mark the genes on the main plot.
-#' @param labels_intgenes Logical, whether to add the gene identifiers/names close
-#' to the marked plots
-#' @param labels_repel Logical, whether to use \code{geom_text_repel} for placing the
-#' labels on the features to mark
+#' @param labels_intgenes Logical, whether to add the gene identifiers/names
+#' close to the marked plots
+#' @param labels_repel Logical, whether to use \code{geom_text_repel} for
+#' placing the labels on the features to mark
 #'
 #' @return An object created by \code{ggplot}
 #' @export
@@ -83,7 +87,8 @@ plot_ma <- function(res_de,
   ma_df <- ma_df[ma_df$mean > 0, ]
 
   if (!is.null(annotation_obj)) {
-    ma_df$genename <- annotation_obj$gene_name[match(ma_df$ID, rownames(annotation_obj))]
+    ma_df$genename <- annotation_obj$gene_name[match(ma_df$ID,
+                                                     rownames(annotation_obj))]
   }
 
   ma_df$logmean <- log10(ma_df$mean) # TO ALLOW FOR BRUSHING!!
@@ -93,7 +98,8 @@ plot_ma <- function(res_de,
   p <- ggplot(ma_df, aes(x = .data$logmean, y = .data$lfc, colour = .data$DE))
 
   if (!is.null(hlines)) {
-    p <- p + geom_hline(aes(yintercept = hlines), col = "lightblue", alpha = 0.4) +
+    p <- p +
+      geom_hline(aes(yintercept = hlines), col = "lightblue", alpha = 0.4) +
       geom_hline(aes(yintercept = -hlines), col = "lightblue", alpha = 0.4)
   }
 
@@ -134,17 +140,21 @@ plot_ma <- function(res_de,
     }
 
 
-    p <- p + geom_point(data = df_intgenes, aes(.data$logmean, .data$log2FoldChange), color = intgenes_color, size = 4)
+    p <- p + geom_point(data = df_intgenes,
+                        aes(.data$logmean, .data$log2FoldChange),
+                        color = intgenes_color, size = 4)
 
     if (labels_intgenes) {
       if (labels_repel) {
         p <- p + geom_text_repel(
-          data = df_intgenes, aes(.data$logmean, .data$log2FoldChange, label = .data$myids),
+          data = df_intgenes,
+          aes(.data$logmean, .data$log2FoldChange, label = .data$myids),
           color = intgenes_color, size = 5
         )
       } else {
         p <- p + geom_text(
-          data = df_intgenes, aes(.data$logmean, .data$log2FoldChange, label = .data$myids),
+          data = df_intgenes,
+          aes(.data$logmean, .data$log2FoldChange, label = .data$myids),
           color = intgenes_color, size = 5, hjust = 0.25, vjust = -0.75
         )
       }
@@ -172,10 +182,12 @@ plot_ma <- function(res_de,
 #' argument of ggplot
 #' @param FDR The pvalue threshold to us for counting genes as de
 #' and therefore also where to draw the line in the plot. Default is 0.05
-#' @param labeled_genes A numeric value describing the amount of genes to be labeled.
-#' This uses the Top(x) highest differentially expressed genes
+#' @param labeled_genes A numeric value describing the amount of genes to be
+#' labeled. This uses the Top(x) highest differentially expressed genes
 #'
-#' @return A  `ggplot2` volcano plot object that can be extended upon by the user
+#' @return A  `ggplot2` volcano plot object that can be extended upon by the
+#' user
+#'
 #' @export
 #'
 #' @importFrom methods is
@@ -222,7 +234,8 @@ de_volcano <- function(res_de,
 
   df <- deresult_to_df(res_de)
 
-  # finding the highest value in the log2FoldChange column and rounding it up to get a nice symetric plot
+  # finding the highest value in the log2FoldChange column and rounding it up to
+  # get a nice symmetric plot
   x_limit <- ceiling(max(abs(range(df$log2FoldChange, na.rm = TRUE))))
 
   df$diffexpressed <- "NO"
@@ -232,7 +245,11 @@ de_volcano <- function(res_de,
   df$diffexpressed[df$log2FoldChange < -logfc_cutoff & df$pvalue < FDR] <- "DOWN"
 
   # calculate top degenes based on pvalue (the number is specified in labeled_genes)
-  df$delabel <- ifelse(df$symbol %in% head(df[order(df$pvalue), "symbol"], labeled_genes), df$symbol, NA)
+  df$delabel <- ifelse(
+    df$symbol %in% head(df[order(df$pvalue), "symbol"], labeled_genes),
+    df$symbol,
+    NA
+  )
 
   p <- ggplot(data = df,
               aes(
@@ -251,7 +268,8 @@ de_volcano <- function(res_de,
       values = c("skyblue", "gray", "tomato"),
       labels = c("Downregulated", "Not significant", "Upregulated")
     ) +
-    coord_cartesian(ylim = c(0, max(-log10(df$pvalue))), xlim = c(-x_limit, x_limit)) +
+    coord_cartesian(ylim = c(0, max(-log10(df$pvalue))),
+                    xlim = c(-x_limit, x_limit)) +
     scale_x_continuous(breaks = seq(-x_limit, x_limit, 2)) +
     geom_text_repel(max.overlaps = Inf)
 
@@ -265,25 +283,35 @@ de_volcano <- function(res_de,
 #' functions.
 #'
 #' @param res_de A DESeqResults object created using \code{DESeq2}
-#' @param res_enrich A enrichment result object created by for example using [run_topGO()]
-#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select according to the species
-#' @param term_index The location (row) of your GO term of interest in your enrichment result
-#' @param logfc_cutoff A numeric value that sets the cutoff for the xintercept argument of ggplot
+#' @param res_enrich A enrichment result object created by for example using
+#' [run_topGO()]
+#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
+#' according to the species
+#' @param term_index The location (row) of your GO term of interest in your
+#' enrichment result
+#' @param logfc_cutoff A numeric value that sets the cutoff for the xintercept
+#' argument of ggplot
 #' @param FDR The pvalue threshold to us for counting genes as de
 #' and therefore also where to draw the line in the plot. Default is 0.05
-#' @param col_to_use The column in your differential expression results containing your gene symbols.
-#'  If you don't have one it is created automatically
-#' @param enrich_col column name from your res_enrich where the genes associated with your GOterm are stored (for example see the [run_topGO()] result in mosdef)
+#' @param col_to_use The column in your differential expression results
+#' containing your gene symbols. If you don't have one it is created
+#' automatically
+#' @param enrich_col column name from your res_enrich where the genes associated
+#' with your GOterm are stored (for example see the [run_topGO()] result in mosdef)
 #' @param gene_col_separator The separator used to split the genes.
-#' If you used topGO or goseq this is a "," which is the default. (For an example see the [run_topGO()] result in mosdef)
-#' If you used clusterProfiler this has to be set to "/". (For example see the [run_cluPro()] result in mosdef)
+#' If you used topGO or goseq this is a "," which is the default. (For an
+#' example see the [run_topGO()] result in mosdef)
+#' If you used clusterProfiler this has to be set to "/". (For example see the
+#' [run_cluPro()] result in mosdef)
 #' @param down_col The colour for your downregulated genes, default is "gray"
 #' @param up_col The colour for your upregulated genes, default is "gray"
-#' @param highlight_col The colour for the genes associated with your GOterm default is "tomato"
-#' @param n_overlaps Number of overlaps ggrepel is supposed to allow when labeling
-#'  (for more info check ggrepel documentation)
+#' @param highlight_col The colour for the genes associated with your GOterm
+#' default is "tomato"
+#' @param n_overlaps Number of overlaps ggrepel is supposed to allow when
+#' labeling (for more info check ggrepel documentation)
 #'
-#' @return A  `ggplot2` volcano plot object that can be extended upon by the user
+#' @return A `ggplot2` volcano plot object that can be extended upon by the user
+#'
 #' @export
 #'
 #' @importFrom methods is
@@ -326,8 +354,7 @@ go_volcano <- function(res_de,
                        up_col = "black",
                        highlight_col = "tomato",
                        n_overlaps = 20) {
-  # Add a check if the provided result is an enrichResult (check if cluPro was used)
-  # if True, extracts the result into a data.frame
+  # Add a check if the provided result is an enrichResult
   if(is(res_enrich, "enrichResult")) {
     res_enrich <- as.data.frame(res_enrich)
     enrich_col <- "geneID"
@@ -347,7 +374,8 @@ go_volcano <- function(res_de,
 
   df <- deresult_to_df(res_de)
 
-  # finding the highest value in the log2FoldChange column and rounding it up to get a nice symetric plot
+  # finding the highest value in the log2FoldChange column and rounding it up
+  # to get a nice symmetric plot
   x_limit <- ceiling(max(abs(range(df$log2FoldChange, na.rm = TRUE))))
 
   df$diffexpressed <- "NO"
@@ -370,11 +398,14 @@ go_volcano <- function(res_de,
     x = .data$log2FoldChange, y = -log10(.data$pvalue),
     colour = .data$diffexpressed, label = .data$de_label
   )) +
-    geom_vline(xintercept = c(-logfc_cutoff, logfc_cutoff), col = "gray", linetype = "dashed") +
-    geom_hline(yintercept = -log10(FDR), col = "gray", linetype = "dashed") +
+    geom_vline(xintercept = c(-logfc_cutoff, logfc_cutoff),
+               col = "gray", linetype = "dashed") +
+    geom_hline(yintercept = -log10(FDR),
+               col = "gray", linetype = "dashed") +
     geom_point() +
     theme_classic() +
-    coord_cartesian(ylim = c(0, max(-log10(df$pvalue))), xlim = c(-x_limit, x_limit)) +
+    coord_cartesian(ylim = c(0, max(-log10(df$pvalue))),
+                    xlim = c(-x_limit, x_limit)) +
     scale_x_continuous(breaks = seq(-x_limit, x_limit, 2)) +
     geom_label_repel(max.overlaps = n_overlaps) # To show all labels
 
@@ -382,7 +413,10 @@ go_volcano <- function(res_de,
   ## Define the genes to highlight
   genes_to_highlight <- c(genes_vec[[1]])
   # Define a custom color scale
-  custom_color_scale <- c("DOWN" = down_col, "NO" = "gray", "UP" = up_col, "Highlighted" = highlight_col)
+  custom_color_scale <- c("DOWN" = down_col,
+                          "NO" = "gray",
+                          "UP" = up_col,
+                          "Highlighted" = highlight_col)
 
   ## Add another geom_point layer to highlight specific genes
   q <- p +

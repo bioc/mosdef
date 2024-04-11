@@ -202,15 +202,17 @@ de_table_painter <- function(res_de,
   )
 
   if (!is.null(rounding_digits)) {
-    my_dt <- formatRound(table = my_dt,
-                         columns = c(logfc_column, basemean_column, lfcse_column, stat_column),
-                         digits = rounding_digits)
+    my_dt <- formatRound(
+      table = my_dt,
+      columns = c(logfc_column, basemean_column, lfcse_column, stat_column),
+      digits = rounding_digits)
   }
 
   if (!is.null(signif_digits)) {
-    my_dt <- formatSignif(table = my_dt,
-                          columns = c(pvalue_column, padj_column),
-                          digits = signif_digits)
+    my_dt <- formatSignif(
+      table = my_dt,
+      columns = c(pvalue_column, padj_column),
+      digits = signif_digits)
   }
 
   my_dt <- formatStyle(

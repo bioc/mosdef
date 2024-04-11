@@ -3,20 +3,26 @@
 #' A function to turn Gene Symbols into buttons in an Rmarkdown linking to various
 #' portals for further info about these genes.
 #'
-#' Current supported portals are: GeneCards, NCBI, GTEx, Uniprot, dbPTM, Human Protein Atlas
+#' Current supported portals are: GeneCards, NCBI, GTEx, Uniprot, dbPTM, Human
+#' Protein Atlas
 #'
 #' @param df A dataframe with at least on column with gene Symbols named: SYMBOL
-#' @param create_buttons_to At least one of: "GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA" "PUBMED"
-#' @param col_to_use name of the columns were the gene symbols are stored. Default is SYMBOL
+#' @param create_buttons_to At least one of: "GC", "NCBI", "GTEX", "UNIPROT",
+#' "dbPTM", "HPA" "PUBMED"
+#' @param col_to_use name of the columns were the gene symbols are stored.
+#' Default is SYMBOL
 #' @param output_format a parameter deciding which output format to return,
 #' either a DT:datatable (recommended) or a simple dataframe (DF).
 #' In the latter case it is important that if the data is visualized with the
 #'  \code{datatable} function the parameter escape must be set to FALSE
-#' @param ens_col Character string, name of the columns were the ENSEMBL IDs are stored.
-#' @param ens_species The species you are working with to link to the correct gene on ENSEMBL
+#' @param ens_col Character string, name of the columns were the ENSEMBL IDs
+#' are stored.
+#' @param ens_species The species you are working with to link to the correct
+#' gene on ENSEMBL
 #'
 #' @return A dataframe or a \code{DT} datatable object with columns adding HTML
-#' objects that link to websites with further information on the genes in question.
+#' objects that link to websites with further information on the genes in
+#' question.
 #'
 #' @export
 #'

@@ -1,7 +1,8 @@
 #' A function checking if your res_de contains everything you need
 #'
 #' @param res_de A DESeqResults object created using \code{DESeq2}
-#' @param verbose  Logical, whether to add messages telling the user which steps were taken
+#' @param verbose  Logical, whether to add messages telling the user which steps
+#' were taken
 #'
 #' @return An invisible `NULL` after performing the checks
 #' @export
@@ -59,7 +60,8 @@ mosdef_res_check <- function(res_de,
 #' A function checking if your dds contains everything you need
 #'
 #' @param dds A DESeqDataset object created using \code{DESeq2}
-#' @param verbose  Logical, whether to add messages telling the user which steps were taken
+#' @param verbose  Logical, whether to add messages telling the user which steps
+#' were taken.
 #'
 #' @return An invisible `NULL` after performing the checks
 #' @export

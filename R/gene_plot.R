@@ -10,8 +10,8 @@
 #' through the `DESeq2` framework.
 #' @param gene Character, specifies the identifier of the feature (gene) to be
 #' plotted
-#' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
-#' Note: the vector components should be categorical variables.
+#' @param intgroup A character vector of names in `colData(dds)` to use for
+#' grouping. Note: the vector components should be categorical variables.
 #' @param assay Character, specifies with assay of the `dds` object to use for
 #' reading out the expression values. Defaults to "counts".
 #' @param annotation_obj A `data.frame` object with the feature annotation
@@ -216,20 +216,20 @@ gene_plot <- function(dds,
 #' through the `DESeq2` framework.
 #' @param gene Character, specifies the identifier of the feature (gene) to be
 #' extracted
-#' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
+#' @param intgroup A character vector of names in `colData(dds)` to use for
+#' grouping.
 #' @param assay Character, specifies with assay of the `dds` object to use for
 #' reading out the expression values. Defaults to "counts".
 #' @param normalized Logical value, whether the expression values should be
 #' normalized by their size factor. Defaults to TRUE, applies when `assay` is
 #' "counts"
-#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
-#' of the list _must_ be specified following the content they are expecting
 #'
-#' @return A tidy data.frame with the expression values and covariates for further
-#' processing
+#' @return A tidy data.frame with the expression values and covariates for
+#' further processing
+#'
 #' @export
 #'
-#' @importFrom DESeq2 counts estimateSizeFactors sizeFactors  normalizationFactors
+#' @importFrom DESeq2 counts estimateSizeFactors sizeFactors normalizationFactors
 #' @importFrom SummarizedExperiment colData assays
 #'
 #' @examples
