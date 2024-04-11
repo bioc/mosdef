@@ -10,6 +10,7 @@ run_cluPro(
   de_genes = NULL,
   bg_genes = NULL,
   top_de = NULL,
+  FDR_threshold = 0.05,
   min_counts = 0,
   mapping = "org.Hs.eg.db",
   de_type = "up_and_down",
@@ -29,6 +30,8 @@ run_cluPro(
 
 \item{top_de}{numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
 Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).}
+
+\item{FDR_threshold}{The pvalue threshold to us for counting genes as de. Default is 0.05}
 
 \item{min_counts}{numeric, min number of counts a gene needs to have to be included
 in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.}

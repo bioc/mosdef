@@ -6,22 +6,26 @@
 \usage{
 de_volcano(
   res_de,
+  mapping = "org.Mm.eg.db",
   L2FC_cutoff = 1,
-  labeled_genes = 30,
-  mapping = "org.Mm.eg.db"
+  FDR_threshold = 0.05,
+  labeled_genes = 30
 )
 }
 \arguments{
 \item{res_de}{A DESeqResults object created using \code{DESeq2}}
 
+\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
+according to the species}
+
 \item{L2FC_cutoff}{A numeric value that sets the cutoff for the xintercept
 argument of ggplot}
 
+\item{FDR_threshold}{The pvalue threshold to us for counting genes as de
+and therefore also where to draw the line in the plot. Default is 0.05}
+
 \item{labeled_genes}{A numeric value describing the amount of genes to be labeled.
 This uses the Top(x) highest differentially expressed genes}
-
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
-according to the species}
 }
 \value{
 A  \code{ggplot2} volcano plot object that can be extended upon by the user

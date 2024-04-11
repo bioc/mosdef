@@ -13,8 +13,10 @@ go_volcano(
   mapping = "org.Hs.eg.db",
   term_index,
   L2FC_cutoff = 1,
+  FDR_threshold = 0.05,
   col_to_use = NULL,
   enrich_col = "genes",
+  gene_col_separator = ",",
   down_col = "black",
   up_col = "black",
   highlight_col = "tomato",
@@ -32,10 +34,17 @@ go_volcano(
 
 \item{L2FC_cutoff}{A numeric value that sets the cutoff for the xintercept argument of ggplot}
 
+\item{FDR_threshold}{The pvalue threshold to us for counting genes as de
+and therefore also where to draw the line in the plot. Default is 0.05}
+
 \item{col_to_use}{The column in your differential expression results containing your gene symbols.
 If you don't have one it is created automatically}
 
 \item{enrich_col}{column name from your res_enrich where the genes associated with your GOterm are stored (for example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)}
+
+\item{gene_col_separator}{The separator used to split the genes.
+If you used topGO or goseq this is a "," which is the default. (For an example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)
+If you used clusterProfiler this has to be set to "/". (For example see the \code{\link[=run_cluPro]{run_cluPro()}} result in mosdef)}
 
 \item{down_col}{The colour for your downregulated genes, default is "gray"}
 
@@ -56,13 +65,6 @@ with a certain GOterm that can then be expanded upon using further ggplot
 functions.
 }
 \examples{
-library("ggplot2")
-library("RColorBrewer")
-library("ggrepel")
-library("DESeq2")
-library("topGO")
-library("AnnotationDbi")
-library("org.Hs.eg.db")
 
 data(res_de_macrophage, package = "mosdef")
 data(res_enrich_macrophage_topGO, package = "mosdef")
