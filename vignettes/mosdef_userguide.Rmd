@@ -274,13 +274,15 @@ The function will return a table with `r ncol(res_enrich_macrophage_goseq)` colu
 
 Parameters like `top_de`, `min_counts`, `verbose` and `de_type` can also be used here (For more detail on these parameters see above).
 If you want to further customize the call of `enrichGO()` inside the function, have a look at the documentation for `enrichGO()` from `r BiocStyle::Biocpkg("clusterProfiler")` Those parameters can be added to the `run_cluPro()` function call within the ellipsis (`...`).
+For example, as we are doing in the chunk that follows, we set Biological Process as the ontology to be used, by specifying `ont = "BP"`
 
 ```{r runclupro, eval = FALSE}
 clupro_macrophage <- run_cluPro(
   res_de = res_macrophage_IFNg_vs_naive,
   dds = dds_macrophage,
   mapping = "org.Hs.eg.db",
-  keyType = "SYMBOL"
+  keyType = "SYMBOL",
+  ont = "BP"
 )
 head(clupro_macrophage)
 ```
