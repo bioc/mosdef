@@ -24,12 +24,12 @@ create_link_GO <- function(val) {
 #' @export
 #'
 #' @examples
-#' create_link_genecards("Oct4")
+#'  create_link_GeneCards("Oct4")
 #'
 #' data(res_de_macrophage, package = "mosdef")
 #' res_macrophage_IFNg_vs_naive$SYMBOL <-
-#'   create_link_genecards(res_macrophage_IFNg_vs_naive$SYMBOL)
-create_link_genecards <- function(val) {
+#'    create_link_GeneCards(res_macrophage_IFNg_vs_naive$SYMBOL)
+create_link_GeneCards <- function(val) {
   sprintf(
     '<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
     val, # link portion related to the gene
@@ -47,12 +47,12 @@ create_link_genecards <- function(val) {
 #' @export
 #'
 #' @examples
-#' create_link_pubmed("Oct4")
+#' create_link_PubMed("Oct4")
 #'
 #' data(res_de_macrophage, package = "mosdef")
 #' res_macrophage_IFNg_vs_naive$SYMBOL <-
-#'   create_link_pubmed(res_macrophage_IFNg_vs_naive$SYMBOL)
-create_link_pubmed <- function(val) {
+#'   create_link_PubMed(res_macrophage_IFNg_vs_naive$SYMBOL)
+create_link_PubMed <- function(val) {
   sprintf(
     '<a href="https://pubmed.ncbi.nlm.nih.gov/?term=%s" target="_blank" class="btn btn-primary" style = "%s">%s</a>',
     val,
@@ -71,12 +71,12 @@ create_link_pubmed <- function(val) {
 #' @export
 #'
 #' @examples
-#' create_link_ENS("ENSMUSG00000024406")
+#' create_link_ENSEMBL("ENSMUSG00000024406")
 #'
 #' data(res_de_macrophage, package = "mosdef")
-#' rownames(res_macrophage_IFNg_vs_naive) <- create_link_ENS(
+#' rownames(res_macrophage_IFNg_vs_naive) <- create_link_ENSEMBL(
 #'   rownames(res_macrophage_IFNg_vs_naive))
-create_link_ENS <- function(val, species = "Mus_musculus") {
+create_link_ENSEMBL <- function(val, species = "Mus_musculus") {
   sprintf(
     '<a href="http://www.ensembl.org/%s/Gene/Summary?g=%s" target="_blank" class="btn btn-primary" style = "%s">%s</a>',
     species,
@@ -223,9 +223,9 @@ create_link_HPA <- function(val) {
 #' @importFrom GO.db GOTERM
 #'
 #' @examples
-#' go_2_html("GO:0002250")
-#' go_2_html("GO:0043368")
-go_2_html <- function(go_id,
+#' go_to_html("GO:0002250")
+#' go_to_html("GO:0043368")
+go_to_html <- function(go_id,
                       res_enrich = NULL) {
   fullinfo <- GO.db::GOTERM[[go_id]]
   if (is.null(fullinfo)) {
@@ -234,7 +234,7 @@ go_2_html <- function(go_id,
   # extracting the field/component values
   go_linkbutton <- create_link_GO(AnnotationDbi::GOID(fullinfo))
   go_term <- AnnotationDbi::Term(fullinfo)
-  go_pubmed <- create_link_pubmed(go_term)
+  go_pubmed <- create_link_PubMed(go_term)
   go_ontology <- AnnotationDbi::Ontology(fullinfo)
   go_definition <- AnnotationDbi::Definition(fullinfo)
   go_synonims <- paste0(
@@ -309,16 +309,16 @@ go_2_html <- function(go_id,
 #' @importFrom htmltools tags
 #'
 #' @examples
-#' geneinfo_2_html("ACTB")
-#' geneinfo_2_html("Pf4")
-geneinfo_2_html <- function(gene_id,
-                            res_de = NULL,
-                            col_to_use = "SYMBOL") {
+#' geneinfo_to_html("ACTB")
+#' geneinfo_to_html("Pf4")
+geneinfo_to_html <- function(gene_id,
+                             res_de = NULL,
+                             col_to_use = "SYMBOL") {
   gene_ncbi_button <- create_link_NCBI(gene_id)
-  gene_genecards_button <- create_link_genecards(gene_id)
+  gene_genecards_button <-  create_link_GeneCards(gene_id)
   gene_gtex_button <- create_link_GTEX(gene_id)
   gene_uniProt_button <- create_link_UniProt(gene_id)
-  gene_pubmed_button <- create_link_pubmed(gene_id)
+  gene_pubmed_button <- create_link_PubMed(gene_id)
 
   if (!is.null(res_de)) {
     gid <- match(gene_id, res_de[[col_to_use]])

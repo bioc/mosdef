@@ -21,14 +21,13 @@
 #' @export
 #'
 #' @importFrom DT datatable
-#' @importFrom dplyr select
 #' @importFrom rlang .data
 #'
 #' @examples
 #' data(res_de_macrophage, package = "mosdef")
 #'
 #' res_de <- res_macrophage_IFNg_vs_naive
-#' res_df <- deseqresult2df(res_de)
+#' res_df <- deresult_to_df(res_de)
 #'
 #' ## Subsetting for quicker run
 #' res_df <- res_df[1:100, ]
@@ -52,9 +51,9 @@ buttonifier <- function(df,
       " to the 'col_to_use' parameter. Please watch spelling as well as capital letters."
     )
   }
-  
+
   if (!is.null(c(ens_col, ens_species))) {
-    df[[ens_col]] <- create_link_ENS(df[[ens_col]], species = ens_species)
+    df[[ens_col]] <- create_link_ENSEMBL(df[[ens_col]], species = ens_species)
   } else if (!is.null(ens_col) & is.null(ens_species)) {
     warning(
       "Creating Ensembl links requires an ID and the species you are analysing ",
@@ -66,14 +65,14 @@ buttonifier <- function(df,
       "You only provided a species."
     )
   }
-  
+
   val <- df[[col_to_use]]
-  
+
   new_cols <- match.arg(
-    new_cols, 
+    new_cols,
     choices = c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED"),
     several.ok = TRUE)
-  
+
   for (i in seq_len(length(new_cols))) {
     if ((new_cols[i] %in% c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED")) == FALSE) {
       warning(
@@ -83,38 +82,38 @@ buttonifier <- function(df,
       )
     }
   }
-  
+
   output_format <- match.arg(
-    output_format, 
+    output_format,
     choices = c("DT", "DF"))
-  
+
   if ("GC" %in% new_cols) {
-    df$SYMBOL_GC <- create_link_genecards(df[[col_to_use]])
+    df$SYMBOL_GC <- create_link_GeneCards(df[[col_to_use]])
   }
   if ("NCBI" %in% new_cols) {
     df$SYMBOL_NCBI <- create_link_NCBI(df[[col_to_use]])
   }
-  
+
   if ("GTEX" %in% new_cols) {
     df$SYMBOL_GTEX <- create_link_GTEX(df[[col_to_use]])
   }
-  
+
   if ("UNIPROT" %in% new_cols) {
     df$SYMBOL_UNIPROT <- create_link_UniProt(df[[col_to_use]])
   }
-  
+
   if ("dbPTM" %in% new_cols) {
     df$SYMBOL_dbPTM <- create_link_dbPTM(df[[col_to_use]])
   }
-  
+
   if ("HPA" %in% new_cols) {
     df$SYMBOL_HPA <- create_link_HPA(df[[col_to_use]])
   }
-  
+
   if ("PUBMED" %in% new_cols) {
-    df$SYMBOL_PUBM <- create_link_pubmed(df[[col_to_use]])
+    df$SYMBOL_PUBM <- create_link_PubMed(df[[col_to_use]])
   }
-  
+
   if (output_format == "DT") {
     return(DT::datatable(df, escape = FALSE, rownames = FALSE))
   } else if (output_format == "DF") {

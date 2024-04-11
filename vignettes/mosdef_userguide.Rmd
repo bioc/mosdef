@@ -567,11 +567,11 @@ All of the functions included inside the `buttonifier()` function are also avail
 As a reminder: all functions, except the one related to the ENSEMBL database, can use/need gene symbols as input, so that the call to build up the table from its individual columns could be specified as in the following chunk:
 
 ```{r createlinks}
-res_subset <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
 
-row.names(res_subset) <- create_link_ENS(row.names(res_subset), species = "Homo_sapiens")
-res_subset$symbol_GC <- create_link_genecards(res_subset$symbol)
-res_subset$symbol_Pub <- create_link_pubmed(res_subset$symbol)
+row.names(res_subset) <- create_link_ENSEMBL(row.names(res_subset), species = "Homo_sapiens")
+res_subset$symbol_GC <-  create_link_GeneCards(res_subset$symbol)
+res_subset$symbol_Pub <- create_link_PubMed(res_subset$symbol)
 res_subset$symbol_NCBI <- create_link_NCBI(res_subset$symbol)
 res_subset$symbol_dbptm <- create_link_dbPTM(res_subset$symbol)
 res_subset$symbol_GTEX <- create_link_GTEX(res_subset$symbol)
