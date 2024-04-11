@@ -90,9 +90,16 @@ if (!require("BiocManager")) {
 BiocManager::install("mosdef")
 ```
 
+If you want to install the development version from GitHub, you can alternatively
+run this command:
+
+```{r installgh, eval = FALSE}
+BiocManager::install("imbeimainz/mosdef")
+```
+
 # Getting started {#gettingstarted}
 
-Once installed, the package can be loaded and attached to your current workspace as follows:
+Once installed, the `r BiocStyle::Biocpkg("mosdef")` package can be loaded and attached to your current workspace as follows:
 
 ```{r loadlib, eval = TRUE}
 library("mosdef")
@@ -201,7 +208,7 @@ The key parameters for `run_topGO()` are defined as follows:
 * `dds`: Your `DESeqDataset` object
 * `ontology`: Which gene ontology to analyse, default is "BP"
 * `mapping`: The annotation/species
-* `geneID`: Which format the genes are provided. If you provide a `DESeqDataset` and `DESeqResults`, then `mosdef` does it for you and uses symbols. If you provide vectors please specify a value.
+* `geneID`: Which format the genes are provided. If you provide a `DESeqDataset` and `DESeqResults`, then `r BiocStyle::Biocpkg("mosdef")` does it for you and uses symbols. If you provide vectors please specify a value.
 * `de_type`: Which genes to analyse. The default is all ("up_and_down")
 Other possibilities are only up-/down-regulated ("up"/"down") genes.
 * `add_gene_to_terms`: Logical, whether to add a column with all genes annotated to each GO term.
