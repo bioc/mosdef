@@ -79,7 +79,7 @@ The data is made available via the `r BiocStyle::Biocpkg("macrophage")` Biocondu
 In the `macrophage` experimental setting, the samples are available from 6 different donors, in 4 different conditions (naive, treated with Interferon gamma, with SL1344, or with a combination of Interferon gamma and SL1344).
 For simplicity, we will restrict our attention on the comparison between Interferon gamma treated samples vs naive samples.
 
-# Getting started {#gettingstarted}
+# Installation {#installation}
 
 To install `r BiocStyle::Biocpkg("mosdef")`, you can run the following commands:
 
@@ -89,6 +89,8 @@ if (!require("BiocManager")) {
 }
 BiocManager::install("mosdef")
 ```
+
+# Getting started {#gettingstarted}
 
 Once installed, the package can be loaded and attached to your current workspace as follows:
 
