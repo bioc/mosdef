@@ -4,19 +4,27 @@
 \alias{get_expr_values}
 \title{Get expression values}
 \usage{
-get_expr_values(dds, gene, intgroup, assay = "counts", normalized = TRUE)
+get_expr_values(
+  de_container,
+  gene,
+  intgroup,
+  assay = "counts",
+  normalized = TRUE
+)
 }
 \arguments{
-\item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
-through the \code{DESeq2} framework.}
+\item{de_container}{An object containing the data for a Differential
+Expression workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqDataSet} object, normally obtained after
+running your data through the \code{DESeq2} framework.}
 
 \item{gene}{Character, specifies the identifier of the feature (gene) to be
 extracted}
 
-\item{intgroup}{A character vector of names in \code{colData(dds)} to use for
+\item{intgroup}{A character vector of names in \code{colData(de_container)} to use for
 grouping.}
 
-\item{assay}{Character, specifies with assay of the \code{dds} object to use for
+\item{assay}{Character, specifies with assay of the \code{de_container} object to use for
 reading out the expression values. Defaults to "counts".}
 
 \item{normalized}{Logical value, whether the expression values should be
@@ -44,7 +52,8 @@ keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 dds_macrophage <- dds_macrophage[keep, ]
 dds_macrophage <- DESeq(dds_macrophage)
 
-df_exp <- get_expr_values(dds_macrophage,
+df_exp <- get_expr_values(
+  de_container = dds_macrophage,
   gene = "ENSG00000125347",
   intgroup = "condition"
 )
