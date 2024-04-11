@@ -94,12 +94,8 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   ## Checks:
 
   # Check if de-type is correct
-  # if(!(de_type %in% c("up_and_down","up", "down")))
-
+ 
   match.arg(de_type, choices = c("up_and_down", "up", "down"), several.ok = FALSE)
-
-  # stop("The de_type argument must be one of: 'up_and_down', 'up', 'down'")
-
 
   # Check if there is any input at all
   if (is.null(c(de_genes, bg_genes, dds, res_de))) {
@@ -139,7 +135,6 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
       paste(topgo_methods, collapse = ", ")
     )
   }
-
   
   # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
@@ -280,7 +275,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   }
 
   # subset to specified number of rows
-  ### topTablerows <- min(nrow(sTab), topTablerows)
+  
   topTablerows <- nrow(sTab)
   sTab <- sTab[seq_len(topTablerows), ]
 
@@ -526,9 +521,6 @@ run_goseq <- function(res_de = NULL,
 
   goseq_out$p.adj <- p.adjust(goseq_out$over_represented_pvalue, method = "BH")
 
-  # removing nTop to allow for more evaluated genes
-  # to reduce the load for adding the genes
-  # goseq_out <- goseq_out[seq_len(nTop), ]
 
   if (add_gene_to_terms) {
     # for adding the gene ids/names...
@@ -656,10 +648,8 @@ run_cluPro <- function(res_de = NULL,
   ## Checks:
 
   # Check if de_type is correct
-  # if(!(de_type %in% c("up_and_down","up", "down")))
 
   match.arg(de_type, choices = c("up_and_down", "up", "down"), several.ok = FALSE)
-
 
   # Check if there is any input at all
   if (is.null(c(de_genes, bg_genes, dds, res_de))) {
@@ -690,7 +680,6 @@ run_cluPro <- function(res_de = NULL,
     stop("Please also provide  a vector of background genes.")
   }
 
-  # checking the additional topGO_method2
 
   # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.

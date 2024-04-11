@@ -22,7 +22,7 @@
 #' deseqresult2DEgenes(res)
 deseqresult2DEgenes <- function(deseqresult,
                                 FDR = 0.05) {
-  # library("dplyr")
+  
   if (!is(deseqresult, "DESeqResults")) stop("Not a DESeqResults object.")
   deseqresult <- as.data.frame(deseqresult)
 
@@ -30,13 +30,6 @@ deseqresult2DEgenes <- function(deseqresult,
   names(deseqresult)[1] <- "id"
   deseqresult$id <- as.character(deseqresult$id)
 
-  # deseqresult$id <- rownames(deseqresult)
-  # rownames(deseqresult) <- NULL
-  # deseqresult <- dplyr::tbl_df(deseqresult)
-  # if("symbol" %in% names(deseqresult))
-  #   deseqresult <- dplyr::select(deseqresult, id, baseMean, log2FoldChange:symbol)
-  # else
-  #   deseqresult <- dplyr::select(deseqresult, id, baseMean, log2FoldChange:padj)
   tmp <- dplyr::arrange(deseqresult, .data$padj)
   res <- tmp[!(is.na(tmp$padj)) & tmp$padj <= FDR, ]
   res
