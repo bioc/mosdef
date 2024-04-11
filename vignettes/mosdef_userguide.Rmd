@@ -467,7 +467,8 @@ maplot_genes <- plot_ma(
     "PDK4",
     "IFNGR1"
   ), # suggested genes of interest
-  hlines = 1
+  hlines = 1,
+  intgenes_color = "darkblue"
 )
 maplot_genes
 ```
