@@ -10,8 +10,9 @@
 #'
 create_link_GO <- function(val) {
   sprintf(
-    '<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank" class="btn btn-primary">%s</a>',
+    '<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank" class="btn btn-primary" style = "%s">%s</a>',
     val,
+    .actionbutton_biocstyle,
     paste0(val, "@AMIGO")
   )
 }
