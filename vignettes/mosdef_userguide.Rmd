@@ -107,13 +107,17 @@ library("mosdef")
 
 # Load the data
 
-Load your dataset. We will use the well known `macrophage` data as an example.  
+We will use the well known `macrophage` data as an example.  
 Notably, we correctly specify the experimental design as `~ line + condition`, to obtain the effect due to the `condition`, while accounting for the cell `line`.
 
+If you are familiar with the DE workflow, you can skim over this section and read more on the functionality of `r BiocStyle::Biocpkg("mosdef")` in Section \@ref(mosdefenrich).
+
 ```{r loaddata, warning=FALSE}
-library("macrophage")
-library("DESeq2")
-library("org.Hs.eg.db")
+suppressPackageStartupMessages({
+  library("macrophage")
+  library("DESeq2")
+  library("org.Hs.eg.db")
+})
 data(gse, package = "macrophage")
 dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
@@ -137,7 +141,7 @@ res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
 Please refer to the vignette of the `r BiocStyle::Biocpkg("DESeq2")` or `r BiocStyle::Biocpkg("edgeR")` packages for more complex experimental designs and/or additional options in each workflow.  
 The aim for this section was simply to generate exemplary objects to work with and provide to the `r BiocStyle::Biocpkg("mosdef")` functions.
 
-# Generating enrichment results with a unified API
+# Generating enrichment results with a unified API {#mosdefenrich}
 
 `r BiocStyle::Biocpkg("mosdef")` allows you to create your enrichment results right from your `DESeqDataset` and `DESeqResults` objects using 3 possible algorithms, widely used:
 
@@ -180,8 +184,6 @@ mosdef_res_check(res_macrophage_IFNg_vs_naive)
 
 `r BiocStyle::Biocpkg("topGO")` is a widely used option to obtain a set of spot-on Gene Ontology terms, removing some of the more generic ones and therefore also reducing the redundancy which is inherent in the GO database [@Ashburner2000].
 
-
-
 ```{r runtopgo}
 library("topGO")
 res_enrich_macrophage_topGO <- run_topGO(
@@ -220,22 +222,22 @@ Other possibilities are only up-/down-regulated ("up"/"down") genes.
   In this case, we take the top 700 highest DE genes based of padj score.
   If this number is bigger than the total amount of de genes the parameter defaults back to all genes.
 * `verbose`: Whether or not to summarise the analysis in a message.
-  
-This will return a table with `r ncol(res_enrich_macrophage_topGO)`  columns. They contain:
-
-* `GO.ID`: The computer readable GO term ID.
-* `Term`: The human readable GO term name.
-* `Annotated`: The number of genes in your dataset that are associated with this term (TODO Or is this the number of genes overall associated with this term.And then in the col "Significant" is the number of these term associated genes that are significantly enriched in the analyzed dataset )
-* `Significant`: The number of significantly enriched genes in your data associated with that term
-* `Expected`: The expected number of significant genes associated with that  term based of of the number of genes that were provided.
-* `Rank in p.value_classic`: TODO No idea
-* `p.value_elim`: FDR of your findings and the parameter we suggest to use for further subsetting of your result
-* `p.value_classic`: uncorrected pvalue? TODO
-* `genes`: Which genes from your data, associated with that term, were significantly enriched. This column will later on be used to label the genes in the go_volcano function (see below)
 
 ```{r resultstopgo}
 head(res_enrich_macrophage_topGO)
 ```
+
+This will return a table with `r ncol(res_enrich_macrophage_topGO)` columns. They contain:
+
+* `GO.ID`: The computer readable GO term ID.
+* `Term`: The human readable GO term name.
+* `Annotated`: The overall number of detected genes associated with this term (as defined in the `de_container` or in the `bg_genes` parameters).
+* `Significant`: The number of DE genes associated with this term (as defined in the `res_de` or in the `de_genes` parameters)
+* `Expected`: The expected number of genes associated with this term.
+* `Rank in p.value_classic`: specifies the rank of each term, if using the ascending order of `p.value_classic` to sort the entries.
+* `p.value_elim`: p-value for the enrichment test of each term (recommended for sorting the table), based on the `elim` algorithm in `topGO`.
+* `p.value_classic`: p-value for the enrichment, using the "classical" Fisher test.
+* `genes`: Specifies which DE genes are associated with that term (separated by a comma). This column will later on be used to label the genes in the `go_volcano()` function (see below in Section \@ref(volcanoplots))
 
 
 ## `mosdef` and `goseq`
@@ -267,15 +269,15 @@ head(res_enrich_macrophage_goseq)
 The function will return a table with `r ncol(res_enrich_macrophage_goseq)` columns
 
 * `category`: The computer readable GO term ID.
-* `over_represented_pvalue`: FDR of your findings 
-* `under_represented_pvalue`: TODO No idea
-* `numDEInCat`: The number of genes differentially expressed in your data associated with this term
-* `numInCat` The number of genes overall associated with this term
+* `over_represented_pvalue`: p-value for the overrepresentation test for enrichment (as specified by the `goseq` algorithm)
+* `under_represented_pvalue`: p-value for the underrepresentation test for enrichment
+* `numDEInCat`: The number of DE genes associated with this term (as defined in the `res_de` or in the `de_genes` parameters) (similar to the `Annotated` column of the output from `run_topGO()``)
+* `numInCat` The overall number of detected genes associated with this term (as defined in the `de_container` or in the `bg_genes` parameters).
 * `term`: The human readable GO term name.
-* `ontology`: The ontology analysed (usually BP for Biological process for more info on the different ontologies please consult AMIGO (TODO can we say this here?))
-* `p.adj`: FDR of your findings adjusted for multiple testing, and the parameter we suggest to use for further subsetting of your result
-* `genes`: Which genes from your data, associated with that term, were significantly enriched as Ensemble IDs. 
-* `genesymbols`: Which genes from your data, associated with that term, were significantly enriched as human readable gene symbols. This column could later on be used to label the genes in the go_volcano function (see below)
+* `ontology`: The ontology used to run the enrichment tests (BP/MF/CC)
+* `p.adj`: FDR of your findings adjusted for multiple testing
+* `genes`: Lists the DE gene identifiers associated with that term (separated by a comma)
+* `genesymbols`: Lists the DE gene symbols associated with that term (separated by a comma)
 
 ## `mosdef` and `clusterProfiler`
 
@@ -302,21 +304,14 @@ Again, to save time when rendering the vignette, we load the objects provided al
 
 ```{r resultsclupro}
 data(res_enrich_macrophage_cluPro, package = "mosdef")
+```
+The function will return a large enrich result containing some metadata and the enrichment results with `r ncol(as.data.frame(res_enrich_macrophage_cluPro))` columns.
+
+```{r cluproview}
 head(res_enrich_macrophage_cluPro)
 ```
-The function will return a large enrich result containing some metadata and the enrichment results with `r ncol(res_enrich_macrophage_cluPro@result)` columns (To look at this table in particular run: `View(res_enrich_macrophage_cluPro@result)`).
 
-These columns are:
-
-* `ID`: The computer readable GO term ID.
-* `Description`: The human readable GO term name.
-* `GeneRatio`: Ratio of significantly enriched genes in your data associated with the term vs significant genes in your data overall
-* `BgRatio`: Ratio of genes (significant and non significant) in your data associated with the term vs genes in your data overall TODO (Ok like this?)
-* `over_represented_pvalue`: FDR of your findings not corrected for multiple testing
-* `p.adjust`: FDR of your findings adjusted for multiple testing, and the parameter we suggest to use for further subsetting of your result
-* `qvalue`: TOD (no idea)
-* `geneID`: Which genes from your data, associated with that term, were significantly enriched as human readable gene symbols. This column could later on be used to label the genes in the go_volcano function (see below). Note that here they are split with a / not a , so if you use the go_volcano function with a clusterprofiler result ensure to set the `gene_col_seperator`parameter. 
-* `Count`: Number of significantly enriched genes in your data associated with the term
+The definitions of these columns are included in the extensive `r BiocStyle::Biocpkg("clusterProfiler")` package documentation, please refer to that for more details.
 
 ## Alternative ways to run enrichment analyses, within `mosdef`
 
@@ -363,7 +358,7 @@ Key parameters are in this case:
 Notably, `gene_plot()` also has some heuristics to suggest an appropriate layer of plotting the data points, depending on the number of samples included in each individual group - this include the simple jittered points, a boxplot, a violin plot, or a sina plot. 
 This automatic behavior can be suppressed by specifying a different value for the `plot_type` parameter.
 
-## All genes at once - Volcano plots
+## All genes at once - Volcano plots {#volcanoplots}
 
 Volcano plots are one of the most well known and used plots to display differentially expressed genes. 
 These functions return a basic `ggplot` object including the most important parts when creating a volcano plot. 
@@ -382,11 +377,8 @@ volcPlot
 Again, an overview on the key parameters:
 
 * `res_de`: Your `DESeqResults`
-
 * `mapping`: The annotation/species: Important to generate symbols for labeling.
-
 * `labeled_genes`: The number of the top DE genes to be labeled. Default is 30.
-
 * `L2FC_cutoff`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05.  
 
 As mentioned above the user can now expand upon this with all the tools in the ggplot2 toolbox. For example:
@@ -524,13 +516,9 @@ buttonifier(
 Again, an overview of the key parameters:
 
 * `df`: A data.frame object containing your data. To get one from your `DESeqResults` data use the function: `deresult_to_df()`.
-
 * `col_to_use`: Column where the gene names are stored, default is "SYMBOL", in this example however the column is named "symbol".
-
 * `new_cols`: All of the supported websites. You can pick however many you want.
-
 * `ens_col`: Where to find the Ensembl IDs in case you want to turn those into buttons too. If not this defaults to NULL and that part is skipped.
-
 * `ens_species`: The species you are working on. Only needed if you want to turn the Ensembl IDs into buttons.
 
 
