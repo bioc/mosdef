@@ -1,7 +1,7 @@
 test_that("enrich_result is created and top_de works", {
   res_enrich_macrophage_topGO_topde <- run_topGO(
+    de_container = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
-    dds = dds_macrophage,
     mapping = "org.Hs.eg.db",
     top_de = 400
   )
@@ -19,16 +19,16 @@ test_that("enrich_result is created and top_de works", {
 
 test_that("enrich_result is created only for up or down -regulated genes", {
   res_enrich_macrophage_topGO_up <- run_topGO(
+    de_container = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
-    dds = dds_macrophage,
     mapping = "org.Hs.eg.db",
     de_type = "up"
   )
   expect_s3_class(res_enrich_macrophage_topGO_up, "data.frame")
 
   res_enrich_macrophage_topGO_down <- run_topGO(
+    de_container = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
-    dds = dds_macrophage,
     mapping = "org.Hs.eg.db",
     de_type = "down"
   )
@@ -39,8 +39,8 @@ test_that("enrich_result is created only for up or down -regulated genes", {
 test_that("Error is thrown if wrong topGO method is used", {
   expect_error(
     run_topGO(
+      de_container = dds_macrophage,
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage,
       mapping = "org.Hs.eg.db",
       topGO_method2 = "test"
     )
@@ -48,8 +48,8 @@ test_that("Error is thrown if wrong topGO method is used", {
 })
 test_that("do_paj works", {
   res_enrich_macrophage_topGO_padj <- run_topGO(
+    de_container = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
-    dds = dds_macrophage,
     mapping = "org.Hs.eg.db",
     do_padj = TRUE
   )

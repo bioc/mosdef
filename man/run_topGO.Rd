@@ -5,8 +5,8 @@
 \title{Extract functional terms enriched in the DE genes, based on topGO}
 \usage{
 run_topGO(
+  de_container = NULL,
   res_de = NULL,
-  dds = NULL,
   de_genes = NULL,
   bg_genes = NULL,
   top_de = NULL,
@@ -25,9 +25,15 @@ run_topGO(
 )
 }
 \arguments{
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
+\item{de_container}{An object containing the data for a Differential
+Expression workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqDataSet} object, normally obtained after
+running your data through the \code{DESeq2} framework.}
 
-\item{dds}{A DESeqDataset object created using \code{DESeq2}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
 \item{de_genes}{A vector of (differentially expressed) genes}
 
@@ -110,8 +116,8 @@ library("AnnotationDbi")
 library("org.Hs.eg.db")
 library("topGO")
 topgoDE_macrophage <- run_topGO(
+  de_container = dds_macrophage,
   res_de = res_macrophage_IFNg_vs_naive,
-  dds = dds_macrophage,
   ontology = "BP",
   mapping = "org.Hs.eg.db",
   gene_id = "symbol",

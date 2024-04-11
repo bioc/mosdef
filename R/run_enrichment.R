@@ -8,8 +8,14 @@
 #' \code{parentchild}. For more details on this, please refer to the original
 #' documentation of the \code{topGO} package itself
 #'
-#' @param res_de A DESeqResults object created using \code{DESeq2}
-#' @param dds A DESeqDataset object created using \code{DESeq2}
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param de_genes A vector of (differentially expressed) genes
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes in
 #' the assays
@@ -76,14 +82,14 @@
 #' library("org.Hs.eg.db")
 #' library("topGO")
 #' topgoDE_macrophage <- run_topGO(
+#'   de_container = dds_macrophage,
 #'   res_de = res_macrophage_IFNg_vs_naive,
-#'   dds = dds_macrophage,
 #'   ontology = "BP",
 #'   mapping = "org.Hs.eg.db",
 #'   gene_id = "symbol",
 #' )
-run_topGO <- function(res_de = NULL, # Differentially expressed genes
-                      dds = NULL, # background genes
+run_topGO <- function(de_container = NULL,
+                      res_de = NULL,
                       de_genes = NULL,
                       bg_genes = NULL,
                       top_de = NULL,
@@ -109,7 +115,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
     several.ok = FALSE)
 
   # Check if there is any input at all
-  if (is.null(c(de_genes, bg_genes, dds, res_de))) {
+  if (is.null(c(de_genes, bg_genes, de_container, res_de))) {
     stop(
       "Please provide one of the following forms of input: \n",
       "A vector of differentially expressed genes and a vector of backgoud genes. \n",
@@ -118,12 +124,12 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   }
 
   # Check if there only a res_de is given
-  if (!is.null(res_de) & is.null(dds)) {
+  if (!is.null(res_de) & is.null(de_container)) {
     stop("Please also provide a DESeq2Dataset (dds) object.")
   }
 
-  # check if only dds is given
-  if (!is.null(dds) & is.null(res_de)) {
+  # check if only de_container is given
+  if (!is.null(de_container) & is.null(res_de)) {
     stop("Please also provide a DESeq2 result object.")
   }
 
@@ -151,37 +157,37 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
-      "The argument de_type can only be used if a dds and a res_de object are provided:\n",
+      "The argument de_type can only be used if a de_container and a res_de object are provided:\n",
       "please either provide these objects or if you want to work with gene vectors set de_type to: 'up_and_down'"
     )
   }
 
   annot_to_map_to <- get(mapping)
 
-  if (!is.null(res_de) && !is.null(dds)) {
+  if (!is.null(res_de) && !is.null(de_container)) {
     # Check if the inputs are the correct type
 
-    if (!is(dds, "DESeqDataSet")) {
-      stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
+    if (!is(de_container, "DESeqDataSet")) {
+      stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
     }
 
     if (!is(res_de, "DESeqResults")) {
       stop("The provided `res_de` is not a DESeqResults object, please check your input parameters.")
     }
 
-    # checking that results and dds are related
-    ## at least a subset of dds should be in res
-    if (!all(rownames(res_de) %in% rownames(dds))) {
+    # checking that results and de_container are related
+    ## at least a subset of de_container should be in res
+    if (!all(rownames(res_de) %in% rownames(de_container))) {
       warning(
-        "It is likely that the provided `dds` and `res_de` objects are not related ",
-        "to the same dataset (the row names of the results are not all in the dds). ",
+        "It is likely that the provided `de_container` and `res_de` objects are not related ",
+        "to the same dataset (the row names of the results are not all in the de_container). ",
         "Are you sure you want to proceed?"
       )
     }
 
-    # Check if DESeq was run on the dds
-    if (!"results" %in% mcols(mcols(dds))$type) {
-      stop("I couldn't find results in your dds. You should first run DESeq2::DESeq() on your dds.")
+    # Check if DESeq was run on the de_container
+    if (!"results" %in% mcols(mcols(de_container))$type) {
+      stop("I couldn't find results in your de_container. You should first run DESeq2::DESeq() on your de_container.")
     }
 
     res_de$symbol <- AnnotationDbi::mapIds(annot_to_map_to,
@@ -207,7 +213,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
-    bg_ids <- rownames(dds)[rowSums(counts(dds)) > min_counts]
+    bg_ids <- rownames(de_container)[rowSums(counts(de_container)) > min_counts]
     bg_genes <- AnnotationDbi::mapIds(annot_to_map_to,
                                       keys = bg_ids,
                                       column = "SYMBOL",

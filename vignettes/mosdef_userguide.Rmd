@@ -187,8 +187,8 @@ mosdef_res_check(res_macrophage_IFNg_vs_naive)
 ```{r runtopgo}
 library("topGO")
 res_enrich_macrophage_topGO <- run_topGO(
+  de_container = dds_macrophage,
   res_de = res_macrophage_IFNg_vs_naive,
-  dds = dds_macrophage,
   ontology = "BP",
   mapping = "org.Hs.eg.db",
   gene_id = "symbol",
@@ -206,8 +206,8 @@ Not all of these results are significant, and this list can (should) be further 
 
 The key parameters for `run_topGO()` are defined as follows:
 
+* `de_container`: Your `DESeqDataset` object
 * `res_de`: Your `DESeqResults` object
-* `dds`: Your `DESeqDataset` object
 * `ontology`: Which gene ontology to analyse, default is "BP"
 * `mapping`: The annotation/species
 * `gene_id`: Which format the genes are provided. If you provide a `DESeqDataset` and `DESeqResults`, then `r BiocStyle::Biocpkg("mosdef")` does it for you and uses symbols. If you provide vectors please specify a value.

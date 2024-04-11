@@ -25,8 +25,8 @@ save(res_macrophage_IFNg_vs_naive, file = "data/res_de_macrophage.RData", compre
 # res_enrich object topGO ------------------------------------------------------
 library("topGO")
 res_enrich_macrophage_topGO <- run_topGO(
+  de_container = dds_macrophage,
   res_de = res_macrophage_IFNg_vs_naive,
-  dds = dds_macrophage,
   ontology = "BP",
   mapping = "org.Hs.eg.db",
   gene_id = "symbol",

@@ -46,8 +46,8 @@ test_that("Early fails are triggered", {
 
   expect_error({
     run_topGO(
+      de_container = dds_macrophage,
       res_de = myde,
-      dds = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
       gene_id = "symbol"
@@ -58,13 +58,14 @@ test_that("check if dds are dds and vecs are vecs", {
   expect_error({
     run_cluPro(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = myassayed,
+      de_container = myassayed,
       mapping = "org.Hs.eg.db"
     )
   })
 
   expect_error({
-    gene_plot(res_macrophage_IFNg_vs_naive,
+    gene_plot(
+      de_container = res_macrophage_IFNg_vs_naive,
       gene = "ENSG00000125347",
       intgroup = "condition",
       annotation_obj = anno_df
@@ -81,8 +82,8 @@ test_that("check if dds are dds and vecs are vecs", {
 
   expect_error({
     run_topGO(
+      de_container = myassayed,
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = myassayed,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
       gene_id = "symbol"
@@ -166,8 +167,8 @@ test_that("Check if de_type is correct", {
 
   expect_error({
     run_topGO(
+      de_container = dds_macrophage,
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
       gene_id = "symbol",
@@ -207,8 +208,8 @@ test_that("res_de and dds are related", {
   expect_warning(
     {
       run_topGO(
+        de_container = dds_mock,
         res_de = res_mock,
-        dds = dds_mock,
         ontology = "BP",
         mapping = "org.Hs.eg.db",
         gene_id = "symbol"
@@ -238,8 +239,8 @@ test_that("DESeq was run on the dds", {
 
   expect_error({
     run_topGO(
+      de_container = dds_macrophage_nodeseq,
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage_nodeseq,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
       gene_id = "symbol"
@@ -268,7 +269,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
 
   expect_error({
     run_topGO(
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
       gene_id = "symbol"
