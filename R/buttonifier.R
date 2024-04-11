@@ -105,7 +105,13 @@ buttonifier <- function(df,
   }
 
   if (output_format == "DT") {
-    return(DT::datatable(df, escape = FALSE, rownames = FALSE))
+    return(
+      DT::datatable(df, escape = FALSE, rownames = FALSE,
+                    options = list(
+                      scrollX = TRUE
+                    )
+      )
+    )
   } else if (output_format == "DF") {
     df <- data.frame(df)
     return(df)
