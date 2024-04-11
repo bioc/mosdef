@@ -368,8 +368,9 @@ This can be later expanded upon like any regular `ggplot` object by the user.
 volcPlot <- de_volcano(
   res_de = res_macrophage_IFNg_vs_naive,
   mapping = "org.Hs.eg.db",
-  labeled_genes = 25,
-  logfc_cutoff = 1
+  logfc_cutoff = 1,
+  FDR = 0.05, 
+  labeled_genes = 25
 )
 volcPlot
 ```
@@ -379,7 +380,7 @@ Again, an overview on the key parameters:
 * `res_de`: Your `DESeqResults`
 * `mapping`: The annotation/species: Important to generate symbols for labeling.
 * `labeled_genes`: The number of the top DE genes to be labeled. Default is 30.
-* `logfc_cutoff`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05.  
+* `logfc_cutoff` and `FDR`: Where to draw the lines in the plot and which genes to mark as significant. The default is 1 (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05.  
 
 As mentioned above the user can now expand upon this with all the tools in the ggplot2 toolbox. For example:
 
@@ -403,6 +404,7 @@ Volc_GO <- go_volcano(
   res_enrich = res_enrich_macrophage_topGO,
   term_index = 1,
   logfc_cutoff = 1,
+  FDR = 0.05,
   mapping = "org.Hs.eg.db",
   n_overlaps = 50,
   col_to_use = "symbol",
@@ -420,7 +422,7 @@ The key parameters:
 * `res_de`: Your `DESeqResults`
 * `res_enrich`: Your enrichment results
 * `term_index`: The index(row) where your term of interest is located in your enrichment result.
-* `logfc_cutoff`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05. 
+* `logfc_cutoff` and `FDR`: Where to draw the lines in the plot and which genes to mark as significant. The default is one (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05. 
 * `mapping`: The annotation/species: Important to generate symbols for labeling.
 * `n_overlaps`: The number of overlaps `ggrepell` is supposed to allow for labeling (increases  number of labeled genes).
 * `col_to_use`: Name of the column in your res_de containing the gene symbols.
