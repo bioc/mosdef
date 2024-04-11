@@ -77,9 +77,9 @@ mosdef_res_check <- function(res_de,
 #' dds_macrophage <- dds_macrophage[keep, ]
 #' dds_macrophage <- DESeq(dds_macrophage)
 #'
-#' mosdef_dds_check(dds_macrophage)
-mosdef_dds_check <- function(dds,
-                             verbose = FALSE) {
+#' mosdef_de_container_check(dds_macrophage)
+mosdef_de_container_check <- function(dds,
+                                      verbose = FALSE) {
   if (all(grep(pattern = "^ENS", rownames(dds)))) {
     if (verbose) message("Rownames are ENSEMBL IDs.")
   } else {

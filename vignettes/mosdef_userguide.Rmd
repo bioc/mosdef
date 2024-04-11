@@ -175,7 +175,7 @@ We indeed recommend to use identifiers as row names that are machine-readable an
 To ensure that we are using objects that would work out-of-the-box into `r BiocStyle::Biocpkg("mosdef")`, we provide some utilities to check that in advance - this can relax the need of specifying a number of parameters in the other functions.
 
 ```{r checkfunctions}
-mosdef_dds_check(dds_macrophage)
+mosdef_de_container_check(dds_macrophage)
 mosdef_res_check(res_macrophage_IFNg_vs_naive)
 ```
 
