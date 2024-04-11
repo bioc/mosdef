@@ -295,6 +295,19 @@ Again, to save time when rendering the vignette, we load the objects provided al
 data(res_enrich_macrophage_cluPro, package = "mosdef")
 head(res_enrich_macrophage_cluPro)
 ```
+The function will return a large enrich result containing some metadata and the enrichment results with `r ncol(res_enrich_macrophage_cluPro@result)` columns (To look at this table in particular run: `View(res_enrich_macrophage_cluPro@result)`).
+
+These columns are:
+
+* `ID`: The computer readable GO term ID.
+* `Description`: The human readable GO term name.
+* `GeneRatio`: Ratio of significantly enriched genes in your data associated with the term vs significant genes in your data overall
+* `BgRatio`: Ratio of genes (significant and non significant) in your data associated with the term vs genes in your data overall TODO (Ok like this?)
+* `over_represented_pvalue`: FDR of your findings not corrected for multiple testing
+* `p.adjust`: FDR of your findings adjusted for multiple testing, and the parameter we suggest to use for further subsetting of your result
+* `qvalue`: TOD (no idea)
+* `geneID`: Which genes from your data, associated with that term, were significantly enriched as human readable gene symbols. This column could later on be used to label the genes in the go_volcano function (see below). Note that here they are split with a / not a , so if you use the go_volcano function with a clusterprofiler result ensure to set the `TODO`parameter. (Also test if go_volcano works with clupro at all)
+* `Count`: Number of significantly enriched genes in your data associated with the term
 
 ## Alternative ways to run enrichment analyses, within `mosdef`
 
