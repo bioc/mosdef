@@ -42,7 +42,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    airway,
     macrophage,
     org.Hs.eg.db,
     GeneTonic,

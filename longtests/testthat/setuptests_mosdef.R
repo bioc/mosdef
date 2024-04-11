@@ -52,16 +52,11 @@ annotationobject <- deresult_to_df(res_macrophage_IFNg_vs_naive)
 annotationobject <- annotationobject["SYMBOL"]
 
 
-# airway
-library("airway")
-# Get  the base data
-data(airway, package = "airway")
-
-# Get a dds object and a res object
-dds_airway <- DESeqDataSet(airway, design = ~ cell + dex)
-dds_airway <- DESeq(dds_airway)
-
-res_airway_nosymbols <- results(dds_airway)
+# Get a mock dds object and a res object
+set.seed(42)
+dds_mock <- DESeq2::makeExampleDESeqDataSet(n = 100, m = 8, betaSD = 2)
+dds_mock <- DESeq(dds_mock)
+res_mock <- results(dds_mock)
 
 # res_enrich
 data(res_enrich_macrophage_topGO, package = "mosdef")

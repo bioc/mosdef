@@ -562,7 +562,6 @@ run_goseq <- function(res_de = NULL,
       row.names = all_ens_ids
     )
 
-    # and also TODO: do this only if genes are not already symbols
     goseq_out$genesymbols <- lapply(goseq_out$genes, function(x) {
       sort(lut_genes[x, "gene_name"])
     })

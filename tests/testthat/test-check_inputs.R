@@ -181,7 +181,7 @@ test_that("res_de and dds are related", {
     {
       run_cluPro(
         res_de = res_macrophage_IFNg_vs_naive,
-        dds = dds_airway,
+        dds = dds_mock,
         mapping = "org.Hs.eg.db"
       )
     },
@@ -194,7 +194,7 @@ test_that("res_de and dds are related", {
     {
       run_goseq(
         res_de = res_macrophage_IFNg_vs_naive,
-        dds = dds_airway,
+        dds = dds_mock,
         mapping = "org.Hs.eg.db",
         add_gene_to_terms = FALSE
       )
@@ -208,7 +208,7 @@ test_that("res_de and dds are related", {
     {
       run_topGO(
         res_de = res_macrophage_IFNg_vs_naive,
-        dds = dds_airway,
+        dds = dds_mock,
         ontology = "BP",
         mapping = "org.Hs.eg.db",
         geneID = "symbol"
