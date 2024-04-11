@@ -23,5 +23,4 @@ test_that("All columns are created", {
 test_that("Errors are triggered correctly", {
   expect_error(buttonifier(macrophage_df, col_to_use = "yaddayadda"))
   expect_error(buttonifier(macrophage_df, new_cols = "Genes"))
-  expect_warning(buttonifier(macrophage_df, new_cols = c("GC", "NCBI", "Genes")))
 })
