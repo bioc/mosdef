@@ -66,6 +66,8 @@ functions.
 }
 \examples{
 
+library("org.Hs.eg.db")
+
 data(res_de_macrophage, package = "mosdef")
 data(res_enrich_macrophage_topGO, package = "mosdef")
 
