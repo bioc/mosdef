@@ -73,16 +73,6 @@ buttonifier <- function(df,
     choices = c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED"),
     several.ok = TRUE)
 
-  for (i in seq_len(length(new_cols))) {
-    if ((new_cols[i] %in% c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED")) == FALSE) {
-      warning(
-        "Please make sure you used the values suggested in the documentation. \n",
-        "One or more of the following values entered into new_cols is not supported: \n",
-        new_cols[new_cols %in% c("GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA", "PUBMED") == FALSE]
-      )
-    }
-  }
-
   output_format <- match.arg(
     output_format,
     choices = c("DT", "DF"))
