@@ -140,6 +140,9 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
     )
   }
 
+  
+  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
+  # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
       "The argument de_type can only be used if a dds and a res_de object are provided:\n",
@@ -426,8 +429,10 @@ run_goseq <- function(res_de = NULL,
   if (!is.null(de_genes) & is.null(bg_genes)) {
     stop("Please also provide  a vector of background genes.")
   }
-
-  if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
+  
+  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
+  # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
+    if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
       "The argument de_type can only be used if a dds and a res_de object are provided:\n",
       "please either provide these objects or if you want to work with gene vectors set de_type to: 'up_and_down'"
@@ -687,6 +692,8 @@ run_cluPro <- function(res_de = NULL,
 
   # checking the additional topGO_method2
 
+  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
+  # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
       "The argument de_type can only be used if a dds and a res_de object are provided:\n",
