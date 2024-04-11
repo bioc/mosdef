@@ -42,13 +42,13 @@ res_macrophage_IFNg_vs_naive$SYMBOL <- AnnotationDbi::mapIds(org.Hs.eg.db,
   multiVals = "first"
 )
 res_macrophage_IFNg_vs_naive$symbol <- res_macrophage_IFNg_vs_naive$SYMBOL
-macrophage_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+macrophage_df <- deresult_to_df(res_macrophage_IFNg_vs_naive)
 
 # get a vector of de and bg genes
-res_subset <- deseqresult2df(res_macrophage_IFNg_vs_naive)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:500, ]
 myde <- res_subset$id
 myassayed <- rownames(res_macrophage_IFNg_vs_naive)
-annotationobject <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+annotationobject <- deresult_to_df(res_macrophage_IFNg_vs_naive)
 annotationobject <- annotationobject["SYMBOL"]
 
 

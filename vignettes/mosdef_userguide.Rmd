@@ -48,7 +48,7 @@ This includes functionality for
 
 * decorating and improving your analysis reports (assuming these are generated as Rmarkdown documents). 
   This can enhance the experience of browsing the results by automatical linking to external databases (ENSEMBL, GTEX, HPA, NCBI, ... via `create_link_` functions, wrapped into a `buttonifier` to seamlessly multiply the information in a simple tabular representation). 
-  Additional info on frequently used features such as genes and Gene Ontology terms can also be embedded with `geneinfo_2_html` and `go_2_html`
+  Additional info on frequently used features such as genes and Gene Ontology terms can also be embedded with `geneinfo_to_html` and `go_to_html`
 
 The `r BiocStyle::Biocpkg("mosdef")` package as a whole aims to collect the MOSt frequently used DE-related Functions, and is open to further contributions from the community.
 
@@ -315,7 +315,7 @@ All of these functions tailored to run enrichment methods also work if you only 
 Most of the above mentioned parameters work here as well (`top_de`, `verbose`), however parameters like `min_counts` and `de_type` will not affect the result, since they need further information which can only be found in the `DESeqDataset` and `DESeqResults` (in this case, access to the counts from the `DESeqDataset` object `dds` and the Log2FoldChange from the `DESeqResults` object passed to `res_de`).
 
 ```{r topgoalt}
-res_subset <- deseqresult2df(res_macrophage_IFNg_vs_naive)[1:500, ] # reduce size to increase computational speed
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:500, ] # reduce size to increase computational speed
 myde <- res_subset$id
 myassayed <- rownames(res_macrophage_IFNg_vs_naive)
 ## Here keys are Ensembl not symbols
@@ -501,7 +501,7 @@ You can access all of these easily by using one function that uses a `data.frame
 
 ```{r runbuttonifier}
 # creating a smaller subset for visualization purposes and to keep the main res_de
-res_subset <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
 
 buttonifier(
   df = res_subset,
@@ -514,7 +514,7 @@ buttonifier(
 
 Again, an overview of the key parameters:
 
-* `df`: A data.frame object containing your data. To get one from your `DESeqResults` data use the function: `deseqresult2df()`.
+* `df`: A data.frame object containing your data. To get one from your `DESeqResults` data use the function: `deresult_to_df()`.
 
 * `col_to_use`: Column where the gene names are stored, default is "SYMBOL", in this example however the column is named "symbol".
 
@@ -531,7 +531,7 @@ This is to ensure that the `escape = FALSE` parameter of `datatable` is set and 
 Advanced users that want further customization options to their `datatable` can ensure a `data.frame` is returned using the `output_format` parameter (then the `escape = FALSE` must be set by hand):
 
 ```{r dtcustomized}
-res_subset <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
 
 res_subset <- buttonifier(res_subset,
   col_to_use = "symbol",
@@ -584,7 +584,7 @@ DT::datatable(res_subset, escape = FALSE)
 For information on singular genes you can use:
 
 ```{r geneinfo}
-geneinfo_2_html("IRF1",
+geneinfo_to_html("IRF1",
   res_de = res_macrophage_IFNg_vs_naive,
   col_to_use = "symbol"
 )
@@ -593,7 +593,7 @@ geneinfo_2_html("IRF1",
 It can however also be used without a res_de for a general overview.
 
 ```{r geneinfocompact}
-geneinfo_2_html("ACTB")
+geneinfo_to_html("ACTB")
 ```
 
 This can be a practical way to generate some HTML content to be embedded e.g. in other contexts such as dashboards, as it is currently implemented in `r BiocStyle::Biocpkg("pcaExplorer")`, `r BiocStyle::Biocpkg("ideal")` and `r BiocStyle::Biocpkg("GeneTonic")`.
@@ -611,7 +611,7 @@ Setting `escape = FALSE` is important here to ensure the link is turned into a b
 To get information on a singular GO term of interest you can use:
 
 ```{r goinfo}
-go_2_html("GO:0001525")
+go_to_html("GO:0001525")
 ```
 
 This not only creates a link to the AmiGO database, but also extracts some information about the term itself from the `r BiocStyle::Biocpkg("GO.db")` package.

@@ -20,9 +20,9 @@
 #' library("macrophage")
 #' data(res_de_macrophage, package = "mosdef")
 #' head(res_macrophage_IFNg_vs_naive)
-#' res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+#' res_df <- deresult_to_df(res_macrophage_IFNg_vs_naive)
 #' head(res_df)
-deseqresult2df <- function(res_de, FDR = NULL) {
+deresult_to_df <- function(res_de, FDR = NULL) {
   if (!is(res_de, "DESeqResults")) {
     stop("Not a DESeqResults object.")
   }

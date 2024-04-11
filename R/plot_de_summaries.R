@@ -87,7 +87,7 @@ plot_ma <- function(res_de,
   }
 
   ma_df$logmean <- log10(ma_df$mean) # TO ALLOW FOR BRUSHING!!
-  
+
   ma_df$DE <- ifelse(ma_df$isDE, "red", "black")
 
   p <- ggplot(ma_df, aes(x = .data$logmean, y = .data$lfc, colour = .data$DE))
@@ -133,7 +133,7 @@ plot_ma <- function(res_de,
       df_intgenes$myids <- rownames(df_intgenes)
     }
 
-    
+
     p <- p + geom_point(data = df_intgenes, aes(.data$logmean, .data$log2FoldChange), color = intgenes_color, size = 4)
 
     if (labels_intgenes) {
@@ -170,7 +170,7 @@ plot_ma <- function(res_de,
 #' according to the species
 #' @param L2FC_cutoff A numeric value that sets the cutoff for the xintercept
 #' argument of ggplot
-#' @param FDR_threshold The pvalue threshold to us for counting genes as de 
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de
 #' and therefore also where to draw the line in the plot. Default is 0.05
 #' @param labeled_genes A numeric value describing the amount of genes to be labeled.
 #' This uses the Top(x) highest differentially expressed genes
@@ -220,7 +220,7 @@ de_volcano <- function(res_de,
                           multiVals = "first"
   )
 
-  df <- deseqresult2df(res_de)
+  df <- deresult_to_df(res_de)
 
   # finding the highest value in the log2FoldChange column and rounding it up to get a nice symetric plot
   x_limit <- ceiling(max(abs(range(df$log2FoldChange, na.rm = TRUE))))
@@ -269,12 +269,12 @@ de_volcano <- function(res_de,
 #' @param mapping Which \code{org.XX.eg.db} to use for annotation - select according to the species
 #' @param term_index The location (row) of your GO term of interest in your enrichment result
 #' @param L2FC_cutoff A numeric value that sets the cutoff for the xintercept argument of ggplot
-#' @param FDR_threshold The pvalue threshold to us for counting genes as de 
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de
 #' and therefore also where to draw the line in the plot. Default is 0.05
 #' @param col_to_use The column in your differential expression results containing your gene symbols.
 #'  If you don't have one it is created automatically
 #' @param enrich_col column name from your res_enrich where the genes associated with your GOterm are stored (for example see the [run_topGO()] result in mosdef)
-#' @param gene_col_seperator The seperator used to split the genes. 
+#' @param gene_col_seperator The seperator used to split the genes.
 #' If you used topGO or goseq this is a "," which is the default. (For an example see the [run_topGO()] result in mosdef)
 #' If you used clusterProfiler this has to be set to "/". (For example see the [run_cluPro()] result in mosdef)
 #' @param down_col The colour for your downregulated genes, default is "gray"
@@ -334,11 +334,11 @@ go_volcano <- function(res_de,
   # Add a check if the provided result is an enrichResult (check if cluPro was used)
   # if True, extracts the result into a data.frame
   if(class(res_enrich_macrophage_cluPro) == "enrichResult" ){
-    
+
     res_enrich <- as.data.frame(res_enrich@result)
-    
+
   }
-  
+
   if (is.null(col_to_use)) {
     res_de$symbol <- mapIds(get(mapping),
                             keys = row.names(res_de),
@@ -350,7 +350,7 @@ go_volcano <- function(res_de,
     res_de$symbol <- res_de[[col_to_use]]
   }
 
-  df <- deseqresult2df(res_de)
+  df <- deresult_to_df(res_de)
 
   # finding the highest value in the log2FoldChange column and rounding it up to get a nice symetric plot
   x_limit <- ceiling(max(abs(range(df$log2FoldChange, na.rm = TRUE))))

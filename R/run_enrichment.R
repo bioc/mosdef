@@ -94,10 +94,10 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   ## Checks:
 
   # Check if de-type is correct
- 
+
   de_type <- match.arg(
-    de_type, 
-    choices = c("up_and_down", "up", "down"), 
+    de_type,
+    choices = c("up_and_down", "up", "down"),
     several.ok = FALSE)
 
   # Check if there is any input at all
@@ -138,8 +138,8 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
       paste(topgo_methods, collapse = ", ")
     )
   }
-  
-  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
+
+  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
@@ -278,7 +278,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   }
 
   # subset to specified number of rows
-  
+
   topTablerows <- nrow(sTab)
   sTab <- sTab[seq_len(topTablerows), ]
 
@@ -398,8 +398,8 @@ run_goseq <- function(res_de = NULL,
 ) {
   ## Checks:
   de_type <- match.arg(
-    de_type, 
-    choices = c("up_and_down", "up", "down"), 
+    de_type,
+    choices = c("up_and_down", "up", "down"),
     several.ok = FALSE)
 
   # Check if there is any input at all
@@ -430,8 +430,8 @@ run_goseq <- function(res_de = NULL,
   if (!is.null(de_genes) & is.null(bg_genes)) {
     stop("Please also provide  a vector of background genes.")
   }
-  
-  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
+
+  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
     if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
@@ -467,12 +467,12 @@ run_goseq <- function(res_de = NULL,
     }
 
     if (de_type == "up_and_down") {
-      res_de_subset <- deseqresult2df(res_de, FDR = FDR_threshold)
+      res_de_subset <- deresult_to_df(res_de, FDR = FDR_threshold)
     } else if (de_type == "up") {
-      res_de_subset <- deseqresult2df(res_de, FDR = FDR_threshold)
+      res_de_subset <- deresult_to_df(res_de, FDR = FDR_threshold)
       res_de_subset <- res_de_subset[res_de_subset$log2FoldChange >= 0, ]
     } else if (de_type == "down") {
-      res_de_subset <- deseqresult2df(res_de, FDR = FDR_threshold)
+      res_de_subset <- deresult_to_df(res_de, FDR = FDR_threshold)
       res_de_subset <- res_de_subset[res_de_subset$log2FoldChange <= 0, ]
     }
 
@@ -656,10 +656,10 @@ run_cluPro <- function(res_de = NULL,
   # Check if de_type is correct
 
   de_type <- match.arg(
-    de_type, 
-    choices = c("up_and_down", "up", "down"), 
+    de_type,
+    choices = c("up_and_down", "up", "down"),
     several.ok = FALSE)
-  
+
   # Check if there is any input at all
   if (is.null(c(de_genes, bg_genes, dds, res_de))) {
     stop(
@@ -690,7 +690,7 @@ run_cluPro <- function(res_de = NULL,
   }
 
 
-  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the 
+  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(

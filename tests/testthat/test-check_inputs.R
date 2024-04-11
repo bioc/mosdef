@@ -18,7 +18,7 @@ test_that("Early fails are triggered", {
   })
 
   expect_error({
-    deseqresult2df(myde)
+    deresult_to_df(myde)
   })
   expect_error({
     signature_volcano(myde)
