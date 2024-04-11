@@ -7,8 +7,8 @@
 de_volcano(
   res_de,
   mapping = "org.Mm.eg.db",
-  L2FC_cutoff = 1,
-  FDR_threshold = 0.05,
+  logfc_cutoff = 1,
+  FDR = 0.05,
   labeled_genes = 30
 )
 }
@@ -18,10 +18,10 @@ de_volcano(
 \item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
 according to the species}
 
-\item{L2FC_cutoff}{A numeric value that sets the cutoff for the xintercept
+\item{logfc_cutoff}{A numeric value that sets the cutoff for the xintercept
 argument of ggplot}
 
-\item{FDR_threshold}{The pvalue threshold to us for counting genes as de
+\item{FDR}{The pvalue threshold to us for counting genes as de
 and therefore also where to draw the line in the plot. Default is 0.05}
 
 \item{labeled_genes}{A numeric value describing the amount of genes to be labeled.
@@ -44,7 +44,7 @@ library("org.Hs.eg.db")
 data(res_de_macrophage, package = "mosdef")
 
 p <- de_volcano(res_macrophage_IFNg_vs_naive,
-  L2FC_cutoff = 1,
+  logfc_cutoff = 1,
   labeled_genes = 20,
   mapping = "org.Hs.eg.db"
 )

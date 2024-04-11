@@ -12,15 +12,15 @@ go_volcano(
   res_enrich,
   mapping = "org.Hs.eg.db",
   term_index,
-  L2FC_cutoff = 1,
-  FDR_threshold = 0.05,
+  logfc_cutoff = 1,
+  FDR = 0.05,
   col_to_use = NULL,
   enrich_col = "genes",
   gene_col_separator = ",",
   down_col = "black",
   up_col = "black",
   highlight_col = "tomato",
-  overlaps = 20
+  n_overlaps = 20
 )
 }
 \arguments{
@@ -32,9 +32,9 @@ go_volcano(
 
 \item{term_index}{The location (row) of your GO term of interest in your enrichment result}
 
-\item{L2FC_cutoff}{A numeric value that sets the cutoff for the xintercept argument of ggplot}
+\item{logfc_cutoff}{A numeric value that sets the cutoff for the xintercept argument of ggplot}
 
-\item{FDR_threshold}{The pvalue threshold to us for counting genes as de
+\item{FDR}{The pvalue threshold to us for counting genes as de
 and therefore also where to draw the line in the plot. Default is 0.05}
 
 \item{col_to_use}{The column in your differential expression results containing your gene symbols.
@@ -52,7 +52,7 @@ If you used clusterProfiler this has to be set to "/". (For example see the \cod
 
 \item{highlight_col}{The colour for the genes associated with your GOterm default is "tomato"}
 
-\item{overlaps}{number of overlaps ggrepel is supposed to allow when labeling
+\item{n_overlaps}{Number of overlaps ggrepel is supposed to allow when labeling
 (for more info check ggrepel documentation)}
 }
 \value{
@@ -75,9 +75,9 @@ p <- go_volcano(
   res_macrophage_IFNg_vs_naive,
   res_enrich = res_enrich_macrophage_topGO,
   term_index = 1,
-  L2FC_cutoff = 1,
+  logfc_cutoff = 1,
   mapping = "org.Hs.eg.db",
-  overlaps = 20
+  n_overlaps = 20
 )
 
 p

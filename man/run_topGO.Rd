@@ -15,7 +15,7 @@ run_topGO(
   ontology = "BP",
   annot = annFUN.org,
   mapping = "org.Mm.eg.db",
-  geneID = "symbol",
+  gene_id = "symbol",
   full_names_in_rows = TRUE,
   add_gene_to_terms = TRUE,
   de_type = "up_and_down",
@@ -48,7 +48,7 @@ in the geneset that the de genes are compared to. Default is 0, recommended only
 
 \item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select according to the species}
 
-\item{geneID}{Which format the genes are provided. Defaults to \code{symbol}, could also be
+\item{gene_id}{Which format the genes are provided. Defaults to \code{symbol}, could also be
 \code{entrez} or \code{ENSEMBL}}
 
 \item{full_names_in_rows}{Logical, whether to display or not the full names for the GO terms}
@@ -103,7 +103,7 @@ topgoDE_macrophage <- run_topGO(
   dds = dds_macrophage,
   ontology = "BP",
   mapping = "org.Hs.eg.db",
-  geneID = "symbol",
+  gene_id = "symbol",
 )
 }
 \seealso{

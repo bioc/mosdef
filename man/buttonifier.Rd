@@ -6,7 +6,7 @@
 \usage{
 buttonifier(
   df,
-  new_cols = c("PUBMED", "GC", "UNIPROT"),
+  create_buttons_to = c("PUBMED", "GC", "UNIPROT"),
   col_to_use = "SYMBOL",
   output_format = "DT",
   ens_col = NULL,
@@ -16,7 +16,7 @@ buttonifier(
 \arguments{
 \item{df}{A dataframe with at least on column with gene Symbols named: SYMBOL}
 
-\item{new_cols}{At least one of: "GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA" "PUBMED"}
+\item{create_buttons_to}{At least one of: "GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA" "PUBMED"}
 
 \item{col_to_use}{name of the columns were the gene symbols are stored. Default is SYMBOL}
 
@@ -51,7 +51,7 @@ res_df <- res_df[1:100, ]
 buttonifier(res_df)
 
 buttonifier(res_df,
-  new_cols = c("NCBI", "HPA"),
+  create_buttons_to = c("NCBI", "HPA"),
   ens_col = "id",
   ens_species = "Homo_sapiens"
 )

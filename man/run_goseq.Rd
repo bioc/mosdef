@@ -16,7 +16,6 @@ run_goseq(
   id = "ensGene",
   de_type = "up_and_down",
   testCats = c("GO:BP", "GO:MF", "GO:CC"),
-  FDR_GO_cutoff = 1,
   mapping = "org.Hs.eg.db",
   add_gene_to_terms = TRUE,
   verbose = TRUE
@@ -50,8 +49,6 @@ in the geneset that the de genes are compared to. Default is 0, recommended only
 upregulated, downregulated or both}
 
 \item{testCats}{A vector specifying which categories to test for over representation amongst DE genes - can be any combination of "GO:CC", "GO:BP", "GO:MF" & "KEGG"}
-
-\item{FDR_GO_cutoff}{Numeric value for subsetting the results}
 
 \item{mapping}{Character string, named as the \code{org.XX.eg.db}
 package which should be available in Bioconductor}
