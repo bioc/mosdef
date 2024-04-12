@@ -341,8 +341,14 @@ run_topGO <- function(de_container = NULL,
 #' function, and requires that the corresponding TxDb packages are installed
 #' and available
 #'
-#' @param de_container A DESeqDataset object created using \code{DESeq2}
-#' @param res_de A DESeqResults object created using \code{DESeq2}
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param de_genes A vector of (differentially expressed) genes
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes
 #' in the assays
@@ -403,7 +409,7 @@ run_topGO <- function(de_container = NULL,
 #' )
 #'
 #' head(mygo)
-run_goseq <- function(dds = NULL,
+run_goseq <- function(de_container = NULL,
                       res_de = NULL,
                       de_genes = NULL,
                       bg_genes = NULL,
@@ -611,8 +617,14 @@ run_goseq <- function(dds = NULL,
 #' Note: the feature length retrieval is based on the \code{\link{enrichGO}}
 #' function
 #'
-#' @param dds A DESeqDataset object created using \code{DESeq2}
-#' @param res_de A DESeqResults object created using \code{DESeq2}
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param de_genes A vector of (differentially expressed) genes
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes in
 #' the assays
@@ -670,7 +682,7 @@ run_goseq <- function(dds = NULL,
 #'   dds = dds_macrophage,
 #'   mapping = "org.Hs.eg.db"
 #' )
-run_cluPro <- function(dds = NULL,
+run_cluPro <- function(de_container = NULL,
                        res_de = NULL,
                        de_genes = NULL,
                        bg_genes = NULL,
