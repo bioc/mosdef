@@ -3,10 +3,10 @@
 #' A wrapper for extracting functional GO terms enriched in the DE genes, based
 #' on the algorithm and the implementation in the topGO package
 #'
-#' Allowed values assumed by the \code{topGO_method2} parameter are one of the
-#' following: \code{elim}, \code{weight}, \code{weight01}, \code{lea},
-#' \code{parentchild}. For more details on this, please refer to the original
-#' documentation of the \code{topGO} package itself
+#' Allowed values assumed by the `topGO_method2` parameter are one of the
+#' following: `elim`, `weight`, `weight01`, `lea`, `parentchild`.
+#' For more details on this, please refer to the original
+#' documentation of the `topGO` package itself
 #'
 #' @param de_container An object containing the data for a Differential
 #' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
@@ -28,15 +28,14 @@
 #' @param min_counts numeric, min number of counts a gene needs to have to be
 #' included in the geneset that the de genes are compared to. Default is 0,
 #' recommended only for advanced users.
-#' @param ontology Which Gene Ontology domain to analyze: \code{BP} (Biological
-#' Process), \code{MF} (Molecular Function), or \code{CC} (Cellular Component)
+#' @param ontology Which Gene Ontology domain to analyze: `BP` (Biological
+#' Process), `MF` (Molecular Function), or `CC` (Cellular Component)
 #' @param annot Which function to use for annotating genes to GO terms. Defaults
-#' to \code{annFUN.org}
-#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
+#' to `annFUN.org`
+#' @param mapping Which `org.XX.eg.db` package to use for annotation - select
 #' according to the species
 #' @param gene_id Which format the genes are provided. Defaults to `symbol`,
-#' could also be
-#' \code{entrez} or \code{ENSEMBL}
+#' could also be `entrez` or `ENSEMBL`
 #' @param full_names_in_rows Logical, whether to display or not the full names
 #' for the GO terms
 #' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for
@@ -44,8 +43,8 @@
 #' @param add_gene_to_terms Logical, whether to add a column with all genes
 #' annotated to each GO term
 #' @param topGO_method2 Character, specifying which of the methods implemented
-#' by \code{topGO} should be used, in addition to the \code{classic} algorithm.
-#' Defaults to \code{elim}
+#' by `topGO` should be used, in addition to the `classic` algorithm.
+#' Defaults to `elim`.
 #' @param do_padj Logical, whether to perform the adjustment on the p-values
 #' from the specific topGO method, based on the FDR correction. Defaults to
 #' FALSE, since the assumption of independent hypotheses is somewhat violated
@@ -337,7 +336,7 @@ run_topGO <- function(de_container = NULL,
 #' A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 #' based on the algorithm and the implementation in the goseq package
 #'
-#' Note: the feature length retrieval is based on the \code{\link{goseq}}
+#' Note: the feature length retrieval is based on the [goseq::goseq()]
 #' function, and requires that the corresponding TxDb packages are installed
 #' and available
 #'
@@ -362,15 +361,15 @@ run_topGO <- function(de_container = NULL,
 #' included in the geneset that the de genes are compared to. Default is 0,
 #' recommended only for advanced users.
 #' @param genome A string identifying the genome that genes refer to, as in the
-#' \code{\link{goseq}} function
+#' [goseq::goseq()] function
 #' @param id A string identifying the gene identifier used by genes, as in the
-#' \code{\link{goseq}} function
+#' [goseq::goseq()] function
 #' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for
 #' GOterm calculations: upregulated, downregulated or both
 #' @param testCats A vector specifying which categories to test for
 #' overrepresentation amongst DE genes - can be any combination of "GO:CC",
 #' "GO:BP", "GO:MF" & "KEGG"
-#' @param mapping Character string, named as the \code{org.XX.eg.db}
+#' @param mapping Character string, named as the `org.XX.eg.db`
 #' package which should be available in Bioconductor
 #' @param add_gene_to_terms Logical, whether to add a column with all genes
 #' annotated to each GO term
@@ -614,9 +613,6 @@ run_goseq <- function(de_container = NULL,
 #' A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 #' based on the algorithm and the implementation in the clusterProfiler package
 #'
-#' Note: the feature length retrieval is based on the \code{\link{enrichGO}}
-#' function
-#'
 #' @param de_container An object containing the data for a Differential
 #' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
 #' Currently, this can be a `DESeqDataSet` object, normally obtained after
@@ -637,7 +633,7 @@ run_goseq <- function(de_container = NULL,
 #' @param min_counts numeric, min number of counts a gene needs to have to be
 #' included in the geneset that the de genes are compared to. Default is 0,
 #' recommended only for advanced users.
-#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
+#' @param mapping Which `org.XX.eg.db` package to use for annotation - select
 #' according to the species
 #' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for
 #' GOterm calculations
@@ -646,8 +642,8 @@ run_goseq <- function(de_container = NULL,
 #' enrichGO documentation
 #' @param verbose Logical, whether to add messages telling the user which steps
 #' were taken
-#' @param ... Further parameters to use for the go_enrich function from
-#' \code{clusterProfiler}
+#' @param ... Further parameters to use for the [clusterProfiler::enrichGO()]
+#' function from `clusterProfiler`.
 #'
 #' @return A table containing the computed GO Terms and related enrichment
 #' scores.

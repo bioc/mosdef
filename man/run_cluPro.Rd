@@ -47,7 +47,7 @@ Default is 0.05}
 included in the geneset that the de genes are compared to. Default is 0,
 recommended only for advanced users.}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
+\item{mapping}{Which \code{org.XX.eg.db} package to use for annotation - select
 according to the species}
 
 \item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for
@@ -60,8 +60,8 @@ enrichGO documentation}
 \item{verbose}{Logical, whether to add messages telling the user which steps
 were taken}
 
-\item{...}{Further parameters to use for the go_enrich function from
-\code{clusterProfiler}}
+\item{...}{Further parameters to use for the \code{\link[clusterProfiler:enrichGO]{clusterProfiler::enrichGO()}}
+function from \code{clusterProfiler}.}
 }
 \value{
 A table containing the computed GO Terms and related enrichment
@@ -70,10 +70,6 @@ scores.
 \description{
 A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 based on the algorithm and the implementation in the clusterProfiler package
-}
-\details{
-Note: the feature length retrieval is based on the \code{\link{enrichGO}}
-function
 }
 \examples{
 library("macrophage")

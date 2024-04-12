@@ -32,7 +32,7 @@ framework.}
 \item{res_enrich}{A enrichment result object created by for example using
 \code{\link[=run_topGO]{run_topGO()}}}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
+\item{mapping}{Which \code{org.XX.eg.db} package to use for annotation - select
 according to the species}
 
 \item{term_index}{The location (row) of your GO term of interest in your

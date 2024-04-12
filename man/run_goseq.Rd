@@ -50,10 +50,10 @@ included in the geneset that the de genes are compared to. Default is 0,
 recommended only for advanced users.}
 
 \item{genome}{A string identifying the genome that genes refer to, as in the
-\code{\link{goseq}} function}
+\code{\link[goseq:goseq]{goseq::goseq()}} function}
 
 \item{id}{A string identifying the gene identifier used by genes, as in the
-\code{\link{goseq}} function}
+\code{\link[goseq:goseq]{goseq::goseq()}} function}
 
 \item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for
 GOterm calculations: upregulated, downregulated or both}
@@ -79,7 +79,7 @@ A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 based on the algorithm and the implementation in the goseq package
 }
 \details{
-Note: the feature length retrieval is based on the \code{\link{goseq}}
+Note: the feature length retrieval is based on the \code{\link[goseq:goseq]{goseq::goseq()}}
 function, and requires that the corresponding TxDb packages are installed
 and available
 }

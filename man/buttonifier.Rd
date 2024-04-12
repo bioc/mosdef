@@ -23,9 +23,9 @@ buttonifier(
 Default is SYMBOL}
 
 \item{output_format}{a parameter deciding which output format to return,
-either a DT:datatable (recommended) or a simple dataframe (DF).
+either a "DT" (\code{\link[DT:datatable]{DT::datatable()}}, recommended), or a simple dataframe ("DF").
 In the latter case it is important that if the data is visualized with the
-\code{datatable} function the parameter escape must be set to FALSE}
+\code{DT::datatable} function the parameter escape must be set to FALSE}
 
 \item{ens_col}{Character string, name of the columns were the ENSEMBL IDs
 are stored.}
@@ -34,7 +34,7 @@ are stored.}
 gene on ENSEMBL}
 }
 \value{
-A dataframe or a \code{DT} datatable object with columns adding HTML
+A data.frame or a \code{DT::datatable} object with columns adding HTML
 objects that link to websites with further information on the genes in
 question.
 }

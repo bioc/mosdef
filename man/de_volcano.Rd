@@ -18,7 +18,7 @@ analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
 Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
 framework.}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
+\item{mapping}{Which \code{org.XX.eg.db} package to use for annotation - select
 according to the species}
 
 \item{logfc_cutoff}{A numeric value that sets the cutoff for the xintercept

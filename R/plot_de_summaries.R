@@ -3,8 +3,8 @@
 #' MA-plot from base means and log fold changes, in the ggplot2 framework, with
 #' additional support to annotate genes if provided.
 #'
-#' The genes of interest are to be provided as gene symbols if a \code{symbol}
-#' column is provided in \code{res_de}, or else by using the identifiers
+#' The genes of interest are to be provided as gene symbols if a `symbol`
+#' column is provided in `res_de`, or else by using the identifiers
 #' specified in the row names
 #'
 #' @param res_de An object containing the results of the Differential Expression
@@ -17,8 +17,8 @@
 #' 1 = opaque)
 #' @param sig_color Color to use to mark differentially expressed genes.
 #' Defaults to red
-#' @param annotation_obj A \code{data.frame} object, with row.names as gene
-#' identifiers (e.g. ENSEMBL ids) and a column, \code{gene_name}, containing
+#' @param annotation_obj A `data.frame` object, with row.names as gene
+#' identifiers (e.g. ENSEMBL ids) and a column, `gene_name`, containing
 #' e.g. HGNC-based gene symbols. Optional
 #' @param draw_y0 Logical, whether to draw the horizontal line at y=0. Defaults
 #' to TRUE.
@@ -29,16 +29,16 @@
 #' log10 scale"
 #' @param ylim Vector of two numeric values, Y axis limits to restrict the view
 #' @param add_rug Logical, whether to add rug plots in the margins
-#' @param intgenes Vector of genes of interest. Gene symbols if a \code{symbol}
-#' column is provided in \code{res_de}, or else the identifiers specified in the
+#' @param intgenes Vector of genes of interest. Gene symbols if a `symbol`
+#' column is provided in `res_de`, or else the identifiers specified in the
 #' row names
 #' @param intgenes_color The color to use to mark the genes on the main plot.
 #' @param labels_intgenes Logical, whether to add the gene identifiers/names
 #' close to the marked plots
-#' @param labels_repel Logical, whether to use \code{geom_text_repel} for
+#' @param labels_repel Logical, whether to use `ggrepel::geom_text_repel` for
 #' placing the labels on the features to mark
 #'
-#' @return An object created by \code{ggplot}
+#' @return An object created by `ggplot`
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes geom_hline geom_point geom_text geom_rug
@@ -182,7 +182,7 @@ plot_ma <- function(res_de,
 #' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
 #' Currently, this can be a `DESeqResults` object created using the `DESeq2`
 #' framework.
-#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
+#' @param mapping Which `org.XX.eg.db` package to use for annotation - select
 #' according to the species
 #' @param logfc_cutoff A numeric value that sets the cutoff for the xintercept
 #' argument of ggplot
@@ -294,7 +294,7 @@ de_volcano <- function(res_de,
 #' framework.
 #' @param res_enrich A enrichment result object created by for example using
 #' [run_topGO()]
-#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
+#' @param mapping Which `org.XX.eg.db` package to use for annotation - select
 #' according to the species
 #' @param term_index The location (row) of your GO term of interest in your
 #' enrichment result

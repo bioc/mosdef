@@ -58,12 +58,11 @@ Process), \code{MF} (Molecular Function), or \code{CC} (Cellular Component)}
 \item{annot}{Which function to use for annotating genes to GO terms. Defaults
 to \code{annFUN.org}}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
+\item{mapping}{Which \code{org.XX.eg.db} package to use for annotation - select
 according to the species}
 
 \item{gene_id}{Which format the genes are provided. Defaults to \code{symbol},
-could also be
-\code{entrez} or \code{ENSEMBL}}
+could also be \code{entrez} or \code{ENSEMBL}}
 
 \item{full_names_in_rows}{Logical, whether to display or not the full names
 for the GO terms}
@@ -76,7 +75,7 @@ GOterm calculations: upregulated, downregulated or both}
 
 \item{topGO_method2}{Character, specifying which of the methods implemented
 by \code{topGO} should be used, in addition to the \code{classic} algorithm.
-Defaults to \code{elim}}
+Defaults to \code{elim}.}
 
 \item{do_padj}{Logical, whether to perform the adjustment on the p-values
 from the specific topGO method, based on the FDR correction. Defaults to
@@ -95,8 +94,8 @@ on the algorithm and the implementation in the topGO package
 }
 \details{
 Allowed values assumed by the \code{topGO_method2} parameter are one of the
-following: \code{elim}, \code{weight}, \code{weight01}, \code{lea},
-\code{parentchild}. For more details on this, please refer to the original
+following: \code{elim}, \code{weight}, \code{weight01}, \code{lea}, \code{parentchild}.
+For more details on this, please refer to the original
 documentation of the \code{topGO} package itself
 }
 \examples{
