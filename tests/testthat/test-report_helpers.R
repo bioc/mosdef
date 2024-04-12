@@ -7,7 +7,7 @@ test_that("Functions to create buttons work", {
   # expect that http is in the strings to check if they are created properlly
   expect_true(grepl(value, chars, fixed = TRUE))
 
-  res_subset$button <- create_link_pubmed(res_subset$SYMBOL)
+  res_subset$button <- create_link_PubMed(res_subset$SYMBOL)
   expect_type(res_subset$button, "character")
   value <- "http"
   chars <- as.character(res_subset$button[1])
@@ -15,7 +15,7 @@ test_that("Functions to create buttons work", {
   # expect that http is in the strings to check if they are created properlly
   expect_true(grepl(value, chars, fixed = TRUE))
 
-  res_subset$button_ens <- create_link_ENS(res_subset$id)
+  res_subset$button_ens <- create_link_ENSEMBL(res_subset$id)
   expect_type(res_subset$button_ens, "character")
   value <- "http"
   chars <- as.character(res_subset$button_ens[1])
@@ -68,27 +68,27 @@ test_that("Functions to create buttons work", {
 })
 
 
-test_that("go_2_html works", {
-  test_go <- go_2_html("GO:0009653")
+test_that("go_to_html works", {
+  test_go <- go_to_html("GO:0009653")
   expect_s3_class(test_go, "html")
 
-  test_go_res_enrich <- go_2_html("GO:0009653", res_enrich_macrophage_topGO)
+  test_go_res_enrich <- go_to_html("GO:0009653", res_enrich_macrophage_topGO)
   expect_s3_class(test_go, "html")
 
 
-  test_wrongGO <- go_2_html("yaddayadda")
+  test_wrongGO <- go_to_html("yaddayadda")
   expect_s3_class(test_wrongGO, "html")
   value <- "not found"
   chars <- as.character(test_wrongGO)
   expect_true(grepl(value, chars, fixed = TRUE))
 })
 
-test_that("geneinfo_2_html works", {
-  test_gene_info <- geneinfo_2_html("SPARCL1")
+test_that("geneinfo_to_html works", {
+  test_gene_info <- geneinfo_to_html("SPARCL1")
   expect_s3_class(test_gene_info, "html")
 
-  test_gene_info_res <- geneinfo_2_html("SPARCL1", res_macrophage_IFNg_vs_naive)
+  test_gene_info_res <- geneinfo_to_html("SPARCL1", res_macrophage_IFNg_vs_naive)
   expect_s3_class(test_gene_info_res, "html")
 
-  expect_message(geneinfo_2_html("P53", res_macrophage_IFNg_vs_naive))
+  expect_message(geneinfo_to_html("P53", res_macrophage_IFNg_vs_naive))
 })

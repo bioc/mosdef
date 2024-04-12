@@ -5,7 +5,7 @@
 \title{Plot expression values for a gene}
 \usage{
 gene_plot(
-  dds,
+  de_container,
   gene,
   intgroup = "condition",
   assay = "counts",
@@ -15,21 +15,22 @@ gene_plot(
   labels_display = TRUE,
   labels_repel = TRUE,
   plot_type = "auto",
-  return_data = FALSE,
-  gtl = NULL
+  return_data = FALSE
 )
 }
 \arguments{
-\item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
-through the \code{DESeq2} framework.}
+\item{de_container}{An object containing the data for a Differential
+Expression workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqDataSet} object, normally obtained after
+running your data through the \code{DESeq2} framework.}
 
 \item{gene}{Character, specifies the identifier of the feature (gene) to be
 plotted}
 
-\item{intgroup}{A character vector of names in \code{colData(dds)} to use for grouping.
-Note: the vector components should be categorical variables.}
+\item{intgroup}{A character vector of names in \code{colData(de_container)} to use for
+grouping. Note: the vector components should be categorical variables.}
 
-\item{assay}{Character, specifies with assay of the \code{dds} object to use for
+\item{assay}{Character, specifies with assay of the \code{de_container} object to use for
 reading out the expression values. Defaults to "counts".}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
@@ -56,10 +57,6 @@ samples in the smallest group defined via \code{intgroup}}
 \item{return_data}{Logical, whether the function should just return the
 data.frame of expression values and covariates for custom plotting. Defaults
 to FALSE.}
-
-\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
-specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
-of the list \emph{must} be specified following the content they are expecting}
 }
 \value{
 A \code{ggplot} object
@@ -97,7 +94,8 @@ anno_df <- data.frame(
   row.names = rownames(dds_macrophage)
 )
 
-gene_plot(dds_macrophage,
+gene_plot(
+  de_container = dds_macrophage,
   gene = "ENSG00000125347",
   intgroup = "condition",
   annotation_obj = anno_df

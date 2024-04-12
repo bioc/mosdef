@@ -12,42 +12,63 @@ go_volcano(
   res_enrich,
   mapping = "org.Hs.eg.db",
   term_index,
-  L2FC_cutoff = 1,
+  logfc_cutoff = 1,
+  FDR = 0.05,
   col_to_use = NULL,
   enrich_col = "genes",
+  gene_col_separator = ",",
   down_col = "black",
   up_col = "black",
   highlight_col = "tomato",
-  overlaps = 20
+  n_overlaps = 20
 )
 }
 \arguments{
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
-\item{res_enrich}{A enrichment result object created by for example using \code{\link[=run_topGO]{run_topGO()}}}
+\item{res_enrich}{A enrichment result object created by for example using
+\code{\link[=run_topGO]{run_topGO()}}}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select according to the species}
+\item{mapping}{Which \code{org.XX.eg.db} package to use for annotation - select
+according to the species}
 
-\item{term_index}{The location (row) of your GO term of interest in your enrichment result}
+\item{term_index}{The location (row) of your GO term of interest in your
+enrichment result}
 
-\item{L2FC_cutoff}{A numeric value that sets the cutoff for the xintercept argument of ggplot}
+\item{logfc_cutoff}{A numeric value that sets the cutoff for the xintercept
+argument of ggplot}
 
-\item{col_to_use}{The column in your differential expression results containing your gene symbols.
-If you don't have one it is created automatically}
+\item{FDR}{The pvalue threshold to us for counting genes as de
+and therefore also where to draw the line in the plot. Default is 0.05}
 
-\item{enrich_col}{column name from your res_enrich where the genes associated with your GOterm are stored (for example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)}
+\item{col_to_use}{The column in your differential expression results
+containing your gene symbols. If you don't have one it is created
+automatically}
+
+\item{enrich_col}{column name from your res_enrich where the genes associated
+with your GOterm are stored (for example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)}
+
+\item{gene_col_separator}{The separator used to split the genes.
+If you used topGO or goseq this is a "," which is the default. (For an
+example see the \code{\link[=run_topGO]{run_topGO()}} result in mosdef)
+If you used clusterProfiler this has to be set to "/". (For example see the
+\code{\link[=run_cluPro]{run_cluPro()}} result in mosdef)}
 
 \item{down_col}{The colour for your downregulated genes, default is "gray"}
 
 \item{up_col}{The colour for your upregulated genes, default is "gray"}
 
-\item{highlight_col}{The colour for the genes associated with your GOterm default is "tomato"}
+\item{highlight_col}{The colour for the genes associated with your GOterm
+default is "tomato"}
 
-\item{overlaps}{number of overlaps ggrepel is supposed to allow when labeling
-(for more info check ggrepel documentation)}
+\item{n_overlaps}{Number of overlaps ggrepel is supposed to allow when
+labeling (for more info check ggrepel documentation)}
 }
 \value{
-A  \code{ggplot2} volcano plot object that can be extended upon by the user
+A \code{ggplot2} volcano plot object that can be extended upon by the user
 }
 \description{
 Generates a volcano plot using ggplot2
@@ -56,12 +77,7 @@ with a certain GOterm that can then be expanded upon using further ggplot
 functions.
 }
 \examples{
-library("ggplot2")
-library("RColorBrewer")
-library("ggrepel")
-library("DESeq2")
-library("topGO")
-library("AnnotationDbi")
+
 library("org.Hs.eg.db")
 
 data(res_de_macrophage, package = "mosdef")
@@ -71,9 +87,9 @@ p <- go_volcano(
   res_macrophage_IFNg_vs_naive,
   res_enrich = res_enrich_macrophage_topGO,
   term_index = 1,
-  L2FC_cutoff = 1,
+  logfc_cutoff = 1,
   mapping = "org.Hs.eg.db",
-  overlaps = 20
+  n_overlaps = 20
 )
 
 p

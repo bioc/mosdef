@@ -10,8 +10,9 @@
 #'
 create_link_GO <- function(val) {
   sprintf(
-    '<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank" class="btn btn-primary">%s</a>',
+    '<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank" class="btn btn-primary" style = "%s">%s</a>',
     val,
+    .actionbutton_biocstyle,
     paste0(val, "@AMIGO")
   )
 }
@@ -24,12 +25,12 @@ create_link_GO <- function(val) {
 #' @export
 #'
 #' @examples
-#' create_link_genecards("Oct4")
+#'  create_link_GeneCards("Oct4")
 #'
 #' data(res_de_macrophage, package = "mosdef")
 #' res_macrophage_IFNg_vs_naive$SYMBOL <-
-#'   create_link_genecards(res_macrophage_IFNg_vs_naive$SYMBOL)
-create_link_genecards <- function(val) {
+#'    create_link_GeneCards(res_macrophage_IFNg_vs_naive$SYMBOL)
+create_link_GeneCards <- function(val) {
   sprintf(
     '<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
     val, # link portion related to the gene
@@ -47,12 +48,12 @@ create_link_genecards <- function(val) {
 #' @export
 #'
 #' @examples
-#' create_link_pubmed("Oct4")
+#' create_link_PubMed("Oct4")
 #'
 #' data(res_de_macrophage, package = "mosdef")
 #' res_macrophage_IFNg_vs_naive$SYMBOL <-
-#'   create_link_pubmed(res_macrophage_IFNg_vs_naive$SYMBOL)
-create_link_pubmed <- function(val) {
+#'   create_link_PubMed(res_macrophage_IFNg_vs_naive$SYMBOL)
+create_link_PubMed <- function(val) {
   sprintf(
     '<a href="https://pubmed.ncbi.nlm.nih.gov/?term=%s" target="_blank" class="btn btn-primary" style = "%s">%s</a>',
     val,
@@ -71,12 +72,12 @@ create_link_pubmed <- function(val) {
 #' @export
 #'
 #' @examples
-#' create_link_ENS("ENSMUSG00000024406")
+#' create_link_ENSEMBL("ENSMUSG00000024406")
 #'
 #' data(res_de_macrophage, package = "mosdef")
-#' rownames(res_macrophage_IFNg_vs_naive) <- create_link_ENS(
+#' rownames(res_macrophage_IFNg_vs_naive) <- create_link_ENSEMBL(
 #'   rownames(res_macrophage_IFNg_vs_naive))
-create_link_ENS <- function(val, species = "Mus_musculus") {
+create_link_ENSEMBL <- function(val, species = "Mus_musculus") {
   sprintf(
     '<a href="http://www.ensembl.org/%s/Gene/Summary?g=%s" target="_blank" class="btn btn-primary" style = "%s">%s</a>',
     species,
@@ -210,8 +211,8 @@ create_link_HPA <- function(val) {
 #' @param go_id Character, specifying the GeneOntology identifier for which
 #' to retrieve information
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. If not provided, the experiment-related information is not
-#' shown, and only some generic info on the identifier is displayed.
+#' enrichment analysis. If not provided, the experiment-related information is
+#' not shown, and only some generic info on the identifier is displayed.
 #'
 #' @return HTML content related to a GeneOntology identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
@@ -223,10 +224,10 @@ create_link_HPA <- function(val) {
 #' @importFrom GO.db GOTERM
 #'
 #' @examples
-#' go_2_html("GO:0002250")
-#' go_2_html("GO:0043368")
-go_2_html <- function(go_id,
-                      res_enrich = NULL) {
+#' go_to_html("GO:0002250")
+#' go_to_html("GO:0043368")
+go_to_html <- function(go_id,
+                       res_enrich = NULL) {
   fullinfo <- GO.db::GOTERM[[go_id]]
   if (is.null(fullinfo)) {
     return(HTML("Gene Ontology term not found!"))
@@ -234,7 +235,7 @@ go_2_html <- function(go_id,
   # extracting the field/component values
   go_linkbutton <- create_link_GO(AnnotationDbi::GOID(fullinfo))
   go_term <- AnnotationDbi::Term(fullinfo)
-  go_pubmed <- create_link_pubmed(go_term)
+  go_pubmed <- create_link_PubMed(go_term)
   go_ontology <- AnnotationDbi::Ontology(fullinfo)
   go_definition <- AnnotationDbi::Definition(fullinfo)
   go_synonims <- paste0(
@@ -250,12 +251,14 @@ go_2_html <- function(go_id,
     go_pvalue <- res_enrich[(res_enrich$gs_id == go_id), "gs_pvalue"]
     go_zscore <- ifelse(
       "z_score" %in% colnames(res_enrich),
-      format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2), nsmall = 2),
+      format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2),
+             nsmall = 2),
       "NA - not yet computed"
     )
     go_aggrscore <- ifelse(
       "aggr_score" %in% colnames(res_enrich),
-      format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2), nsmall = 2),
+      format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2),
+             nsmall = 2),
       "NA - not yet computed"
     )
   }
@@ -268,7 +271,8 @@ go_2_html <- function(go_id,
       !is.null(res_enrich),
       paste0(htmltools::tags$b("p-value: "), go_pvalue, htmltools::tags$br(),
         htmltools::tags$b("Z-score: "), go_zscore, htmltools::tags$br(),
-        htmltools::tags$b("Aggregated score: "), go_aggrscore, htmltools::tags$br(),
+        htmltools::tags$b("Aggregated score: "), go_aggrscore,
+        htmltools::tags$br(),
         collapse = ""
       ),
       ""
@@ -294,13 +298,15 @@ go_2_html <- function(go_id,
 #'
 #' @param gene_id Character specifying the gene identifier for which to retrieve
 #' information
-#' @param res_de A `DESeqResults` object, storing the result of the differential
-#' expression analysis. If not provided, the experiment-related information is not
-#' shown, and only some generic info on the identifier is displayed.
-#' The information about the gene is retrieved by matching on the `SYMBOL` column,
-#' which should be provided in `res_de`.
-#' @param col_to_use The column of your res_de object containing the gene symbols.
-#' Default is "SYMBOL"
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework. If not provided, the experiment-related information is
+#' not shown, and only some generic info on the identifier is displayed.
+#' The information about the gene is retrieved by matching on the `SYMBOL`
+#' column, which should be provided in `res_de`.
+#' @param col_to_use The column of your res_de object containing the gene
+#' symbols. Default is "SYMBOL"
 #'
 #' @return HTML content related to a gene identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
@@ -309,16 +315,16 @@ go_2_html <- function(go_id,
 #' @importFrom htmltools tags
 #'
 #' @examples
-#' geneinfo_2_html("ACTB")
-#' geneinfo_2_html("Pf4")
-geneinfo_2_html <- function(gene_id,
-                            res_de = NULL,
-                            col_to_use = "SYMBOL") {
+#' geneinfo_to_html("ACTB")
+#' geneinfo_to_html("Pf4")
+geneinfo_to_html <- function(gene_id,
+                             res_de = NULL,
+                             col_to_use = "SYMBOL") {
   gene_ncbi_button <- create_link_NCBI(gene_id)
-  gene_genecards_button <- create_link_genecards(gene_id)
+  gene_genecards_button <-  create_link_GeneCards(gene_id)
   gene_gtex_button <- create_link_GTEX(gene_id)
   gene_uniProt_button <- create_link_UniProt(gene_id)
-  gene_pubmed_button <- create_link_pubmed(gene_id)
+  gene_pubmed_button <- create_link_PubMed(gene_id)
 
   if (!is.null(res_de)) {
     gid <- match(gene_id, res_de[[col_to_use]])
@@ -345,9 +351,10 @@ geneinfo_2_html <- function(gene_id,
     "Link to related articles on Pubmed: ", gene_pubmed_button, htmltools::tags$br(),
     ifelse(
       !is.null(res_de),
-      paste0(htmltools::tags$b("DE p-value (adjusted): "), gene_adjpvalue, htmltools::tags$br(),
-        htmltools::tags$b("DE log2FoldChange: "), gene_logfc,
-        collapse = ""
+      paste0(htmltools::tags$b("DE p-value (adjusted): "), gene_adjpvalue,
+             htmltools::tags$br(),
+             htmltools::tags$b("DE log2FoldChange: "), gene_logfc,
+             collapse = ""
       ),
       ""
     )

@@ -3,7 +3,7 @@ test_that("Early fails are triggered", {
   expect_error({
     run_cluPro(
       res_de = myde,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db"
     )
   })
@@ -11,14 +11,14 @@ test_that("Early fails are triggered", {
   expect_error({
     de_volcano(
       res_de = myde,
-      L2FC_cutoff = 1,
+      logfc_cutoff = 1,
       labeled_genes = 20,
       mapping = "org.Hs.eg.db"
     )
   })
 
   expect_error({
-    deseqresult2df(myde)
+    deresult_to_df(myde)
   })
   expect_error({
     signature_volcano(myde)
@@ -31,7 +31,7 @@ test_that("Early fails are triggered", {
   expect_error({
     run_goseq(
       res_de = myde,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db"
     )
   })
@@ -46,25 +46,26 @@ test_that("Early fails are triggered", {
 
   expect_error({
     run_topGO(
+      de_container = dds_macrophage,
       res_de = myde,
-      dds = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
-test_that("check if dds are dds and vecs are vecs", {
+test_that("check if de_container are de_container and vecs are vecs", {
   expect_error({
     run_cluPro(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = myassayed,
+      de_container = myassayed,
       mapping = "org.Hs.eg.db"
     )
   })
 
   expect_error({
-    gene_plot(res_macrophage_IFNg_vs_naive,
+    gene_plot(
+      de_container = res_macrophage_IFNg_vs_naive,
       gene = "ENSG00000125347",
       intgroup = "condition",
       annotation_obj = anno_df
@@ -74,18 +75,18 @@ test_that("check if dds are dds and vecs are vecs", {
   expect_error({
     run_goseq(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = myassayed,
+      de_container = myassayed,
       mapping = "org.Hs.eg.db"
     )
   })
 
   expect_error({
     run_topGO(
+      de_container = myassayed,
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = myassayed,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
@@ -114,7 +115,7 @@ test_that("check if dds are dds and vecs are vecs", {
       bg_genes = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -140,7 +141,7 @@ test_that("Error is thrown with insufficient input", {
     run_topGO(
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -149,7 +150,7 @@ test_that("Check if de_type is correct", {
   expect_error({
     run_cluPro(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db",
       de_type = "all"
     )
@@ -158,7 +159,7 @@ test_that("Check if de_type is correct", {
   expect_error({
     run_goseq(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db",
       de_type = "all"
     )
@@ -166,22 +167,22 @@ test_that("Check if de_type is correct", {
 
   expect_error({
     run_topGO(
+      de_container = dds_macrophage,
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol",
+      gene_id = "symbol",
       de_type = "all"
     )
   })
 })
 
-test_that("res_de and dds are related", {
+test_that("res_de and de_container are related", {
   expect_warning(
     {
       run_cluPro(
-        res_de = res_macrophage_IFNg_vs_naive,
-        dds = dds_airway,
+        res_de = res_mock,
+        de_container = dds_mock,
         mapping = "org.Hs.eg.db"
       )
     },
@@ -189,12 +190,12 @@ test_that("res_de and dds are related", {
   )
 })
 
-test_that("res_de and dds are related", {
+test_that("res_de and de_container are related", {
   expect_warning(
     {
       run_goseq(
-        res_de = res_macrophage_IFNg_vs_naive,
-        dds = dds_airway,
+        res_de = res_mock,
+        de_container = dds_mock,
         mapping = "org.Hs.eg.db",
         add_gene_to_terms = FALSE
       )
@@ -203,26 +204,26 @@ test_that("res_de and dds are related", {
   )
 })
 
-test_that("res_de and dds are related", {
+test_that("res_de and de_container are related", {
   expect_warning(
     {
       run_topGO(
-        res_de = res_macrophage_IFNg_vs_naive,
-        dds = dds_airway,
+        de_container = dds_mock,
+        res_de = res_mock,
         ontology = "BP",
         mapping = "org.Hs.eg.db",
-        geneID = "symbol"
+        gene_id = "symbol"
       )
     },
     "not related"
   )
 })
 
-test_that("DESeq was run on the dds", {
+test_that("DESeq was run on the de_container", {
   expect_error({
     run_cluPro(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage_nodeseq,
+      de_container = dds_macrophage_nodeseq,
       mapping = "org.Hs.eg.db"
     )
   })
@@ -230,7 +231,7 @@ test_that("DESeq was run on the dds", {
   expect_error({
     run_goseq(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage_nodeseq,
+      de_container = dds_macrophage_nodeseq,
       mapping = "org.Hs.eg.db",
       add_gene_to_terms = FALSE
     )
@@ -238,11 +239,11 @@ test_that("DESeq was run on the dds", {
 
   expect_error({
     run_topGO(
+      de_container = dds_macrophage_nodeseq,
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage_nodeseq,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -253,14 +254,14 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
 
   expect_error({
     run_cluPro(
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db"
     )
   })
 
   expect_error({
     run_goseq(
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db",
       add_gene_to_terms = FALSE
     )
@@ -268,14 +269,14 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
 
   expect_error({
     run_topGO(
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
-  # dds is missing
+  # de_container is missing
 
   expect_error({
     run_cluPro(
@@ -297,7 +298,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
       res_de = res_macrophage_IFNg_vs_naive,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
@@ -324,7 +325,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
       bg_genes = myassayed,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 
@@ -351,7 +352,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
       de_genes = myde,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol"
+      gene_id = "symbol"
     )
   })
 })
@@ -382,7 +383,7 @@ test_that("de_type can not be used with vectors to avoid confusion", {
       bg_genes = myassayed,
       ontology = "BP",
       mapping = "org.Hs.eg.db",
-      geneID = "symbol",
+      gene_id = "symbol",
       de_type = "up"
     )
   })

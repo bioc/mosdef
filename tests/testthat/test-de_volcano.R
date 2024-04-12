@@ -7,7 +7,7 @@ test_that(" ggplot object is created", {
   # LFC Cutogg and labeled genes can be used
   p_L2FC <- de_volcano(res_macrophage_IFNg_vs_naive,
     mapping = "org.Hs.eg.db",
-    L2FC_cutoff = 2
+    logfc_cutoff = 2
   )
   expect_s3_class(p_L2FC, "gg")
 

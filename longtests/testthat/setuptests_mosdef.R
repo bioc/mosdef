@@ -42,26 +42,24 @@ res_macrophage_IFNg_vs_naive$SYMBOL <- AnnotationDbi::mapIds(org.Hs.eg.db,
   multiVals = "first"
 )
 res_macrophage_IFNg_vs_naive$symbol <- res_macrophage_IFNg_vs_naive$SYMBOL
-macrophage_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+macrophage_df <- deresult_to_df(res_macrophage_IFNg_vs_naive)
 
 # get a vector of de and bg genes
-res_subset <- deseqresult2df(res_macrophage_IFNg_vs_naive)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:500, ]
 myde <- res_subset$id
 myassayed <- rownames(res_macrophage_IFNg_vs_naive)
-annotationobject <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+annotationobject <- deresult_to_df(res_macrophage_IFNg_vs_naive)
 annotationobject <- annotationobject["SYMBOL"]
 
 
-# airway
-library("airway")
-# Get  the base data
-data(airway, package = "airway")
-
-# Get a dds object and a res object
-dds_airway <- DESeqDataSet(airway, design = ~ cell + dex)
-dds_airway <- DESeq(dds_airway)
-
-res_airway_nosymbols <- results(dds_airway)
+# Get a mock dds object and a res object
+set.seed(42)
+dds_mock <- DESeq2::makeExampleDESeqDataSet(n = 100, m = 8, betaSD = 2)
+dds_mock <- DESeq(dds_mock)
+res_mock <- results(dds_mock)
+# force the rownames to be ENSG *but* make them non-overlapping
+rownames(dds_mock) <- rownames(dds_macrophage)[1:100]
+rownames(res_mock) <- rownames(dds_macrophage)[51:150]
 
 # res_enrich
 data(res_enrich_macrophage_topGO, package = "mosdef")

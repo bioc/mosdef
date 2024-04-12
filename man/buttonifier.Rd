@@ -6,7 +6,7 @@
 \usage{
 buttonifier(
   df,
-  new_cols = c("PUBMED", "GC", "UNIPROT"),
+  create_buttons_to = c("PUBMED", "GC", "UNIPROT"),
   col_to_use = "SYMBOL",
   output_format = "DT",
   ens_col = NULL,
@@ -16,42 +16,48 @@ buttonifier(
 \arguments{
 \item{df}{A dataframe with at least on column with gene Symbols named: SYMBOL}
 
-\item{new_cols}{At least one of: "GC", "NCBI", "GTEX", "UNIPROT", "dbPTM", "HPA" "PUBMED"}
+\item{create_buttons_to}{At least one of: "GC", "NCBI", "GTEX", "UNIPROT",
+"dbPTM", "HPA" "PUBMED"}
 
-\item{col_to_use}{name of the columns were the gene symbols are stored. Default is SYMBOL}
+\item{col_to_use}{name of the columns were the gene symbols are stored.
+Default is SYMBOL}
 
 \item{output_format}{a parameter deciding which output format to return,
-either a DT:datatable (recommended) or a simple dataframe (DF).
+either a "DT" (\code{\link[DT:datatable]{DT::datatable()}}, recommended), or a simple dataframe ("DF").
 In the latter case it is important that if the data is visualized with the
-\code{datatable} function the parameter escape must be set to FALSE}
+\code{DT::datatable} function the parameter escape must be set to FALSE}
 
-\item{ens_col}{Character string, name of the columns were the ENSEMBL IDs are stored.}
+\item{ens_col}{Character string, name of the columns were the ENSEMBL IDs
+are stored.}
 
-\item{ens_species}{The species you are working with to link to the correct gene on ENSEMBL}
+\item{ens_species}{The species you are working with to link to the correct
+gene on ENSEMBL}
 }
 \value{
-A dataframe or a \code{DT} datatable object with columns adding HTML
-objects that link to websites with further information on the genes in question.
+A data.frame or a \code{DT::datatable} object with columns adding HTML
+objects that link to websites with further information on the genes in
+question.
 }
 \description{
 A function to turn Gene Symbols into buttons in an Rmarkdown linking to various
 portals for further info about these genes.
 }
 \details{
-Current supported portals are: GeneCards, NCBI, GTEx, Uniprot, dbPTM, Human Protein Atlas
+Current supported portals are: GeneCards, NCBI, GTEx, Uniprot, dbPTM, Human
+Protein Atlas
 }
 \examples{
 data(res_de_macrophage, package = "mosdef")
 
 res_de <- res_macrophage_IFNg_vs_naive
-res_df <- deseqresult2df(res_de)
+res_df <- deresult_to_df(res_de)
 
 ## Subsetting for quicker run
 res_df <- res_df[1:100, ]
 buttonifier(res_df)
 
 buttonifier(res_df,
-  new_cols = c("NCBI", "HPA"),
+  create_buttons_to = c("NCBI", "HPA"),
   ens_col = "id",
   ens_species = "Homo_sapiens"
 )

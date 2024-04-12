@@ -1,6 +1,6 @@
 Package: mosdef
 Title: MOSt frequently used and useful Differential Expression Functions
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: 
     c(
         person(
@@ -17,8 +17,9 @@ Description: This package provides functionality to run a number of tasks in the
     used steps, from running various enrichment analysis tools with a unified interface
     to creating plots and beautifying table components linking to external websites
     and databases. This streamlines the generation of comprehensive analysis reports.
+Depends:
+    R (>= 4.4.0)
 Imports:
-    dplyr,
     DT,
     ggplot2,
     ggforce, 
@@ -41,7 +42,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    airway,
     macrophage,
     org.Hs.eg.db,
     GeneTonic,

@@ -5,11 +5,12 @@
 \title{Extract functional terms enriched in the DE genes, based on clusterProfiler}
 \usage{
 run_cluPro(
+  de_container = NULL,
   res_de = NULL,
-  dds = NULL,
   de_genes = NULL,
   bg_genes = NULL,
   top_de = NULL,
+  FDR_threshold = 0.05,
   min_counts = 0,
   mapping = "org.Hs.eg.db",
   de_type = "up_and_down",
@@ -19,40 +20,56 @@ run_cluPro(
 )
 }
 \arguments{
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
+\item{de_container}{An object containing the data for a Differential
+Expression workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqDataSet} object, normally obtained after
+running your data through the \code{DESeq2} framework.}
 
-\item{dds}{A DESeqDataset object created using \code{DESeq2}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
 \item{de_genes}{A vector of (differentially expressed) genes}
 
-\item{bg_genes}{A vector of background genes, e.g. all (expressed) genes in the assays}
+\item{bg_genes}{A vector of background genes, e.g. all (expressed) genes in
+the assays}
 
-\item{top_de}{numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
-Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).}
+\item{top_de}{numeric, how many of the top differentially expressed genes to
+use for the enrichment analysis.
+Attempts to reduce redundancy. Assumes the data is sorted by padj (default
+in DESeq2).}
 
-\item{min_counts}{numeric, min number of counts a gene needs to have to be included
-in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.}
+\item{FDR_threshold}{The pvalue threshold to us for counting genes as de.
+Default is 0.05}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select according to the species}
+\item{min_counts}{numeric, min number of counts a gene needs to have to be
+included in the geneset that the de genes are compared to. Default is 0,
+recommended only for advanced users.}
 
-\item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:}
+\item{mapping}{Which \code{org.XX.eg.db} package to use for annotation - select
+according to the species}
 
-\item{keyType}{Gene format to input into enrichGO from clusterProfiler. If res_de and dds are used use "SYMBOL" for more
-information check the enrichGO documentation}
+\item{de_type}{One of: 'up', 'down', or 'up_and_down' Which genes to use for
+GOterm calculations}
 
-\item{verbose}{Logical, whether to add messages telling the user which steps were taken}
+\item{keyType}{Gene format to input into enrichGO from clusterProfiler.
+If res_de and de_container are used use "SYMBOL" for more information check the
+enrichGO documentation}
 
-\item{...}{Further parameters to use for the go_enrich function from \code{clusterProfiler}}
+\item{verbose}{Logical, whether to add messages telling the user which steps
+were taken}
+
+\item{...}{Further parameters to use for the \code{\link[clusterProfiler:enrichGO]{clusterProfiler::enrichGO()}}
+function from \code{clusterProfiler}.}
 }
 \value{
-A table containing the computed GO Terms and related enrichment scores
+A table containing the computed GO Terms and related enrichment
+scores.
 }
 \description{
 A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 based on the algorithm and the implementation in the clusterProfiler package
-}
-\details{
-Note: the feature length retrieval is based on the \code{\link{enrichGO}} function
 }
 \examples{
 library("macrophage")
@@ -71,11 +88,13 @@ library("org.Hs.eg.db")
 library("clusterProfiler")
 CluProde_macrophage <- run_cluPro(
   res_de = res_macrophage_IFNg_vs_naive,
-  dds = dds_macrophage,
+  de_container = dds_macrophage,
   mapping = "org.Hs.eg.db"
 )
 }
 \seealso{
+\code{\link[clusterProfiler:enrichGO]{clusterProfiler::enrichGO()}} for the underlying method
+
 Other Enrichment functions: 
 \code{\link{run_goseq}()},
 \code{\link{run_topGO}()}

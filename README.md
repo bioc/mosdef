@@ -15,7 +15,16 @@ This streamlines the generation of comprehensive analysis reports.
 
 ## Installation
 
-You can install the development version of `mosdef` from GitHub with:
+You can install the version of `mosdef` which is ob Bioconductor with these commands:
+
+``` r
+if (!require("BiocManager")) {
+  install.packages("BiocManager")
+}
+BiocManager::install("mosdef")
+```
+
+Alternatively, you can install the development version of `mosdef` from GitHub with:
 
 ``` r
 library("remotes")

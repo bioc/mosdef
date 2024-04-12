@@ -6,25 +6,33 @@
 \usage{
 de_volcano(
   res_de,
-  L2FC_cutoff = 1,
-  labeled_genes = 30,
-  mapping = "org.Mm.eg.db"
+  mapping = "org.Mm.eg.db",
+  logfc_cutoff = 1,
+  FDR = 0.05,
+  labeled_genes = 30
 )
 }
 \arguments{
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
-\item{L2FC_cutoff}{A numeric value that sets the cutoff for the xintercept
+\item{mapping}{Which \code{org.XX.eg.db} package to use for annotation - select
+according to the species}
+
+\item{logfc_cutoff}{A numeric value that sets the cutoff for the xintercept
 argument of ggplot}
 
-\item{labeled_genes}{A numeric value describing the amount of genes to be labeled.
-This uses the Top(x) highest differentially expressed genes}
+\item{FDR}{The pvalue threshold to us for counting genes as de
+and therefore also where to draw the line in the plot. Default is 0.05}
 
-\item{mapping}{Which \code{org.XX.eg.db} to use for annotation - select
-according to the species}
+\item{labeled_genes}{A numeric value describing the amount of genes to be
+labeled. This uses the Top(x) highest differentially expressed genes}
 }
 \value{
-A  \code{ggplot2} volcano plot object that can be extended upon by the user
+A  \code{ggplot2} volcano plot object that can be extended upon by the
+user
 }
 \description{
 This function generates a base volcanoplot for differentially expressed genes
@@ -40,7 +48,7 @@ library("org.Hs.eg.db")
 data(res_de_macrophage, package = "mosdef")
 
 p <- de_volcano(res_macrophage_IFNg_vs_naive,
-  L2FC_cutoff = 1,
+  logfc_cutoff = 1,
   labeled_genes = 20,
   mapping = "org.Hs.eg.db"
 )

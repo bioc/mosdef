@@ -5,7 +5,7 @@
 #' @param x A character vector of numeric values (e.g. log2FoldChange values) to
 #' be converted to a vector of colors
 #' @param pal A vector of characters specifying the definition of colors for the
-#' palette, e.g. obtained via \code{\link{brewer.pal}}
+#' palette, e.g. obtained via [RColorBrewer::brewer.pal()]
 #' @param symmetric Logical value, whether to return a palette which is symmetrical
 #' with respect to the minimum and maximum values - "respecting" the zero.
 #' Defaults to `TRUE`.
@@ -21,15 +21,15 @@
 #' @examples
 #' a <- 1:9
 #' pal <- RColorBrewer::brewer.pal(9, "Set1")
-#' map2color(a, pal)
-#' plot(a, col = map2color(a, pal), pch = 20, cex = 4)
+#' map_to_color(a, pal)
+#' plot(a, col = map_to_color(a, pal), pch = 20, cex = 4)
 #'
 #' b <- 1:50
 #' pal2 <- grDevices::colorRampPalette(
 #'   RColorBrewer::brewer.pal(name = "RdYlBu", 11)
 #' )(50)
-#' plot(b, col = map2color(b, pal2), pch = 20, cex = 3)
-map2color <- function(x, pal, symmetric = TRUE, limits = NULL) {
+#' plot(b, col = map_to_color(b, pal2), pch = 20, cex = 3)
+map_to_color <- function(x, pal, symmetric = TRUE, limits = NULL) {
   if (is.null(limits)) {
     limits <- range(x)
   }
@@ -123,8 +123,10 @@ styleColorBar_divergent <- function(data,
 #' Feeding on the classical results of DE workflows, this function formats and
 #' tries to prettify the representation of the key values in it.
 #'
-#' @param res_de A `DESeqResults` object created using `DESeq2`, or a data frame
-#' obtained from such an object through [deseqresult2df()]
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`). Currently,
+#' this can be a `DESeqResults` object created using the `DESeq2` framework.
+#' Or a data frame obtained from such an object through [deresult_to_df()]
 #' @param rounding_digits Numeric value, specifying the number of digits to round
 #' the numeric values of the DE table (except the p-values)
 #' @param signif_digits Numeric value, specifying the number of significant digits
@@ -161,10 +163,10 @@ styleColorBar_divergent <- function(data,
 #'                  signif_digits = 5)
 #'
 #' ## It is also possible to pass the "buttonified" table,
-#' res_df_small <- deseqresult2df(res_macrophage_IFNg_vs_naive)[1:100, ]
+#' res_df_small <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:100, ]
 #'
 #' buttonified_df <- buttonifier(res_df_small,
-#'                               new_cols = c("NCBI", "HPA"),
+#'                               create_buttons_to = c("NCBI", "HPA"),
 #'                               ens_col = "id",
 #'                               ens_species = "Homo_sapiens",
 #'                               output_format = "DF"
@@ -202,15 +204,17 @@ de_table_painter <- function(res_de,
   )
 
   if (!is.null(rounding_digits)) {
-    my_dt <- formatRound(table = my_dt,
-                         columns = c(logfc_column, basemean_column, lfcse_column, stat_column),
-                         digits = rounding_digits)
+    my_dt <- formatRound(
+      table = my_dt,
+      columns = c(logfc_column, basemean_column, lfcse_column, stat_column),
+      digits = rounding_digits)
   }
 
   if (!is.null(signif_digits)) {
-    my_dt <- formatSignif(table = my_dt,
-                          columns = c(pvalue_column, padj_column),
-                          digits = signif_digits)
+    my_dt <- formatSignif(
+      table = my_dt,
+      columns = c(pvalue_column, padj_column),
+      digits = signif_digits)
   }
 
   my_dt <- formatStyle(
