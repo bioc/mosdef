@@ -125,7 +125,7 @@ run_topGO <- function(de_container = NULL,
 
   # Check if there only a res_de is given
   if (!is.null(res_de) & is.null(de_container)) {
-    stop("Please also provide a DESeq2Dataset (dds) object.")
+    stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
   # check if only de_container is given
@@ -341,7 +341,7 @@ run_topGO <- function(de_container = NULL,
 #' function, and requires that the corresponding TxDb packages are installed
 #' and available
 #'
-#' @param dds A DESeqDataset object created using \code{DESeq2}
+#' @param de_container A DESeqDataset object created using \code{DESeq2}
 #' @param res_de A DESeqResults object created using \code{DESeq2}
 #' @param de_genes A vector of (differentially expressed) genes
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes
@@ -435,7 +435,7 @@ run_goseq <- function(dds = NULL,
 
   # Check if there only a res_de is given
   if (!is.null(res_de) & is.null(dds)) {
-    stop("Please also provide a DESeq2Dataset (dds) object.")
+    stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
   # check if only dds is given
@@ -708,7 +708,7 @@ run_cluPro <- function(dds = NULL,
 
   # Check if there only a res_de is given
   if (!is.null(res_de) & is.null(dds)) {
-    stop("Please also provide a DESeq2Dataset (dds) object.")
+    stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
   # check if only dds is given
