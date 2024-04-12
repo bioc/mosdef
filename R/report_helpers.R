@@ -298,8 +298,10 @@ go_to_html <- function(go_id,
 #'
 #' @param gene_id Character specifying the gene identifier for which to retrieve
 #' information
-#' @param res_de A `DESeqResults` object, storing the result of the differential
-#' expression analysis. If not provided, the experiment-related information is
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework. If not provided, the experiment-related information is
 #' not shown, and only some generic info on the identifier is displayed.
 #' The information about the gene is retrieved by matching on the `SYMBOL`
 #' column, which should be provided in `res_de`.

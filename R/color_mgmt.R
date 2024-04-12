@@ -123,8 +123,10 @@ styleColorBar_divergent <- function(data,
 #' Feeding on the classical results of DE workflows, this function formats and
 #' tries to prettify the representation of the key values in it.
 #'
-#' @param res_de A `DESeqResults` object created using `DESeq2`, or a data frame
-#' obtained from such an object through [deresult_to_df()]
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`). Currently, 
+#' this can be a `DESeqResults` object created using the `DESeq2` framework.
+#' Or a data frame obtained from such an object through [deresult_to_df()]
 #' @param rounding_digits Numeric value, specifying the number of digits to round
 #' the numeric values of the DE table (except the p-values)
 #' @param signif_digits Numeric value, specifying the number of significant digits

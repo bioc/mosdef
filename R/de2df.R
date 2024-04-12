@@ -2,7 +2,10 @@
 #'
 #' Generate a tidy table with the results of `DESeq2`
 #'
-#' @param res_de A `DESeqResults` object.
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param FDR Numeric value, specifying the significance level for thresholding
 #' adjusted p-values. Defaults to NULL, which would return the full set of
 #' results without performing any subsetting based on FDR.

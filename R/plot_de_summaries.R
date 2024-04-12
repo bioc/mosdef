@@ -178,7 +178,10 @@ plot_ma <- function(res_de,
 #' This function generates a base volcanoplot for differentially expressed genes
 #' that can then be expanded upon using further ggplot functions.
 #'
-#' @param res_de A DESeqResults object created using \code{DESeq2}
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
 #' according to the species
 #' @param logfc_cutoff A numeric value that sets the cutoff for the xintercept
@@ -285,7 +288,10 @@ de_volcano <- function(res_de,
 #' with a certain GOterm that can then be expanded upon using further ggplot
 #' functions.
 #'
-#' @param res_de A DESeqResults object created using \code{DESeq2}
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param res_enrich A enrichment result object created by for example using
 #' [run_topGO()]
 #' @param mapping Which \code{org.XX.eg.db} to use for annotation - select
