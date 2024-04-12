@@ -1,6 +1,9 @@
 #' A function checking if your res_de contains everything you need
 #'
-#' @param res_de A DESeqResults object created using \code{DESeq2}
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param verbose  Logical, whether to add messages telling the user which steps
 #' were taken
 #'
