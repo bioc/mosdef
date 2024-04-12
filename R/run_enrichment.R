@@ -223,16 +223,10 @@ run_topGO <- function(de_container = NULL,
                                       multiVals = "first"
     )
     if (verbose) {
-      message(
-        "Your dataset has ",
-        nrow(de_df),
-        " DE genes. You selected ",
-        length(de_genes), " (",
-        sprintf("%.2f%%", (length(de_genes) / nrow(de_df)) * 100),
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
-      )
+      .info_enrichrun(n_de = nrow(de_df),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = res_de)
     }
   } else if (!is.null(c(bg_genes, de_genes))) {
     all_de <- length(de_genes)
@@ -242,16 +236,10 @@ run_topGO <- function(de_container = NULL,
       de_genes <- de_genes[seq_len(top_de)]
     }
     if (verbose) {
-      message(
-        "Your dataset has ",
-        all_de,
-        " DE genes.You selected ",
-        length(de_genes), " (",
-        sprintf("%.2f%%", (length(de_genes) / all_de) * 100),
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
-      )
+      .info_enrichrun(n_de = nrow(all_de),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = NULL)
     }
   }
 
@@ -516,16 +504,12 @@ run_goseq <- function(de_container = NULL,
       de_genes <- de_genes[seq_len(top_de)]
     }
     bg_genes <- rownames(de_container)[rowSums(counts(de_container)) > min_counts]
+
     if (verbose) {
-      message(
-        "Your dataset has ",
-        nrow(res_de_subset),
-        " DE genes. You selected ",
-        length(de_genes), " (",
-        sprintf("%.2f%%", (length(de_genes) / nrow(res_de_subset)) * 100),
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
+      .info_enrichrun(n_de = nrow(res_de_subset),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = res_de
       )
     }
   } else if (!is.null(c(bg_genes, de_genes))) {
@@ -535,16 +519,12 @@ run_goseq <- function(de_container = NULL,
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
+
     if (verbose) {
-      message(
-        "Your dataset has ",
-        all_de,
-        " DE genes.You selected ",
-        length(de_genes), " (",
-        sprintf("%.2f%%", (length(de_genes) / all_de) * 100),
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
+      .info_enrichrun(n_de = all_de,
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = NULL
       )
     }
   }
@@ -815,16 +795,12 @@ run_cluPro <- function(de_container = NULL,
       keytype = "ENSEMBL",
       multiVals = "first"
     )
+
     if (verbose) {
-      message(
-        "Your dataset has ",
-        nrow(de_df),
-        " DE genes. You selected ",
-        length(de_genes), " (",
-        sprintf("%.2f%%", (length(de_genes) / nrow(de_df)) * 100),
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
+      .info_enrichrun(n_de = nrow(de_df),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = res_de
       )
     }
   } else if (!is.null(c(bg_genes, de_genes))) {
@@ -835,15 +811,10 @@ run_cluPro <- function(de_container = NULL,
       de_genes <- de_genes[seq_len(top_de)]
 
       if (verbose) {
-        message(
-          "Your dataset has ",
-          all_de,
-          " DE genes.You selected ",
-          length(de_genes), " (",
-          sprintf("%.2f%%", (length(de_genes) / all_de) * 100),
-          ") genes. You analysed all ",
-          de_type,
-          "-regulated genes"
+        .info_enrichrun(n_de = all_de,
+                        n_de_selected = length(de_genes),
+                        de_type = de_type,
+                        res_de = NULL
         )
       }
     }
@@ -858,4 +829,32 @@ run_cluPro <- function(de_container = NULL,
   )
 
   return(res_enrich)
+}
+
+
+#' Printing some info before the enrichment runs
+#'
+#' @param n_de Numeric, number of DE genes (in total)
+#' @param n_de_selected Character vector, containing the selected DE genes
+#' @param de_type Character string, specifying up/down/both direction of
+#' DE regulation
+#' @param res_de The `res_de` container as expected in most `mosdef` functions.
+#'
+#' @return Prints out an informative summary message.
+#'
+#' @examples
+#' .info_enrichrun(10, c("geneA", "geneB"), "up")
+.info_enrichrun <- function(n_de, n_de_selected, de_type, res_de = NULL) {
+  message(
+    "Your dataset has ", n_de, " DE genes.\n",
+    "You selected ", n_de_selected,
+    " (", sprintf("%.2f%%", (n_de_selected / n_de) * 100),
+    ") genes for the enrichment analysis.\n",
+    ifelse(
+      is.null(res_de),
+      "",
+      paste0("You are analyzing ", de_type, "-regulated genes in the `res_de` container\n")
+    )
+
+  )
 }
