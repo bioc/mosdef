@@ -1,3 +1,7 @@
+# mosdef 0.99.2
+
+* Better specification of data objects format and location in the installed folder
+
 # mosdef 0.99.1
 
 * This version contains the newly implemented changes as a response to the Bioconductor review.
