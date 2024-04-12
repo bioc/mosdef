@@ -5,7 +5,7 @@
 \title{Extract functional terms enriched in the DE genes, based on clusterProfiler}
 \usage{
 run_cluPro(
-  dds = NULL,
+  de_container = NULL,
   res_de = NULL,
   de_genes = NULL,
   bg_genes = NULL,
@@ -20,9 +20,15 @@ run_cluPro(
 )
 }
 \arguments{
-\item{dds}{A DESeqDataset object created using \code{DESeq2}}
+\item{de_container}{An object containing the data for a Differential
+Expression workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqDataSet} object, normally obtained after
+running your data through the \code{DESeq2} framework.}
 
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
 \item{de_genes}{A vector of (differentially expressed) genes}
 
@@ -48,7 +54,7 @@ according to the species}
 GOterm calculations}
 
 \item{keyType}{Gene format to input into enrichGO from clusterProfiler.
-If res_de and dds are used use "SYMBOL" for more information check the
+If res_de and de_container are used use "SYMBOL" for more information check the
 enrichGO documentation}
 
 \item{verbose}{Logical, whether to add messages telling the user which steps
@@ -86,7 +92,7 @@ library("org.Hs.eg.db")
 library("clusterProfiler")
 CluProde_macrophage <- run_cluPro(
   res_de = res_macrophage_IFNg_vs_naive,
-  dds = dds_macrophage,
+  de_container = dds_macrophage,
   mapping = "org.Hs.eg.db"
 )
 }

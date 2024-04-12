@@ -7,7 +7,10 @@
 mosdef_res_check(res_de, verbose = FALSE)
 }
 \arguments{
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
 \item{verbose}{Logical, whether to add messages telling the user which steps
 were taken}

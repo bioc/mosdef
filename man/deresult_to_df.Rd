@@ -7,7 +7,10 @@
 deresult_to_df(res_de, FDR = NULL)
 }
 \arguments{
-\item{res_de}{A \code{DESeqResults} object.}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
 \item{FDR}{Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to NULL, which would return the full set of

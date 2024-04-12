@@ -19,8 +19,10 @@ de_table_painter(
 )
 }
 \arguments{
-\item{res_de}{A \code{DESeqResults} object created using \code{DESeq2}, or a data frame
-obtained from such an object through \code{\link[=deresult_to_df]{deresult_to_df()}}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}). Currently,
+this can be a \code{DESeqResults} object created using the \code{DESeq2} framework.
+Or a data frame obtained from such an object through \code{\link[=deresult_to_df]{deresult_to_df()}}}
 
 \item{rounding_digits}{Numeric value, specifying the number of digits to round
 the numeric values of the DE table (except the p-values)}

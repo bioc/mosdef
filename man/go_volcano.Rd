@@ -24,7 +24,10 @@ go_volcano(
 )
 }
 \arguments{
-\item{res_de}{A DESeqResults object created using \code{DESeq2}}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
 \item{res_enrich}{A enrichment result object created by for example using
 \code{\link[=run_topGO]{run_topGO()}}}

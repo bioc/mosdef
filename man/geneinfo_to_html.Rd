@@ -10,8 +10,10 @@ geneinfo_to_html(gene_id, res_de = NULL, col_to_use = "SYMBOL")
 \item{gene_id}{Character specifying the gene identifier for which to retrieve
 information}
 
-\item{res_de}{A \code{DESeqResults} object, storing the result of the differential
-expression analysis. If not provided, the experiment-related information is
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework. If not provided, the experiment-related information is
 not shown, and only some generic info on the identifier is displayed.
 The information about the gene is retrieved by matching on the \code{SYMBOL}
 column, which should be provided in \code{res_de}.}
