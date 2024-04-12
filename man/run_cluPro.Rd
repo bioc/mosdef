@@ -93,6 +93,8 @@ CluProde_macrophage <- run_cluPro(
 )
 }
 \seealso{
+\code{\link[clusterProfiler:enrichGO]{clusterProfiler::enrichGO()}} for the underlying method
+
 Other Enrichment functions: 
 \code{\link{run_goseq}()},
 \code{\link{run_topGO}()}

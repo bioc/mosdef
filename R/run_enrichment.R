@@ -62,6 +62,9 @@
 #'
 #' @family Enrichment functions
 #'
+#' @seealso [topGO::topGOdata-class()] and [topGO::runTest()] for the
+#' class objects and underlying methods
+#'
 #' @export
 #'
 #' @examples
@@ -386,6 +389,8 @@ run_topGO <- function(de_container = NULL,
 #'
 #' @family Enrichment functions
 #'
+#' @seealso [goseq::goseq()] for the underlying method
+#'
 #' @examples
 #' library("macrophage")
 #' library("DESeq2")
@@ -657,6 +662,8 @@ run_goseq <- function(de_container = NULL,
 #' @importFrom DESeq2 counts
 #'
 #' @family Enrichment functions
+#'
+#' @seealso [clusterProfiler::enrichGO()] for the underlying method
 #'
 #' @examples
 #' library("macrophage")
