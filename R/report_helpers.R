@@ -211,8 +211,8 @@ create_link_HPA <- function(val) {
 #' @param go_id Character, specifying the GeneOntology identifier for which
 #' to retrieve information
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. If not provided, the experiment-related information is not
-#' shown, and only some generic info on the identifier is displayed.
+#' enrichment analysis. If not provided, the experiment-related information is
+#' not shown, and only some generic info on the identifier is displayed.
 #'
 #' @return HTML content related to a GeneOntology identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
@@ -227,7 +227,7 @@ create_link_HPA <- function(val) {
 #' go_to_html("GO:0002250")
 #' go_to_html("GO:0043368")
 go_to_html <- function(go_id,
-                      res_enrich = NULL) {
+                       res_enrich = NULL) {
   fullinfo <- GO.db::GOTERM[[go_id]]
   if (is.null(fullinfo)) {
     return(HTML("Gene Ontology term not found!"))
@@ -251,12 +251,14 @@ go_to_html <- function(go_id,
     go_pvalue <- res_enrich[(res_enrich$gs_id == go_id), "gs_pvalue"]
     go_zscore <- ifelse(
       "z_score" %in% colnames(res_enrich),
-      format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2), nsmall = 2),
+      format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2),
+             nsmall = 2),
       "NA - not yet computed"
     )
     go_aggrscore <- ifelse(
       "aggr_score" %in% colnames(res_enrich),
-      format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2), nsmall = 2),
+      format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2),
+             nsmall = 2),
       "NA - not yet computed"
     )
   }
@@ -269,7 +271,8 @@ go_to_html <- function(go_id,
       !is.null(res_enrich),
       paste0(htmltools::tags$b("p-value: "), go_pvalue, htmltools::tags$br(),
         htmltools::tags$b("Z-score: "), go_zscore, htmltools::tags$br(),
-        htmltools::tags$b("Aggregated score: "), go_aggrscore, htmltools::tags$br(),
+        htmltools::tags$b("Aggregated score: "), go_aggrscore,
+        htmltools::tags$br(),
         collapse = ""
       ),
       ""
@@ -295,13 +298,15 @@ go_to_html <- function(go_id,
 #'
 #' @param gene_id Character specifying the gene identifier for which to retrieve
 #' information
-#' @param res_de A `DESeqResults` object, storing the result of the differential
-#' expression analysis. If not provided, the experiment-related information is not
-#' shown, and only some generic info on the identifier is displayed.
-#' The information about the gene is retrieved by matching on the `SYMBOL` column,
-#' which should be provided in `res_de`.
-#' @param col_to_use The column of your res_de object containing the gene symbols.
-#' Default is "SYMBOL"
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework. If not provided, the experiment-related information is
+#' not shown, and only some generic info on the identifier is displayed.
+#' The information about the gene is retrieved by matching on the `SYMBOL`
+#' column, which should be provided in `res_de`.
+#' @param col_to_use The column of your res_de object containing the gene
+#' symbols. Default is "SYMBOL"
 #'
 #' @return HTML content related to a gene identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
@@ -346,9 +351,10 @@ geneinfo_to_html <- function(gene_id,
     "Link to related articles on Pubmed: ", gene_pubmed_button, htmltools::tags$br(),
     ifelse(
       !is.null(res_de),
-      paste0(htmltools::tags$b("DE p-value (adjusted): "), gene_adjpvalue, htmltools::tags$br(),
-        htmltools::tags$b("DE log2FoldChange: "), gene_logfc,
-        collapse = ""
+      paste0(htmltools::tags$b("DE p-value (adjusted): "), gene_adjpvalue,
+             htmltools::tags$br(),
+             htmltools::tags$b("DE log2FoldChange: "), gene_logfc,
+             collapse = ""
       ),
       ""
     )

@@ -1,3 +1,20 @@
+# mosdef 0.99.1
+
+* This version contains the newly implemented changes as a response to the Bioconductor review.
+  In brief, this includes:
+  - renaming the functions (and parameters) to a more consistent style
+  - reduction of the dependencies and runtime of checks/tests
+  - more details on the exported data objects, and on the outputs (detailed in the vignette)
+  - better structure for the vignette with cross-references among sections
+  - modularization of some functions to avoid repetitive code
+  - implementation of an API which is already framework-agnostic, to later accommodate e.g. edgeR/limma.
+    Mainly, this implies the renaming of the `dds` to a more generic `de_container`, whereas the `res_de`
+    parameter stays constant.
+  
+  For a full list of all changes implemented, please refer to the PR on the `mosdef`
+  repository https://github.com/imbeimainz/mosdef/pull/11/
+  
+
 # mosdef 0.99.0
 
 * Ready for submission to Bioconductor!

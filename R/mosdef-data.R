@@ -10,8 +10,9 @@
 #' Specifically, this object contains the differences between the `IFNg` vs
 #' `naive` samples, testing against a logFC threshold of 1 for robustness.
 #'
-#' Details on how this object has been created are included in the `create_mosdef_data.R`
-#' script, included in the `scripts` folder of the `mosdef` package.
+#' Details on how this object has been created are included in the
+#' `create_mosdef_data.R` script, included in the `scripts` folder of the
+#' `mosdef` package.
 #'
 #' @format Binary R.Data
 #'
@@ -63,8 +64,9 @@ NULL
 #' `org.Hs.eg.db` package - the gene length information is retrieved by the
 #' internal routines of `goseq`.
 #'
-#' Details on how this object has been created are included in the `create_mosdef_data.R`
-#' script, included in the `scripts` folder of the `mosdef` package.
+#' Details on how this object has been created are included in the
+#' `create_mosdef_data.R` script, included in the `scripts` folder of the
+#' `mosdef` package.
 #'
 #' @format Binary R.Data
 #'
@@ -82,7 +84,8 @@ NULL
 
 #' A sample enrichment object
 #'
-#' A sample enrichment object, generated in the `mosdef` and `clusterProfiler` framework
+#' A sample enrichment object, generated in the `mosdef` and `clusterProfiler`
+#' framework
 #'
 #' @details This enrichment object is on the data from the `macrophage` package
 #'
@@ -90,8 +93,9 @@ NULL
 #' Biological Process ontology, mapping the gene identifiers through the
 #' `org.Hs.eg.db` package.
 #'
-#' Details on how this object has been created are included in the `create_mosdef_data.R`
-#' script, included in the `scripts` folder of the `mosdef` package.
+#' Details on how this object has been created are included in the
+#' `create_mosdef_data.R` script, included in the `scripts` folder of the
+#' `mosdef` package.
 #'
 #' @format Binary R.Data
 #'

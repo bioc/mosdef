@@ -6,13 +6,15 @@
 #' @details The result of this function can be fed directly to [plotly::ggplotly()]
 #' for interactive visualization, instead of the static `ggplot` viz.
 #'
-#' @param dds A `DESeqDataSet` object, normally obtained after running your data
-#' through the `DESeq2` framework.
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
 #' @param gene Character, specifies the identifier of the feature (gene) to be
 #' plotted
-#' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
-#' Note: the vector components should be categorical variables.
-#' @param assay Character, specifies with assay of the `dds` object to use for
+#' @param intgroup A character vector of names in `colData(de_container)` to use for
+#' grouping. Note: the vector components should be categorical variables.
+#' @param assay Character, specifies with assay of the `de_container` object to use for
 #' reading out the expression values. Defaults to "counts".
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
@@ -32,9 +34,6 @@
 #' @param return_data Logical, whether the function should just return the
 #' data.frame of expression values and covariates for custom plotting. Defaults
 #' to FALSE.
-#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
-#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
-#' of the list _must_ be specified following the content they are expecting
 #'
 #' @return A `ggplot` object
 #' @export
@@ -73,12 +72,13 @@
 #'   row.names = rownames(dds_macrophage)
 #' )
 #'
-#' gene_plot(dds_macrophage,
+#' gene_plot(
+#'   de_container = dds_macrophage,
 #'   gene = "ENSG00000125347",
 #'   intgroup = "condition",
 #'   annotation_obj = anno_df
 #' )
-gene_plot <- function(dds,
+gene_plot <- function(de_container,
                       gene,
                       intgroup = "condition",
                       assay = "counts",
@@ -88,10 +88,9 @@ gene_plot <- function(dds,
                       labels_display = TRUE,
                       labels_repel = TRUE,
                       plot_type = "auto",
-                      return_data = FALSE,
-                      gtl = NULL) {
-  if (!is(dds, "DESeqDataSet")) {
-    stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
+                      return_data = FALSE) {
+  if (!is(de_container, "DESeqDataSet")) {
+    stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
   }
 
   plot_type <- match.arg(
@@ -99,16 +98,16 @@ gene_plot <- function(dds,
     c("auto", "jitteronly", "boxplot", "violin", "sina")
   )
 
-  if (!intgroup %in% colnames(colData(dds))) {
+  if (!intgroup %in% colnames(colData(de_container))) {
     stop(
-      "`intgroup` not found in the colData slot of the dds object",
+      "`intgroup` not found in the colData slot of the de_container object",
       "\nPlease specify one of the following: \n",
-      paste0(colnames(colData(dds)), collapse = ", ")
+      paste0(colnames(colData(de_container)), collapse = ", ")
     )
   }
 
   df <- get_expr_values(
-    dds = dds,
+    de_container = de_container,
     gene = gene,
     intgroup = intgroup,
     assay = assay,
@@ -216,24 +215,26 @@ gene_plot <- function(dds,
 #'
 #' Extract expression values, with the possibility to select other assay slots
 #'
-#' @param dds A `DESeqDataSet` object, normally obtained after running your data
-#' through the `DESeq2` framework.
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
 #' @param gene Character, specifies the identifier of the feature (gene) to be
 #' extracted
-#' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
-#' @param assay Character, specifies with assay of the `dds` object to use for
+#' @param intgroup A character vector of names in `colData(de_container)` to use for
+#' grouping.
+#' @param assay Character, specifies with assay of the `de_container` object to use for
 #' reading out the expression values. Defaults to "counts".
 #' @param normalized Logical value, whether the expression values should be
 #' normalized by their size factor. Defaults to TRUE, applies when `assay` is
 #' "counts"
-#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
-#' of the list _must_ be specified following the content they are expecting
 #'
-#' @return A tidy data.frame with the expression values and covariates for further
-#' processing
+#' @return A tidy data.frame with the expression values and covariates for
+#' further processing
+#'
 #' @export
 #'
-#' @importFrom DESeq2 counts estimateSizeFactors sizeFactors  normalizationFactors
+#' @importFrom DESeq2 counts estimateSizeFactors sizeFactors normalizationFactors
 #' @importFrom SummarizedExperiment colData assays
 #'
 #' @examples
@@ -250,37 +251,38 @@ gene_plot <- function(dds,
 #' dds_macrophage <- dds_macrophage[keep, ]
 #' dds_macrophage <- DESeq(dds_macrophage)
 #'
-#' df_exp <- get_expr_values(dds_macrophage,
+#' df_exp <- get_expr_values(
+#'   de_container = dds_macrophage,
 #'   gene = "ENSG00000125347",
 #'   intgroup = "condition"
 #' )
 #' head(df_exp)
-get_expr_values <- function(dds,
+get_expr_values <- function(de_container,
                             gene,
                             intgroup,
                             assay = "counts",
                             normalized = TRUE) {
-  if (!(assay %in% names(assays(dds)))) {
+  if (!(assay %in% names(assays(de_container)))) {
     stop(
       "Please specify a name of one of the existing assays: \n",
-      paste(names(assays(dds)), collapse = ", ")
+      paste(names(assays(de_container)), collapse = ", ")
     )
   }
 
   # checking the normalization factors are in
-  if (is.null(sizeFactors(dds)) & is.null(normalizationFactors(dds))) {
-    dds <- estimateSizeFactors(dds)
+  if (is.null(sizeFactors(de_container)) & is.null(normalizationFactors(de_container))) {
+    de_container <- estimateSizeFactors(de_container)
   }
 
   if (assay == "counts") {
-    exp_vec <- counts(dds, normalized = normalized)[gene, ]
+    exp_vec <- counts(de_container, normalized = normalized)[gene, ]
   } else {
-    exp_vec <- assays(dds)[[assay]][gene, ]
+    exp_vec <- assays(de_container)[[assay]][gene, ]
   }
 
   exp_df <- data.frame(
     exp_value = exp_vec,
-    colData(dds)[intgroup]
+    colData(de_container)[intgroup]
   )
 
   return(exp_df)

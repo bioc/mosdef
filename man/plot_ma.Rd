@@ -23,27 +23,34 @@ plot_ma(
 )
 }
 \arguments{
-\item{res_de}{A \code{\link{DESeqResults}} object}
+\item{res_de}{An object containing the results of the Differential Expression
+analysis workflow (e.g. \code{DESeq2}, \code{edgeR} or \code{limma}).
+Currently, this can be a \code{DESeqResults} object created using the \code{DESeq2}
+framework.}
 
-\item{FDR}{Numeric value, the significance level for thresholding adjusted p-values}
+\item{FDR}{Numeric value, the significance level for thresholding adjusted
+p-values}
 
-\item{point_alpha}{Alpha transparency value for the points (0 = transparent, 1 = opaque)}
+\item{point_alpha}{Alpha transparency value for the points (0 = transparent,
+1 = opaque)}
 
-\item{sig_color}{Color to use to mark differentially expressed genes. Defaults to red}
+\item{sig_color}{Color to use to mark differentially expressed genes.
+Defaults to red}
 
 \item{annotation_obj}{A \code{data.frame} object, with row.names as gene
 identifiers (e.g. ENSEMBL ids) and a column, \code{gene_name}, containing
 e.g. HGNC-based gene symbols. Optional}
 
-\item{draw_y0}{Logical, whether to draw the horizontal line at y=0. Defaults to
-TRUE.}
+\item{draw_y0}{Logical, whether to draw the horizontal line at y=0. Defaults
+to TRUE.}
 
-\item{hlines}{The y coordinate (in absolute value) where to draw horizontal lines,
-optional}
+\item{hlines}{The y coordinate (in absolute value) where to draw horizontal
+lines, optional}
 
 \item{title}{A title for the plot, optional}
 
-\item{xlab}{X axis label, defaults to "mean of normalized counts - log10 scale"}
+\item{xlab}{X axis label, defaults to "mean of normalized counts -
+log10 scale"}
 
 \item{ylim}{Vector of two numeric values, Y axis limits to restrict the view}
 
@@ -55,11 +62,11 @@ row names}
 
 \item{intgenes_color}{The color to use to mark the genes on the main plot.}
 
-\item{labels_intgenes}{Logical, whether to add the gene identifiers/names close
-to the marked plots}
+\item{labels_intgenes}{Logical, whether to add the gene identifiers/names
+close to the marked plots}
 
-\item{labels_repel}{Logical, whether to use \code{geom_text_repel} for placing the
-labels on the features to mark}
+\item{labels_repel}{Logical, whether to use \code{ggrepel::geom_text_repel} for
+placing the labels on the features to mark}
 }
 \value{
 An object created by \code{ggplot}
@@ -70,8 +77,8 @@ additional support to annotate genes if provided.
 }
 \details{
 The genes of interest are to be provided as gene symbols if a \code{symbol}
-column is provided in \code{res_de}, or else by using  the identifiers specified
-in the row names
+column is provided in \code{res_de}, or else by using the identifiers
+specified in the row names
 }
 \examples{
 data(res_de_macrophage, package = "mosdef")

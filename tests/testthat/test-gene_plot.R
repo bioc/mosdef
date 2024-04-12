@@ -2,7 +2,7 @@ context("Testing function for plotting the gene expression levels")
 
 test_that("Basic gene plot is generated", {
   p <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
@@ -13,7 +13,7 @@ test_that("Basic gene plot is generated", {
   expect_s3_class(p, "gg")
 
   p2_noanno_normallabels_untransformed <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
@@ -24,7 +24,7 @@ test_that("Basic gene plot is generated", {
 
   expect_error({
     gene_plot(
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       gene = "ENSG00000285982",
       assay = "counts",
       intgroup = "factor_not_there",
@@ -37,28 +37,28 @@ test_that("Basic gene plot is generated", {
 
 test_that("Enforcing plot types", {
   p_jitter <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
     plot_type = "jitteronly"
   )
   p_boxplot <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
     plot_type = "boxplot"
   )
   p_violin <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
     plot_type = "violin"
   )
   p_sina <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
@@ -72,7 +72,7 @@ test_that("Enforcing plot types", {
 
 test_that("Data instead of plot is returned", {
   df_jitter <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
@@ -83,7 +83,7 @@ test_that("Data instead of plot is returned", {
 
 test_that("Assays are correctly accessed", {
   p_non_norm_counts <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "counts",
     intgroup = "condition",
@@ -91,7 +91,7 @@ test_that("Assays are correctly accessed", {
   )
   expect_s3_class(p_non_norm_counts, "gg")
   p_tpm <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "abundance",
     intgroup = "condition",
@@ -100,7 +100,7 @@ test_that("Assays are correctly accessed", {
   expect_s3_class(p_tpm, "gg")
 
   p_other_assay <- gene_plot(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     assay = "avgTxLength",
     intgroup = "condition",
@@ -111,7 +111,7 @@ test_that("Assays are correctly accessed", {
 
 test_that("Extraction of expression values works", {
   df_simple <- get_expr_values(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     intgroup = "condition",
     assay = "counts"
@@ -120,13 +120,13 @@ test_that("Extraction of expression values works", {
 
 
   expect_error(get_expr_values(
-    dds = dds_macrophage,
+    de_container = dds_macrophage,
     gene = "ENSG00000285982",
     intgroup = "condition",
     assay = "count"
   ))
   df_unnormalized <- get_expr_values(
-    dds = dds_unnormalized,
+    de_container = dds_unnormalized,
     gene = "ENSG00000285982",
     intgroup = "condition",
     assay = "counts"

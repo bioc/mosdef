@@ -1,38 +1,56 @@
 #' Extract functional terms enriched in the DE genes, based on topGO
 #'
-#' A wrapper for extracting functional GO terms enriched in the DE genes, based on
-#' the algorithm and the implementation in the topGO package
+#' A wrapper for extracting functional GO terms enriched in the DE genes, based
+#' on the algorithm and the implementation in the topGO package
 #'
-#' Allowed values assumed by the \code{topGO_method2} parameter are one of the
-#' following: \code{elim}, \code{weight}, \code{weight01}, \code{lea},
-#' \code{parentchild}. For more details on this, please refer to the original
-#' documentation of the \code{topGO} package itself
+#' Allowed values assumed by the `topGO_method2` parameter are one of the
+#' following: `elim`, `weight`, `weight01`, `lea`, `parentchild`.
+#' For more details on this, please refer to the original
+#' documentation of the `topGO` package itself
 #'
-#' @param res_de A DESeqResults object created using \code{DESeq2}
-#' @param dds A DESeqDataset object created using \code{DESeq2}
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param de_genes A vector of (differentially expressed) genes
-#' @param bg_genes A vector of background genes, e.g. all (expressed) genes in the assays
-#' @param top_de numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
-#'  Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).
-#' @param FDR_threshold The pvalue threshold to us for counting genes as de. Default is 0.05
-#' @param min_counts numeric, min number of counts a gene needs to have to be included
-#' in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.
-#' @param ontology Which Gene Ontology domain to analyze: \code{BP} (Biological Process), \code{MF} (Molecular Function), or \code{CC} (Cellular Component)
-#' @param annot Which function to use for annotating genes to GO terms. Defaults to \code{annFUN.org}
-#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select according to the species
-#' @param geneID Which format the genes are provided. Defaults to \code{symbol}, could also be
-#' \code{entrez} or \code{ENSEMBL}
-#' @param full_names_in_rows Logical, whether to display or not the full names for the GO terms
-#' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:
-#'  upregulated, downregulated or both
-#' @param add_gene_to_terms Logical, whether to add a column with all genes annotated to each GO term
-#' @param output_file Name of the file the result should be written into
-#' @param topGO_method2 Character, specifying which of the methods implemented by \code{topGO} should be used, in addition to the \code{classic} algorithm. Defaults to \code{elim}
-#' @param do_padj Logical, whether to perform the adjustment on the p-values from the specific
-#' topGO method, based on the FDR correction. Defaults to FALSE, since the assumption of
-#' independent hypotheses is somewhat violated by the intrinsic DAG-structure of the Gene
-#' Ontology Terms
-#' @param verbose Logical, whether to add messages telling the user which steps were taken
+#' @param bg_genes A vector of background genes, e.g. all (expressed) genes in
+#' the assays
+#' @param top_de numeric, how many of the top differentially expressed genes to
+#' use for the enrichment analysis.
+#' Attempts to reduce redundancy. Assumes the data is sorted by padj (default
+#' in DESeq2).
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de.
+#' Default is 0.05
+#' @param min_counts numeric, min number of counts a gene needs to have to be
+#' included in the geneset that the de genes are compared to. Default is 0,
+#' recommended only for advanced users.
+#' @param ontology Which Gene Ontology domain to analyze: `BP` (Biological
+#' Process), `MF` (Molecular Function), or `CC` (Cellular Component)
+#' @param annot Which function to use for annotating genes to GO terms. Defaults
+#' to `annFUN.org`
+#' @param mapping Which `org.XX.eg.db` package to use for annotation - select
+#' according to the species
+#' @param gene_id Which format the genes are provided. Defaults to `symbol`,
+#' could also be `entrez` or `ENSEMBL`
+#' @param full_names_in_rows Logical, whether to display or not the full names
+#' for the GO terms
+#' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for
+#' GOterm calculations: upregulated, downregulated or both
+#' @param add_gene_to_terms Logical, whether to add a column with all genes
+#' annotated to each GO term
+#' @param topGO_method2 Character, specifying which of the methods implemented
+#' by `topGO` should be used, in addition to the `classic` algorithm.
+#' Defaults to `elim`.
+#' @param do_padj Logical, whether to perform the adjustment on the p-values
+#' from the specific topGO method, based on the FDR correction. Defaults to
+#' FALSE, since the assumption of independent hypotheses is somewhat violated
+#' by the intrinsic DAG-structure of the Gene Ontology Terms
+#' @param verbose Logical, whether to add messages telling the user which steps
+#' were taken
 #'
 #' @importFrom methods is new
 #' @importFrom AnnotationDbi mapIds Term
@@ -43,6 +61,9 @@
 #' @return A table containing the computed GO Terms and related enrichment scores
 #'
 #' @family Enrichment functions
+#'
+#' @seealso [topGO::topGOdata-class()] and [topGO::runTest()] for the
+#' class objects and underlying methods
 #'
 #' @export
 #'
@@ -63,14 +84,14 @@
 #' library("org.Hs.eg.db")
 #' library("topGO")
 #' topgoDE_macrophage <- run_topGO(
+#'   de_container = dds_macrophage,
 #'   res_de = res_macrophage_IFNg_vs_naive,
-#'   dds = dds_macrophage,
 #'   ontology = "BP",
 #'   mapping = "org.Hs.eg.db",
-#'   geneID = "symbol",
+#'   gene_id = "symbol",
 #' )
-run_topGO <- function(res_de = NULL, # Differentially expressed genes
-                      dds = NULL, # background genes
+run_topGO <- function(de_container = NULL,
+                      res_de = NULL,
                       de_genes = NULL,
                       bg_genes = NULL,
                       top_de = NULL,
@@ -79,15 +100,10 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                       ontology = "BP", # could use also "MF"
                       annot = annFUN.org, # parameters for creating topGO object
                       mapping = "org.Mm.eg.db",
-                      geneID = "symbol", # could also beID = "entrez"
-                      # topTablerows = 200,     was used to limit table size. Now just use nrows
+                      gene_id = "symbol", # could also be = "entrez"
                       full_names_in_rows = TRUE,
                       add_gene_to_terms = TRUE,
                       de_type = "up_and_down",
-                      # plot_graph = FALSE,
-                      # plot_nodes = 10,
-                      # write_output = FALSE,
-                      output_file = "",
                       topGO_method2 = "elim",
                       do_padj = FALSE,
                       verbose = TRUE) {
@@ -101,7 +117,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
     several.ok = FALSE)
 
   # Check if there is any input at all
-  if (is.null(c(de_genes, bg_genes, dds, res_de))) {
+  if (is.null(c(de_genes, bg_genes, de_container, res_de))) {
     stop(
       "Please provide one of the following forms of input: \n",
       "A vector of differentially expressed genes and a vector of backgoud genes. \n",
@@ -110,12 +126,12 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   }
 
   # Check if there only a res_de is given
-  if (!is.null(res_de) & is.null(dds)) {
-    stop("Please also provide a DESeq2Dataset (dds) object.")
+  if (!is.null(res_de) & is.null(de_container)) {
+    stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
-  # check if only dds is given
-  if (!is.null(dds) & is.null(res_de)) {
+  # check if only de_container is given
+  if (!is.null(de_container) & is.null(res_de)) {
     stop("Please also provide a DESeq2 result object.")
   }
 
@@ -143,37 +159,37 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
-      "The argument de_type can only be used if a dds and a res_de object are provided:\n",
+      "The argument de_type can only be used if a de_container and a res_de object are provided:\n",
       "please either provide these objects or if you want to work with gene vectors set de_type to: 'up_and_down'"
     )
   }
 
   annot_to_map_to <- get(mapping)
 
-  if (!is.null(res_de) && !is.null(dds)) {
+  if (!is.null(res_de) && !is.null(de_container)) {
     # Check if the inputs are the correct type
 
-    if (!is(dds, "DESeqDataSet")) {
-      stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
+    if (!is(de_container, "DESeqDataSet")) {
+      stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
     }
 
     if (!is(res_de, "DESeqResults")) {
       stop("The provided `res_de` is not a DESeqResults object, please check your input parameters.")
     }
 
-    # checking that results and dds are related
-    ## at least a subset of dds should be in res
-    if (!all(rownames(res_de) %in% rownames(dds))) {
+    # checking that results and de_container are related
+    ## at least a subset of de_container should be in res
+    if (!all(rownames(res_de) %in% rownames(de_container))) {
       warning(
-        "It is likely that the provided `dds` and `res_de` objects are not related ",
-        "to the same dataset (the row names of the results are not all in the dds). ",
+        "It is likely that the provided `de_container` and `res_de` objects are not related ",
+        "to the same dataset (the row names of the results are not all in the de_container). ",
         "Are you sure you want to proceed?"
       )
     }
 
-    # Check if DESeq was run on the dds
-    if (!"results" %in% mcols(mcols(dds))$type) {
-      stop("I couldn't find results in your dds. You should first run DESeq2::DESeq() on your dds.")
+    # Check if DESeq was run on the de_container
+    if (!"results" %in% mcols(mcols(de_container))$type) {
+      stop("I couldn't find results in your de_container. You should first run DESeq2::DESeq() on your de_container.")
     }
 
     res_de$symbol <- AnnotationDbi::mapIds(annot_to_map_to,
@@ -199,7 +215,7 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
-    bg_ids <- rownames(dds)[rowSums(counts(dds)) > min_counts]
+    bg_ids <- rownames(de_container)[rowSums(counts(de_container)) > min_counts]
     bg_genes <- AnnotationDbi::mapIds(annot_to_map_to,
                                       keys = bg_ids,
                                       column = "SYMBOL",
@@ -207,15 +223,10 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                                       multiVals = "first"
     )
     if (verbose) {
-      message(
-        "Your dataset has ",
-        nrow(de_df),
-        " DE genes. You selected ",
-        length(de_genes), " (", sprintf("%.2f%%", (length(de_genes) / nrow(de_df)) * 100), # sprintf format with 2 decimal places
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
-      )
+      .info_enrichrun(n_de = nrow(de_df),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = res_de)
     }
   } else if (!is.null(c(bg_genes, de_genes))) {
     all_de <- length(de_genes)
@@ -225,15 +236,10 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
       de_genes <- de_genes[seq_len(top_de)]
     }
     if (verbose) {
-      message(
-        "Your dataset has ",
-        all_de,
-        " DE genes.You selected ",
-        length(de_genes), " (", sprintf("%.2f%%", (length(de_genes) / all_de) * 100), # sprintf format with 2 decimal places
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
-      )
+      .info_enrichrun(n_de = nrow(all_de),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = NULL)
     }
   }
 
@@ -249,15 +255,17 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                   nodeSize = 10,
                   annot = annot,
                   mapping = mapping,
-                  ID = geneID
+                  ID = gene_id
     )
   })
   # performing the test(s)
   suppressMessages({
-    result_method2 <- runTest(GOdata, algorithm = topGO_method2, statistic = "fisher")
+    result_method2 <- runTest(GOdata, algorithm = topGO_method2,
+                              statistic = "fisher")
   })
   suppressMessages({
-    resultClassic <- runTest(GOdata, algorithm = "classic", statistic = "fisher")
+    resultClassic <- runTest(GOdata, algorithm = "classic",
+                             statistic = "fisher")
   })
   sTab <- GenTable(GOdata,
                    p.value_method2 = result_method2,
@@ -267,14 +275,17 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
                    topNodes = length(score(resultClassic))
   )
 
-  names(sTab)[which(names(sTab) == "p.value_method2")] <- paste0("p.value_", topGO_method2)
+  names(sTab)[which(names(sTab) == "p.value_method2")] <-
+    paste0("p.value_", topGO_method2)
 
   sTab[["p.value_classic"]] <- as.numeric(sTab[["p.value_classic"]])
-  sTab[[paste0("p.value_", topGO_method2)]] <- as.numeric(sTab[[paste0("p.value_", topGO_method2)]])
+  sTab[[paste0("p.value_", topGO_method2)]] <-
+    as.numeric(sTab[[paste0("p.value_", topGO_method2)]])
 
   # if FDR, then apply it here
   if (do_padj) {
-    sTab[[paste0("padj_BY_", topGO_method2)]] <- p.adjust(sTab[[paste0("p.value_", topGO_method2)]], method = "BY")
+    sTab[[paste0("padj_BY_", topGO_method2)]] <-
+      p.adjust(sTab[[paste0("p.value_", topGO_method2)]], method = "BY")
   }
 
   # subset to specified number of rows
@@ -316,32 +327,45 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 #' based on the algorithm and the implementation in the goseq package
 #'
-#' Note: the feature length retrieval is based on the \code{\link{goseq}} function,
-#' and requires that the corresponding TxDb packages are installed and available
+#' Note: the feature length retrieval is based on the [goseq::goseq()]
+#' function, and requires that the corresponding TxDb packages are installed
+#' and available
 #'
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param de_genes A vector of (differentially expressed) genes
 #' @param bg_genes A vector of background genes, e.g. all (expressed) genes
 #' in the assays
-#' @param dds A DESeqDataset object created using \code{DESeq2}
-#' @param res_de A DESeqResults object created using \code{DESeq2}
-#' @param top_de numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
-#'  Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).
-#' @param FDR_threshold The pvalue threshold to us for counting genes as de. Default is 0.05
-#' @param min_counts numeric, min number of counts a gene needs to have to be included
-#' in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.
+#' @param top_de numeric, how many of the top differentially expressed genes to
+#' use for the enrichment analysis.
+#' Attempts to reduce redundancy. Assumes the data is sorted by padj
+#' (default in DESeq2).
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de.
+#' Default is 0.05
+#' @param min_counts numeric, min number of counts a gene needs to have to be
+#' included in the geneset that the de genes are compared to. Default is 0,
+#' recommended only for advanced users.
 #' @param genome A string identifying the genome that genes refer to, as in the
-#' \code{\link{goseq}} function
+#' [goseq::goseq()] function
 #' @param id A string identifying the gene identifier used by genes, as in the
-#' \code{\link{goseq}} function
-#' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:
-#'  upregulated, downregulated or both
-#' @param testCats A vector specifying which categories to test for over representation amongst DE genes - can be any combination of "GO:CC", "GO:BP", "GO:MF" & "KEGG"
-#' @param FDR_GO_cutoff Numeric value for subsetting the results
-#' @param mapping Character string, named as the \code{org.XX.eg.db}
+#' [goseq::goseq()] function
+#' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for
+#' GOterm calculations: upregulated, downregulated or both
+#' @param testCats A vector specifying which categories to test for
+#' overrepresentation amongst DE genes - can be any combination of "GO:CC",
+#' "GO:BP", "GO:MF" & "KEGG"
+#' @param mapping Character string, named as the `org.XX.eg.db`
 #' package which should be available in Bioconductor
-#' @param add_gene_to_terms Logical, whether to add a column with all genes annotated
-#' to each GO term
-#' @param verbose Logical, whether to add messages telling the user which steps were taken
+#' @param add_gene_to_terms Logical, whether to add a column with all genes
+#' annotated to each GO term
+#' @param verbose Logical, whether to add messages telling the user which steps
+#' were taken
 #'
 #' @return A table containing the computed GO Terms and related enrichment scores
 #'
@@ -352,6 +376,8 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' @importFrom AnnotationDbi mapIds
 #'
 #' @family Enrichment functions
+#'
+#' @seealso [goseq::goseq()] for the underlying method
 #'
 #' @examples
 #' library("macrophage")
@@ -368,31 +394,25 @@ run_topGO <- function(res_de = NULL, # Differentially expressed genes
 #' res_de <- res_macrophage_IFNg_vs_naive
 #' mygo <- run_goseq(
 #'   res_de = res_macrophage_IFNg_vs_naive,
-#'   dds = dds_macrophage,
+#'   de_container = dds_macrophage,
 #'   mapping = "org.Hs.eg.db",
 #'   testCats = "GO:BP",
 #'   add_gene_to_terms = TRUE
 #' )
 #'
 #' head(mygo)
-run_goseq <- function(res_de = NULL,
-                      dds = NULL,
-                      de_genes = NULL, # Differentially expressed genes
-                      bg_genes = NULL, # background genes, normally = rownames(cds) or filtering to genes,
+run_goseq <- function(de_container = NULL,
+                      res_de = NULL,
+                      de_genes = NULL,
+                      bg_genes = NULL,
                       top_de = NULL,
                       FDR_threshold = 0.05,
                       min_counts = 0,
-                      #  with at least 1 read - could also be ls(org.Mm.egGO)
                       genome = "hg38",
                       id = "ensGene",
                       de_type = "up_and_down",
                       testCats = c("GO:BP", "GO:MF", "GO:CC"),
-                      FDR_GO_cutoff = 1,
-                      # nTop = 200,
                       mapping = "org.Hs.eg.db",
-                      # testKegg=TRUE,
-                      # keggObject=mapPathwayToName("mmu"), # need the dedicated function!!
-                      # writeOutput=FALSE,
                       add_gene_to_terms = TRUE,
                       verbose = TRUE
 ) {
@@ -403,7 +423,7 @@ run_goseq <- function(res_de = NULL,
     several.ok = FALSE)
 
   # Check if there is any input at all
-  if (is.null(c(de_genes, bg_genes, dds, res_de))) {
+  if (is.null(c(de_genes, bg_genes, de_container, res_de))) {
     stop(
       "Please provide one of the following forms of input: \n",
       "A vector of differentially expressed genes and a vector of backgoud genes. \n",
@@ -412,12 +432,12 @@ run_goseq <- function(res_de = NULL,
   }
 
   # Check if there only a res_de is given
-  if (!is.null(res_de) & is.null(dds)) {
-    stop("Please also provide a DESeq2Dataset (dds) object.")
+  if (!is.null(res_de) & is.null(de_container)) {
+    stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
-  # check if only dds is given
-  if (!is.null(dds) & is.null(res_de)) {
+  # check if only de_container is given
+  if (!is.null(de_container) & is.null(res_de)) {
     stop("Please also provide a DESeq2 result object.")
   }
 
@@ -435,35 +455,35 @@ run_goseq <- function(res_de = NULL,
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
     if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
-      "The argument de_type can only be used if a dds and a res_de object are provided:\n",
+      "The argument de_type can only be used if a de_container and a res_de object are provided:\n",
       "please either provide these objects or if you want to work with gene vectors set de_type to: 'up_and_down'"
     )
   }
 
-  if (!is.null(res_de) && !is.null(dds)) {
+  if (!is.null(res_de) && !is.null(de_container)) {
     # Check if the inputs are the correct type
 
-    if (!is(dds, "DESeqDataSet")) {
-      stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
+    if (!is(de_container, "DESeqDataSet")) {
+      stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
     }
 
     if (!is(res_de, "DESeqResults")) {
       stop("The provided `res_de` is not a DESeqResults object, please check your input parameters.")
     }
 
-    # checking that results and dds are related
-    ## at least a subset of dds should be in res
-    if (!all(rownames(res_de) %in% rownames(dds))) {
+    # checking that results and de_container are related
+    ## at least a subset of de_container should be in res
+    if (!all(rownames(res_de) %in% rownames(de_container))) {
       warning(
-        "It is likely that the provided `dds` and `res_de` objects are not related ",
-        "to the same dataset (the row names of the results are not all in the dds). ",
+        "It is likely that the provided `de_container` and `res_de` objects are not related ",
+        "to the same dataset (the row names of the results are not all in the de_container). ",
         "Are you sure you want to proceed?"
       )
     }
 
-    # Check if DESeq was run on the dds
-    if (!"results" %in% mcols(mcols(dds))$type) {
-      stop("I couldn't find results in your dds. You should first run DESeq2::DESeq() on your dds.")
+    # Check if DESeq was run on the de_container
+    if (!"results" %in% mcols(mcols(de_container))$type) {
+      stop("I couldn't find results in your de_container. You should first run DESeq2::DESeq() on your de_container.")
     }
 
     if (de_type == "up_and_down") {
@@ -483,16 +503,13 @@ run_goseq <- function(res_de = NULL,
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
-    bg_genes <- rownames(dds)[rowSums(counts(dds)) > min_counts]
+    bg_genes <- rownames(de_container)[rowSums(counts(de_container)) > min_counts]
+
     if (verbose) {
-      message(
-        "Your dataset has ",
-        nrow(res_de_subset),
-        " DE genes. You selected ",
-        length(de_genes), " (", sprintf("%.2f%%", (length(de_genes) / nrow(res_de_subset)) * 100), # sprintf format with 2 decimal places
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
+      .info_enrichrun(n_de = nrow(res_de_subset),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = res_de
       )
     }
   } else if (!is.null(c(bg_genes, de_genes))) {
@@ -502,15 +519,12 @@ run_goseq <- function(res_de = NULL,
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
+
     if (verbose) {
-      message(
-        "Your dataset has ",
-        all_de,
-        " DE genes.You selected ",
-        length(de_genes), " (", sprintf("%.2f%%", (length(de_genes) / all_de) * 100), # sprintf format with 2 decimal places
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
+      .info_enrichrun(n_de = all_de,
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = NULL
       )
     }
   }
@@ -518,8 +532,6 @@ run_goseq <- function(res_de = NULL,
   # creating the vectors
   gene.vector <- as.integer(bg_genes %in% de_genes)
   names(gene.vector) <- bg_genes
-
-  fdr <- FDR_GO_cutoff
 
   pwf <- nullp(DEgenes = gene.vector, genome = genome, id = id, plot.fit = FALSE)
 
@@ -567,9 +579,13 @@ run_goseq <- function(res_de = NULL,
     })
 
     # coerce to char
-    goseq_out$genes <- unlist(lapply(goseq_out$genes, function(arg) paste(arg, collapse = ",")))
+    goseq_out$genes <- unlist(lapply(
+      goseq_out$genes, function(arg) paste(arg, collapse = ",")
+    ))
     # coerce to char
-    goseq_out$genesymbols <- unlist(lapply(goseq_out$genesymbols, function(arg) paste(arg, collapse = ",")))
+    goseq_out$genesymbols <- unlist(lapply(
+      goseq_out$genesymbols, function(arg) paste(arg, collapse = ",")
+    ))
   }
 
   return(goseq_out)
@@ -582,25 +598,41 @@ run_goseq <- function(res_de = NULL,
 #' A wrapper for extracting functional GO terms enriched in a list of (DE) genes,
 #' based on the algorithm and the implementation in the clusterProfiler package
 #'
-#' Note: the feature length retrieval is based on the \code{\link{enrichGO}} function
-#'
-#' @param res_de A DESeqResults object created using \code{DESeq2}
-#' @param dds A DESeqDataset object created using \code{DESeq2}
+#' @param de_container An object containing the data for a Differential
+#' Expression workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqDataSet` object, normally obtained after
+#' running your data through the `DESeq2` framework.
+#' @param res_de An object containing the results of the Differential Expression
+#' analysis workflow (e.g. `DESeq2`, `edgeR` or `limma`).
+#' Currently, this can be a `DESeqResults` object created using the `DESeq2`
+#' framework.
 #' @param de_genes A vector of (differentially expressed) genes
-#' @param bg_genes A vector of background genes, e.g. all (expressed) genes in the assays
-#' @param top_de numeric, how many of the top differentially expressed genes to use for the enrichment analysis.
-#'  Attempts to reduce redundancy. Assumes the data is sorted by padj (default in DESeq2).
-#' @param FDR_threshold The pvalue threshold to us for counting genes as de. Default is 0.05
-#' @param min_counts numeric, min number of counts a gene needs to have to be included
-#' in the geneset that the de genes are compared to. Default is 0, recommended only for advanced users.
-#' @param mapping Which \code{org.XX.eg.db} to use for annotation - select according to the species
-#' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for GOterm calculations:
-#' @param keyType Gene format to input into enrichGO from clusterProfiler. If res_de and dds are used use "SYMBOL" for more
-#' information check the enrichGO documentation
-#' @param verbose Logical, whether to add messages telling the user which steps were taken
-#' @param ... Further parameters to use for the go_enrich function from \code{clusterProfiler}
+#' @param bg_genes A vector of background genes, e.g. all (expressed) genes in
+#' the assays
+#' @param top_de numeric, how many of the top differentially expressed genes to
+#' use for the enrichment analysis.
+#' Attempts to reduce redundancy. Assumes the data is sorted by padj (default
+#' in DESeq2).
+#' @param FDR_threshold The pvalue threshold to us for counting genes as de.
+#' Default is 0.05
+#' @param min_counts numeric, min number of counts a gene needs to have to be
+#' included in the geneset that the de genes are compared to. Default is 0,
+#' recommended only for advanced users.
+#' @param mapping Which `org.XX.eg.db` package to use for annotation - select
+#' according to the species
+#' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for
+#' GOterm calculations
+#' @param keyType Gene format to input into enrichGO from clusterProfiler.
+#' If res_de and de_container are used use "SYMBOL" for more information check the
+#' enrichGO documentation
+#' @param verbose Logical, whether to add messages telling the user which steps
+#' were taken
+#' @param ... Further parameters to use for the [clusterProfiler::enrichGO()]
+#' function from `clusterProfiler`.
 #'
-#' @return A table containing the computed GO Terms and related enrichment scores
+#' @return A table containing the computed GO Terms and related enrichment
+#' scores.
+#'
 #' @export
 #'
 #' @importFrom AnnotationDbi mapIds
@@ -610,6 +642,8 @@ run_goseq <- function(res_de = NULL,
 #' @importFrom DESeq2 counts
 #'
 #' @family Enrichment functions
+#'
+#' @seealso [clusterProfiler::enrichGO()] for the underlying method
 #'
 #' @examples
 #' library("macrophage")
@@ -628,11 +662,11 @@ run_goseq <- function(res_de = NULL,
 #' library("clusterProfiler")
 #' CluProde_macrophage <- run_cluPro(
 #'   res_de = res_macrophage_IFNg_vs_naive,
-#'   dds = dds_macrophage,
+#'   de_container = dds_macrophage,
 #'   mapping = "org.Hs.eg.db"
 #' )
-run_cluPro <- function(res_de = NULL,
-                       dds = NULL,
+run_cluPro <- function(de_container = NULL,
+                       res_de = NULL,
                        de_genes = NULL,
                        bg_genes = NULL,
                        top_de = NULL,
@@ -643,16 +677,15 @@ run_cluPro <- function(res_de = NULL,
                        keyType = "SYMBOL",
                        verbose = TRUE,
                        ...) {
-  if (!is.null(res_de) & !is.null(dds)) {
+  if (!is.null(res_de) & !is.null(de_container)) {
     keyType <- "SYMBOL"
-    # Making sure that if res_de and dds are provided the keytype can't be overwritten to be ENTREZ
-    # or something similar as the genevectors this functions creates from the res_de and dds use SYMBOLS
+    # Making sure that if res_de and de_container are provided the keytype can't be
+    # overwritten to be ENTREZ or something similar as the genevectors this
+    # functions creates from the res_de and de_container use SYMBOLS
     # therefore enrichGO would not run with a keytype that was set wrong before
   }
 
   ## Checks:
-
-  # Check if de_type is correct
 
   de_type <- match.arg(
     de_type,
@@ -660,7 +693,7 @@ run_cluPro <- function(res_de = NULL,
     several.ok = FALSE)
 
   # Check if there is any input at all
-  if (is.null(c(de_genes, bg_genes, dds, res_de))) {
+  if (is.null(c(de_genes, bg_genes, de_container, res_de))) {
     stop(
       "Please provide one of the following forms of input: \n",
       "A vector of differentially expressed genes and a vector of backgoud genes. \n",
@@ -669,12 +702,12 @@ run_cluPro <- function(res_de = NULL,
   }
 
   # Check if there only a res_de is given
-  if (!is.null(res_de) & is.null(dds)) {
-    stop("Please also provide a DESeq2Dataset (dds) object.")
+  if (!is.null(res_de) & is.null(de_container)) {
+    stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
-  # check if only dds is given
-  if (!is.null(dds) & is.null(res_de)) {
+  # check if only de_container is given
+  if (!is.null(de_container) & is.null(res_de)) {
     stop("Please also provide a DESeq2 result object.")
   }
 
@@ -693,37 +726,37 @@ run_cluPro <- function(res_de = NULL,
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
-      "The argument de_type can only be used if a dds and a res_de object are provided:\n",
+      "The argument de_type can only be used if a de_container and a res_de object are provided:\n",
       "please either provide these objects or if you want to work with gene vectors set de_type to: 'up_and_down'"
     )
   }
 
   annot_to_map_to <- get(mapping)
 
-  if (!is.null(res_de) && !is.null(dds)) {
+  if (!is.null(res_de) && !is.null(de_container)) {
     # Check if the inputs are the correct type
 
-    if (!is(dds, "DESeqDataSet")) {
-      stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
+    if (!is(de_container, "DESeqDataSet")) {
+      stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
     }
 
     if (!is(res_de, "DESeqResults")) {
       stop("The provided `res_de` is not a DESeqResults object, please check your input parameters.")
     }
 
-    # checking that results and dds are related
-    ## at least a subset of dds should be in res
-    if (!all(rownames(res_de) %in% rownames(dds))) {
+    # checking that results and de_container are related
+    ## at least a subset of de_container should be in res
+    if (!all(rownames(res_de) %in% rownames(de_container))) {
       warning(
-        "It is likely that the provided `dds` and `res_de` objects are not related ",
-        "to the same dataset (the row names of the results are not all in the dds). ",
+        "It is likely that the provided `de_container` and `res_de` objects are not related ",
+        "to the same dataset (the row names of the results are not all in the de_container). ",
         "Are you sure you want to proceed?"
       )
     }
 
-    # Check if DESeq was run on the dds
-    if (!"results" %in% mcols(mcols(dds))$type) {
-      stop("I couldn't find results in your dds. You should first run DESeq2::DESeq() on your dds.")
+    # Check if DESeq was run on the de_container
+    if (!"results" %in% mcols(mcols(de_container))$type) {
+      stop("I couldn't find results in your de_container. You should first run DESeq2::DESeq() on your de_container.")
     }
 
     res_de$symbol <- AnnotationDbi::mapIds(annot_to_map_to,
@@ -755,22 +788,19 @@ run_cluPro <- function(res_de = NULL,
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
-    bg_ids <- rownames(dds)[rowSums(counts(dds)) > min_counts]
+    bg_ids <- rownames(de_container)[rowSums(counts(de_container)) > min_counts]
     bg_genes <- AnnotationDbi::mapIds(annot_to_map_to,
       keys = bg_ids,
       column = "SYMBOL",
       keytype = "ENSEMBL",
       multiVals = "first"
     )
+
     if (verbose) {
-      message(
-        "Your dataset has ",
-        nrow(de_df),
-        " DE genes. You selected ",
-        length(de_genes), " (", sprintf("%.2f%%", (length(de_genes) / nrow(de_df)) * 100), # sprintf format with 2 decimal places
-        ") genes. You analysed all ",
-        de_type,
-        "-regulated genes"
+      .info_enrichrun(n_de = nrow(de_df),
+                      n_de_selected = length(de_genes),
+                      de_type = de_type,
+                      res_de = res_de
       )
     }
   } else if (!is.null(c(bg_genes, de_genes))) {
@@ -781,14 +811,10 @@ run_cluPro <- function(res_de = NULL,
       de_genes <- de_genes[seq_len(top_de)]
 
       if (verbose) {
-        message(
-          "Your dataset has ",
-          all_de,
-          " DE genes.You selected ",
-          length(de_genes), " (", sprintf("%.2f%%", (length(de_genes) / all_de) * 100), # sprintf format with 2 decimal places
-          ") genes. You analysed all ",
-          de_type,
-          "-regulated genes"
+        .info_enrichrun(n_de = all_de,
+                        n_de_selected = length(de_genes),
+                        de_type = de_type,
+                        res_de = NULL
         )
       }
     }
@@ -803,4 +829,32 @@ run_cluPro <- function(res_de = NULL,
   )
 
   return(res_enrich)
+}
+
+
+#' Printing some info before the enrichment runs
+#'
+#' @param n_de Numeric, number of DE genes (in total)
+#' @param n_de_selected Character vector, containing the selected DE genes
+#' @param de_type Character string, specifying up/down/both direction of
+#' DE regulation
+#' @param res_de The `res_de` container as expected in most `mosdef` functions.
+#'
+#' @return Prints out an informative summary message.
+#'
+#' @examples
+#' # .info_enrichrun(10, c("geneA", "geneB"), "up")
+.info_enrichrun <- function(n_de, n_de_selected, de_type, res_de = NULL) {
+  message(
+    "Your dataset has ", n_de, " DE genes.\n",
+    "You selected ", n_de_selected,
+    " (", sprintf("%.2f%%", (n_de_selected / n_de) * 100),
+    ") genes for the enrichment analysis.\n",
+    ifelse(
+      is.null(res_de),
+      "",
+      paste0("You are analyzing ", de_type, "-regulated genes in the `res_de` container\n")
+    )
+
+  )
 }

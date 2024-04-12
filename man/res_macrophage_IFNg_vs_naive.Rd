@@ -19,8 +19,9 @@ for the different cell \code{line}s included.
 Specifically, this object contains the differences between the \code{IFNg} vs
 \code{naive} samples, testing against a logFC threshold of 1 for robustness.
 
-Details on how this object has been created are included in the \code{create_mosdef_data.R}
-script, included in the \code{scripts} folder of the \code{mosdef} package.
+Details on how this object has been created are included in the
+\code{create_mosdef_data.R} script, included in the \code{scripts} folder of the
+\code{mosdef} package.
 }
 \references{
 Alasoo, et al. "Shared genetic effects on chromatin and gene
