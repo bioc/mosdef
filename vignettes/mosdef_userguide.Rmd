@@ -61,8 +61,8 @@ Historically, many of these functions (at least conceptually) have been develope
 
 In order to use `r BiocStyle::Biocpkg("mosdef")` in your workflow, two main inputs are required: 
 
-- `dds`, a `DESeqDataSet` containing the expression matrix
-- `res_de`, a `DESeqResults`, i.e. a `DataFrame` storing the results of the differential expression analysis
+- `de_container`, a dataset containing the expression matrix for example a `DESeqDataSet`
+- `res_de`, a dataset, such as a `DESeqResults` storing the results of the differential expression analysis
 
 Additionally, the `mapping` parameters, shared by a number of functions, refers to the annotation of your species provided by `r BiocStyle::Biocpkg("AnnotationDbi")`-like packages, which are commonplace in the Bioconductor environment. 
 For human, this would be `r BiocStyle::Biocannopkg("org.Hs.eg.db")`, and for mouse `r BiocStyle::Biocannopkg("org.Mm.eg.db")`.
@@ -251,7 +251,7 @@ Importantly, the feature length retrieval is based on the `goseq()` function, an
 
 ```{r rungoseq, eval = FALSE}
 goseq_macrophage <- run_goseq(
-  dds = dds_macrophage,
+  de_container = dds_macrophage,
   res_de = res_macrophage_IFNg_vs_naive,
   mapping = "org.Hs.eg.db",
   testCats = "GO:BP" # which categories to test of ("GO:BP, "GO:MF", "GO:CC")
@@ -287,7 +287,7 @@ For example, as we are doing in the chunk that follows, we set Biological Proces
 
 ```{r runclupro, eval = FALSE}
 clupro_macrophage <- run_cluPro(
-  dds = dds_macrophage,
+  de_container = dds_macrophage,
   res_de = res_macrophage_IFNg_vs_naive,
   mapping = "org.Hs.eg.db",
   keyType = "SYMBOL",
@@ -316,7 +316,7 @@ The definitions of these columns are included in the extensive `r BiocStyle::Bio
 ## Alternative ways to run enrichment analyses, within `mosdef`
 
 All of these functions tailored to run enrichment methods also work if you only have/provide a vector of differentially expressed genes and a vector of background genes. 
-Most of the above mentioned parameters work here as well (`top_de`, `verbose`), however parameters like `min_counts` and `de_type` will not affect the result, since they need further information which can only be found in the `DESeqDataset` and `DESeqResults` (in this case, access to the counts from the `DESeqDataset` object `dds` and the Log2FoldChange from the `DESeqResults` object passed to `res_de`).
+Most of the above mentioned parameters work here as well (`top_de`, `verbose`), however parameters like `min_counts` and `de_type` will not affect the result, since they need further information which can only be found in the `DESeqDataset` and `DESeqResults` (in this case, access to the counts from the `DESeqDataset` object `de_container` and the Log2FoldChange from the `DESeqResults` object passed to `res_de`).
 
 ```{r topgoalt}
 res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:500, ] # reduce size to increase computational speed
@@ -353,7 +353,7 @@ Key parameters are in this case:
 
 * `de_container`: Your `DESeqDataset` 
 * `gene`: The gene of interest
-* `intgroup`: A character vector of names in `colData(dds)` used for grouping the expression values. 
+* `intgroup`: A character vector of names in `colData(de_container)` used for grouping the expression values. 
 
 Notably, `gene_plot()` also has some heuristics to suggest an appropriate layer of plotting the data points, depending on the number of samples included in each individual group - this include the simple jittered points, a boxplot, a violin plot, or a sina plot. 
 This automatic behavior can be suppressed by specifying a different value for the `plot_type` parameter.
