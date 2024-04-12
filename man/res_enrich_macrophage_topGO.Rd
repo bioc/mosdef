@@ -5,7 +5,7 @@
 \alias{res_enrich_macrophage_topGO}
 \title{A sample enrichment object}
 \format{
-Binary R.Data
+A \code{data.frame} object
 }
 \description{
 A sample enrichment object, generated in the \code{mosdef} and \code{topGO} framework
@@ -18,8 +18,8 @@ Biological Process ontology, mapping the gene symbol identifiers through the
 \code{org.Hs.eg.db} package.
 
 Details on how this object has been created are included in the
-\code{create_mosdef_data.R} script, included in the \code{scripts} folder of the
-\code{mosdef} package.
+\code{create_mosdef_data.R} script, included in the (installed) \code{inst/scripts}
+folder of the \code{mosdef} package.
 }
 \references{
 Alasoo, et al. "Shared genetic effects on chromatin and gene
