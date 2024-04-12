@@ -249,7 +249,7 @@ Parameters like `top_de`, `min_counts`, `verbose` and `de_type` can also be used
 Importantly, the feature length retrieval is based on the `goseq()` function, and this requires that the corresponding TxDb packages are installed and available. So make sure one is installed on your machine. For human samples, the recommended one is `r BiocStyle::Biocannopkg("TxDb.Hsapiens.UCSC.hg38.knownGene")`.
 
 
-```{r rungoseq, eval = FALSE}
+```{r rungoseq, eval = TRUE}
 goseq_macrophage <- run_goseq(
   de_container = dds_macrophage,
   res_de = res_macrophage_IFNg_vs_naive,
@@ -259,14 +259,7 @@ goseq_macrophage <- run_goseq(
 head(goseq_macrophage)
 ```
 
-To save time when rendering here we use the provided objects in `r BiocStyle::Biocpkg("mosdef")` to demonstrate the output.
-
-
-```{r resultsgoseq}
-data(res_enrich_macrophage_goseq, package = "mosdef")
-head(res_enrich_macrophage_goseq)
-```
-The function will return a table with `r ncol(res_enrich_macrophage_goseq)` columns
+The function will return a table with `r ncol(goseq_macrophage)` columns
 
 * `category`: The computer readable GO term ID.
 * `over_represented_pvalue`: p-value for the overrepresentation test for enrichment (as specified by the `goseq` algorithm)
