@@ -12,15 +12,15 @@
 #' @param col_to_use name of the columns were the gene symbols are stored.
 #' Default is SYMBOL
 #' @param output_format a parameter deciding which output format to return,
-#' either a DT:datatable (recommended) or a simple dataframe (DF).
+#' either a "DT" ([DT::datatable()], recommended), or a simple dataframe ("DF").
 #' In the latter case it is important that if the data is visualized with the
-#'  \code{datatable} function the parameter escape must be set to FALSE
+#'  `DT::datatable` function the parameter escape must be set to FALSE
 #' @param ens_col Character string, name of the columns were the ENSEMBL IDs
 #' are stored.
 #' @param ens_species The species you are working with to link to the correct
 #' gene on ENSEMBL
 #'
-#' @return A dataframe or a \code{DT} datatable object with columns adding HTML
+#' @return A data.frame or a `DT::datatable` object with columns adding HTML
 #' objects that link to websites with further information on the genes in
 #' question.
 #'
