@@ -38,7 +38,7 @@ save(res_enrich_macrophage_topGO, file = "data/res_enrich_macrophage_topGO.RData
 library("goseq")
 res_enrich_macrophage_goseq <- run_goseq(
   res_de = res_macrophage_IFNg_vs_naive,
-  dds = dds_macrophage,
+  de_container = dds_macrophage,
   mapping = "org.Hs.eg.db",
   testCats = "GO:BP",
   add_gene_to_terms = TRUE
@@ -49,7 +49,7 @@ save(res_enrich_macrophage_goseq, file = "data/res_enrich_macrophage_goseq.RData
 library("clusterProfiler")
 res_enrich_macrophage_cluPro <- run_cluPro(
   res_de = res_macrophage_IFNg_vs_naive,
-  dds = dds_macrophage,
+  de_container = dds_macrophage,
   mapping = "org.Hs.eg.db",
   ont = "BP"
 )

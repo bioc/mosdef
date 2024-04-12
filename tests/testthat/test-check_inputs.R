@@ -3,7 +3,7 @@ test_that("Early fails are triggered", {
   expect_error({
     run_cluPro(
       res_de = myde,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db"
     )
   })
@@ -31,7 +31,7 @@ test_that("Early fails are triggered", {
   expect_error({
     run_goseq(
       res_de = myde,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db"
     )
   })
@@ -54,7 +54,7 @@ test_that("Early fails are triggered", {
     )
   })
 })
-test_that("check if dds are dds and vecs are vecs", {
+test_that("check if de_container are de_container and vecs are vecs", {
   expect_error({
     run_cluPro(
       res_de = res_macrophage_IFNg_vs_naive,
@@ -75,7 +75,7 @@ test_that("check if dds are dds and vecs are vecs", {
   expect_error({
     run_goseq(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = myassayed,
+      de_container = myassayed,
       mapping = "org.Hs.eg.db"
     )
   })
@@ -150,7 +150,7 @@ test_that("Check if de_type is correct", {
   expect_error({
     run_cluPro(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db",
       de_type = "all"
     )
@@ -159,7 +159,7 @@ test_that("Check if de_type is correct", {
   expect_error({
     run_goseq(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db",
       de_type = "all"
     )
@@ -177,12 +177,12 @@ test_that("Check if de_type is correct", {
   })
 })
 
-test_that("res_de and dds are related", {
+test_that("res_de and de_container are related", {
   expect_warning(
     {
       run_cluPro(
         res_de = res_mock,
-        dds = dds_mock,
+        de_container = dds_mock,
         mapping = "org.Hs.eg.db"
       )
     },
@@ -190,12 +190,12 @@ test_that("res_de and dds are related", {
   )
 })
 
-test_that("res_de and dds are related", {
+test_that("res_de and de_container are related", {
   expect_warning(
     {
       run_goseq(
         res_de = res_mock,
-        dds = dds_mock,
+        de_container = dds_mock,
         mapping = "org.Hs.eg.db",
         add_gene_to_terms = FALSE
       )
@@ -204,7 +204,7 @@ test_that("res_de and dds are related", {
   )
 })
 
-test_that("res_de and dds are related", {
+test_that("res_de and de_container are related", {
   expect_warning(
     {
       run_topGO(
@@ -219,11 +219,11 @@ test_that("res_de and dds are related", {
   )
 })
 
-test_that("DESeq was run on the dds", {
+test_that("DESeq was run on the de_container", {
   expect_error({
     run_cluPro(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage_nodeseq,
+      de_container = dds_macrophage_nodeseq,
       mapping = "org.Hs.eg.db"
     )
   })
@@ -231,7 +231,7 @@ test_that("DESeq was run on the dds", {
   expect_error({
     run_goseq(
       res_de = res_macrophage_IFNg_vs_naive,
-      dds = dds_macrophage_nodeseq,
+      de_container = dds_macrophage_nodeseq,
       mapping = "org.Hs.eg.db",
       add_gene_to_terms = FALSE
     )
@@ -254,14 +254,14 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
 
   expect_error({
     run_cluPro(
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db"
     )
   })
 
   expect_error({
     run_goseq(
-      dds = dds_macrophage,
+      de_container = dds_macrophage,
       mapping = "org.Hs.eg.db",
       add_gene_to_terms = FALSE
     )
@@ -276,7 +276,7 @@ test_that("Errors are thrown if only one of two needed inputs is provided", {
     )
   })
 
-  # dds is missing
+  # de_container is missing
 
   expect_error({
     run_cluPro(
