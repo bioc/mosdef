@@ -14,7 +14,7 @@
 #' `create_mosdef_data.R` script, included in the `scripts` folder of the
 #' `mosdef` package.
 #'
-#' @format Binary R.Data
+#' @format A `DESeqResults` object
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
@@ -40,7 +40,7 @@ NULL
 #' `create_mosdef_data.R` script, included in the `scripts` folder of the
 #' `mosdef` package.
 #'
-#' @format Binary R.Data
+#' @format A `data.frame` object
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
@@ -68,7 +68,7 @@ NULL
 #' `create_mosdef_data.R` script, included in the `scripts` folder of the
 #' `mosdef` package.
 #'
-#' @format Binary R.Data
+#' @format A `data.frame` object
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
@@ -97,7 +97,7 @@ NULL
 #' `create_mosdef_data.R` script, included in the `scripts` folder of the
 #' `mosdef` package.
 #'
-#' @format Binary R.Data
+#' @format An `enrichResult` object
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
