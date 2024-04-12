@@ -402,7 +402,7 @@ run_topGO <- function(de_container = NULL,
 #' res_de <- res_macrophage_IFNg_vs_naive
 #' mygo <- run_goseq(
 #'   res_de = res_macrophage_IFNg_vs_naive,
-#'   dds = dds_macrophage,
+#'   de_container = dds_macrophage,
 #'   mapping = "org.Hs.eg.db",
 #'   testCats = "GO:BP",
 #'   add_gene_to_terms = TRUE
@@ -431,7 +431,7 @@ run_goseq <- function(de_container = NULL,
     several.ok = FALSE)
 
   # Check if there is any input at all
-  if (is.null(c(de_genes, bg_genes, dds, res_de))) {
+  if (is.null(c(de_genes, bg_genes, de_container, res_de))) {
     stop(
       "Please provide one of the following forms of input: \n",
       "A vector of differentially expressed genes and a vector of backgoud genes. \n",
@@ -440,12 +440,12 @@ run_goseq <- function(de_container = NULL,
   }
 
   # Check if there only a res_de is given
-  if (!is.null(res_de) & is.null(dds)) {
+  if (!is.null(res_de) & is.null(de_container)) {
     stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
-  # check if only dds is given
-  if (!is.null(dds) & is.null(res_de)) {
+  # check if only de_container is given
+  if (!is.null(de_container) & is.null(res_de)) {
     stop("Please also provide a DESeq2 result object.")
   }
 
@@ -463,35 +463,35 @@ run_goseq <- function(de_container = NULL,
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
     if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
-      "The argument de_type can only be used if a dds and a res_de object are provided:\n",
+      "The argument de_type can only be used if a de_container and a res_de object are provided:\n",
       "please either provide these objects or if you want to work with gene vectors set de_type to: 'up_and_down'"
     )
   }
 
-  if (!is.null(res_de) && !is.null(dds)) {
+  if (!is.null(res_de) && !is.null(de_container)) {
     # Check if the inputs are the correct type
 
-    if (!is(dds, "DESeqDataSet")) {
-      stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
+    if (!is(de_container, "DESeqDataSet")) {
+      stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
     }
 
     if (!is(res_de, "DESeqResults")) {
       stop("The provided `res_de` is not a DESeqResults object, please check your input parameters.")
     }
 
-    # checking that results and dds are related
-    ## at least a subset of dds should be in res
-    if (!all(rownames(res_de) %in% rownames(dds))) {
+    # checking that results and de_container are related
+    ## at least a subset of de_container should be in res
+    if (!all(rownames(res_de) %in% rownames(de_container))) {
       warning(
-        "It is likely that the provided `dds` and `res_de` objects are not related ",
-        "to the same dataset (the row names of the results are not all in the dds). ",
+        "It is likely that the provided `de_container` and `res_de` objects are not related ",
+        "to the same dataset (the row names of the results are not all in the de_container). ",
         "Are you sure you want to proceed?"
       )
     }
 
-    # Check if DESeq was run on the dds
-    if (!"results" %in% mcols(mcols(dds))$type) {
-      stop("I couldn't find results in your dds. You should first run DESeq2::DESeq() on your dds.")
+    # Check if DESeq was run on the de_container
+    if (!"results" %in% mcols(mcols(de_container))$type) {
+      stop("I couldn't find results in your de_container. You should first run DESeq2::DESeq() on your de_container.")
     }
 
     if (de_type == "up_and_down") {
@@ -511,7 +511,7 @@ run_goseq <- function(de_container = NULL,
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
-    bg_genes <- rownames(dds)[rowSums(counts(dds)) > min_counts]
+    bg_genes <- rownames(de_container)[rowSums(counts(de_container)) > min_counts]
     if (verbose) {
       message(
         "Your dataset has ",
@@ -642,7 +642,7 @@ run_goseq <- function(de_container = NULL,
 #' @param de_type One of: 'up', 'down', or 'up_and_down' Which genes to use for
 #' GOterm calculations
 #' @param keyType Gene format to input into enrichGO from clusterProfiler.
-#' If res_de and dds are used use "SYMBOL" for more information check the
+#' If res_de and de_container are used use "SYMBOL" for more information check the
 #' enrichGO documentation
 #' @param verbose Logical, whether to add messages telling the user which steps
 #' were taken
@@ -679,7 +679,7 @@ run_goseq <- function(de_container = NULL,
 #' library("clusterProfiler")
 #' CluProde_macrophage <- run_cluPro(
 #'   res_de = res_macrophage_IFNg_vs_naive,
-#'   dds = dds_macrophage,
+#'   de_container = dds_macrophage,
 #'   mapping = "org.Hs.eg.db"
 #' )
 run_cluPro <- function(de_container = NULL,
@@ -694,11 +694,11 @@ run_cluPro <- function(de_container = NULL,
                        keyType = "SYMBOL",
                        verbose = TRUE,
                        ...) {
-  if (!is.null(res_de) & !is.null(dds)) {
+  if (!is.null(res_de) & !is.null(de_container)) {
     keyType <- "SYMBOL"
-    # Making sure that if res_de and dds are provided the keytype can't be
+    # Making sure that if res_de and de_container are provided the keytype can't be
     # overwritten to be ENTREZ or something similar as the genevectors this
-    # functions creates from the res_de and dds use SYMBOLS
+    # functions creates from the res_de and de_container use SYMBOLS
     # therefore enrichGO would not run with a keytype that was set wrong before
   }
 
@@ -710,7 +710,7 @@ run_cluPro <- function(de_container = NULL,
     several.ok = FALSE)
 
   # Check if there is any input at all
-  if (is.null(c(de_genes, bg_genes, dds, res_de))) {
+  if (is.null(c(de_genes, bg_genes, de_container, res_de))) {
     stop(
       "Please provide one of the following forms of input: \n",
       "A vector of differentially expressed genes and a vector of backgoud genes. \n",
@@ -719,12 +719,12 @@ run_cluPro <- function(de_container = NULL,
   }
 
   # Check if there only a res_de is given
-  if (!is.null(res_de) & is.null(dds)) {
+  if (!is.null(res_de) & is.null(de_container)) {
     stop("Please also provide a de_container such as a DESeq2Dataset object.")
   }
 
-  # check if only dds is given
-  if (!is.null(dds) & is.null(res_de)) {
+  # check if only de_container is given
+  if (!is.null(de_container) & is.null(res_de)) {
     stop("Please also provide a DESeq2 result object.")
   }
 
@@ -743,37 +743,37 @@ run_cluPro <- function(de_container = NULL,
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
-      "The argument de_type can only be used if a dds and a res_de object are provided:\n",
+      "The argument de_type can only be used if a de_container and a res_de object are provided:\n",
       "please either provide these objects or if you want to work with gene vectors set de_type to: 'up_and_down'"
     )
   }
 
   annot_to_map_to <- get(mapping)
 
-  if (!is.null(res_de) && !is.null(dds)) {
+  if (!is.null(res_de) && !is.null(de_container)) {
     # Check if the inputs are the correct type
 
-    if (!is(dds, "DESeqDataSet")) {
-      stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters.")
+    if (!is(de_container, "DESeqDataSet")) {
+      stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
     }
 
     if (!is(res_de, "DESeqResults")) {
       stop("The provided `res_de` is not a DESeqResults object, please check your input parameters.")
     }
 
-    # checking that results and dds are related
-    ## at least a subset of dds should be in res
-    if (!all(rownames(res_de) %in% rownames(dds))) {
+    # checking that results and de_container are related
+    ## at least a subset of de_container should be in res
+    if (!all(rownames(res_de) %in% rownames(de_container))) {
       warning(
-        "It is likely that the provided `dds` and `res_de` objects are not related ",
-        "to the same dataset (the row names of the results are not all in the dds). ",
+        "It is likely that the provided `de_container` and `res_de` objects are not related ",
+        "to the same dataset (the row names of the results are not all in the de_container). ",
         "Are you sure you want to proceed?"
       )
     }
 
-    # Check if DESeq was run on the dds
-    if (!"results" %in% mcols(mcols(dds))$type) {
-      stop("I couldn't find results in your dds. You should first run DESeq2::DESeq() on your dds.")
+    # Check if DESeq was run on the de_container
+    if (!"results" %in% mcols(mcols(de_container))$type) {
+      stop("I couldn't find results in your de_container. You should first run DESeq2::DESeq() on your de_container.")
     }
 
     res_de$symbol <- AnnotationDbi::mapIds(annot_to_map_to,
@@ -805,7 +805,7 @@ run_cluPro <- function(de_container = NULL,
       top_de <- min(top_de, length(de_genes))
       de_genes <- de_genes[seq_len(top_de)]
     }
-    bg_ids <- rownames(dds)[rowSums(counts(dds)) > min_counts]
+    bg_ids <- rownames(de_container)[rowSums(counts(de_container)) > min_counts]
     bg_genes <- AnnotationDbi::mapIds(annot_to_map_to,
       keys = bg_ids,
       column = "SYMBOL",
