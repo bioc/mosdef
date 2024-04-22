@@ -50,7 +50,7 @@ dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 dds_macrophage <- dds_macrophage[keep, ]
-dds_macrophage <- DESeq(dds_macrophage)
+# dds_macrophage <- DESeq(dds_macrophage)
 
 df_exp <- get_expr_values(
   de_container = dds_macrophage,

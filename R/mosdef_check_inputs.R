@@ -81,7 +81,7 @@ mosdef_res_check <- function(res_de,
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 #' dds_macrophage <- dds_macrophage[keep, ]
-#' dds_macrophage <- DESeq(dds_macrophage)
+#' # dds_macrophage <- DESeq(dds_macrophage)
 #'
 #' mosdef_de_container_check(dds_macrophage)
 mosdef_de_container_check <- function(de_container,

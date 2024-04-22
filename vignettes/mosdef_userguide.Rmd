@@ -315,7 +315,7 @@ All of these functions tailored to run enrichment methods also work if you only 
 Most of the above mentioned parameters work here as well (`top_de`, `verbose`), however parameters like `min_counts` and `de_type` will not affect the result, since they need further information which can only be found in the `DESeqDataset` and `DESeqResults` (in this case, access to the counts from the `DESeqDataset` object `de_container` and the Log2FoldChange from the `DESeqResults` object passed to `res_de`).
 
 ```{r topgoalt}
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:500, ] # reduce size to increase computational speed
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:100, ] 
 myde <- res_subset$id
 myassayed <- rownames(res_macrophage_IFNg_vs_naive)
 ## Here keys are Ensembl not symbols
@@ -358,7 +358,6 @@ This automatic behavior can be suppressed by specifying a different value for th
 
 Volcano plots are one of the most well known and used plots to display differentially expressed genes. 
 These functions return a basic `ggplot` object including the most important parts when creating a volcano plot. 
-This can be later expanded upon like any regular `ggplot` object by the user.
 
 ```{r volcanoplot}
 volcPlot <- de_volcano(
@@ -378,7 +377,7 @@ Again, an overview on the key parameters:
 * `labeled_genes`: The number of the top DE genes to be labeled. Default is 30.
 * `logfc_cutoff` and `FDR`: Where to draw the lines in the plot and which genes to mark as significant. The default is 1 (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05.  
 
-As mentioned above the user can now expand upon this with all the tools in the ggplot2 toolbox. For example:
+This plot can be later modified by the user, like any regular `ggplot` object. For example:
 
 ```{r volcanocustom}
 library("ggplot2")
@@ -389,9 +388,9 @@ volcPlot +
   xlab("Log 2 FoldChange (Cutoff 1/-1)")
 ```
 
-For further possibilities please look at the ggplot2 documentation.
+For further possibilities please look at the `r BiocStyle::CRANpkg("ggplot2")` documentation.
 
-In addition to only focusing on differentially expressed genes, in the volcanoPlot you can also highlight genes associated with a certain GO term of interest.
+In addition to only focusing on differentially expressed genes, in a volcano plot the user can also highlight genes associated with a certain GO term of interest.
 This can be done with the `go_volcano()` function:
 
 ```{r volcanogo}
@@ -460,6 +459,7 @@ If desired, `plot_ma()` further allows you to highlight certain genes of interes
 maplot_genes <- plot_ma(
   res_de = res_macrophage_IFNg_vs_naive,
   FDR = 0.1,
+  add_rug = FALSE,
   intgenes = c(
     "SLC7A2",
     "CFLAR",
@@ -500,7 +500,7 @@ You can access all of these easily by using one function that uses a `data.frame
 
 ```{r runbuttonifier}
 # creating a smaller subset for visualization purposes and to keep the main res_de
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:100, ]
 
 buttonifier(
   df = res_subset,
@@ -526,7 +526,7 @@ This is to ensure that the `escape = FALSE` parameter of `datatable` is set and 
 Advanced users that want further customization options to their `datatable` can ensure a `data.frame` is returned using the `output_format` parameter (then the `escape = FALSE` must be set by hand):
 
 ```{r dtcustomized}
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:100, ]
 
 res_subset <- buttonifier(res_subset,
   col_to_use = "symbol",
@@ -553,7 +553,7 @@ de_table_painter(res_subset,
                  signif_digits = 5)
 
 ## This also works directly on the DESeqResults objects:
-de_table_painter(res_macrophage_IFNg_vs_naive[1:100, ],
+de_table_painter(res_macrophage_IFNg_vs_naive[1:50, ],
                  rounding_digits = 3,
                  signif_digits = 5)
 
@@ -565,15 +565,15 @@ All of the functions included inside the `buttonifier()` function are also avail
 As a reminder: all functions, except the one related to the ENSEMBL database, can use/need gene symbols as input, so that the call to build up the table from its individual columns could be specified as in the following chunk:
 
 ```{r createlinks}
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:100, ]
 
 row.names(res_subset) <- create_link_ENSEMBL(row.names(res_subset), species = "Homo_sapiens")
 res_subset$symbol_GC <-  create_link_GeneCards(res_subset$symbol)
-res_subset$symbol_Pub <- create_link_PubMed(res_subset$symbol)
+res_subset$symbol_PubMed <- create_link_PubMed(res_subset$symbol)
 res_subset$symbol_NCBI <- create_link_NCBI(res_subset$symbol)
-res_subset$symbol_dbptm <- create_link_dbPTM(res_subset$symbol)
+res_subset$symbol_dbPTM <- create_link_dbPTM(res_subset$symbol)
 res_subset$symbol_GTEX <- create_link_GTEX(res_subset$symbol)
-res_subset$symbol_UniP <- create_link_UniProt(res_subset$symbol)
+res_subset$symbol_UniProt <- create_link_UniProt(res_subset$symbol)
 res_subset$symbol_HPA <- create_link_HPA(res_subset$symbol)
 
 DT::datatable(res_subset, escape = FALSE,
@@ -602,10 +602,12 @@ This can be a practical way to generate some HTML content to be embedded e.g. in
 
 ## More information on GO terms
 
+We display an interactive table for a subset of GO terms - in this case, we select the first 100 rows.
+
 ```{r golink}
 res_enrich_macrophage_topGO$GO.ID <- create_link_GO(res_enrich_macrophage_topGO$GO.ID)
 
-DT::datatable(res_enrich_macrophage_topGO, 
+DT::datatable(res_enrich_macrophage_topGO[1:100, ], 
               escape = FALSE,
               options = list(
                 scrollX = TRUE
