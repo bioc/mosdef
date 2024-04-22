@@ -1,3 +1,7 @@
+# mosdef 0.99.3
+
+* Working on the size and time constraints for the vignette/package to build and check on the BBS
+
 # mosdef 0.99.2
 
 * Better specification of data objects format and location in the installed folder
