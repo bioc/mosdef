@@ -378,7 +378,7 @@ Again, an overview on the key parameters:
 * `labeled_genes`: The number of the top DE genes to be labeled. Default is 30.
 * `logfc_cutoff` and `FDR`: Where to draw the lines in the plot and which genes to mark as significant. The default is 1 (meaning L2FC +/-1): So genes with a FoldChange higher than 1 or lower -1 and a padj value below 0.05.  
 
-As mentioned above the user can now expand upon this with all the tools in the ggplot2 toolbox. For example:
+This plot can be later modified by the user, like any regular `ggplot` object. For example:
 
 ```{r volcanocustom}
 library("ggplot2")
@@ -389,9 +389,9 @@ volcPlot +
   xlab("Log 2 FoldChange (Cutoff 1/-1)")
 ```
 
-For further possibilities please look at the ggplot2 documentation.
+For further possibilities please look at the `r BiocStyle::CRANpkg("ggplot2")` documentation.
 
-In addition to only focusing on differentially expressed genes, in the volcanoPlot you can also highlight genes associated with a certain GO term of interest.
+In addition to only focusing on differentially expressed genes, in a volcano plot the user can also highlight genes associated with a certain GO term of interest.
 This can be done with the `go_volcano()` function:
 
 ```{r volcanogo}
