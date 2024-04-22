@@ -358,7 +358,6 @@ This automatic behavior can be suppressed by specifying a different value for th
 
 Volcano plots are one of the most well known and used plots to display differentially expressed genes. 
 These functions return a basic `ggplot` object including the most important parts when creating a volcano plot. 
-This can be later expanded upon like any regular `ggplot` object by the user.
 
 ```{r volcanoplot}
 volcPlot <- de_volcano(
@@ -460,6 +459,7 @@ If desired, `plot_ma()` further allows you to highlight certain genes of interes
 maplot_genes <- plot_ma(
   res_de = res_macrophage_IFNg_vs_naive,
   FDR = 0.1,
+  add_rug = FALSE,
   intgenes = c(
     "SLC7A2",
     "CFLAR",
