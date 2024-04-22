@@ -315,7 +315,7 @@ All of these functions tailored to run enrichment methods also work if you only 
 Most of the above mentioned parameters work here as well (`top_de`, `verbose`), however parameters like `min_counts` and `de_type` will not affect the result, since they need further information which can only be found in the `DESeqDataset` and `DESeqResults` (in this case, access to the counts from the `DESeqDataset` object `de_container` and the Log2FoldChange from the `DESeqResults` object passed to `res_de`).
 
 ```{r topgoalt}
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:500, ] # reduce size to increase computational speed
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive)[1:100, ] 
 myde <- res_subset$id
 myassayed <- rownames(res_macrophage_IFNg_vs_naive)
 ## Here keys are Ensembl not symbols
@@ -500,7 +500,7 @@ You can access all of these easily by using one function that uses a `data.frame
 
 ```{r runbuttonifier}
 # creating a smaller subset for visualization purposes and to keep the main res_de
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:100, ]
 
 buttonifier(
   df = res_subset,
@@ -526,7 +526,7 @@ This is to ensure that the `escape = FALSE` parameter of `datatable` is set and 
 Advanced users that want further customization options to their `datatable` can ensure a `data.frame` is returned using the `output_format` parameter (then the `escape = FALSE` must be set by hand):
 
 ```{r dtcustomized}
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:100, ]
 
 res_subset <- buttonifier(res_subset,
   col_to_use = "symbol",
@@ -553,7 +553,7 @@ de_table_painter(res_subset,
                  signif_digits = 5)
 
 ## This also works directly on the DESeqResults objects:
-de_table_painter(res_macrophage_IFNg_vs_naive[1:100, ],
+de_table_painter(res_macrophage_IFNg_vs_naive[1:50, ],
                  rounding_digits = 3,
                  signif_digits = 5)
 
@@ -565,15 +565,15 @@ All of the functions included inside the `buttonifier()` function are also avail
 As a reminder: all functions, except the one related to the ENSEMBL database, can use/need gene symbols as input, so that the call to build up the table from its individual columns could be specified as in the following chunk:
 
 ```{r createlinks}
-res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:500, ]
+res_subset <- deresult_to_df(res_macrophage_IFNg_vs_naive, FDR = 0.05)[1:100, ]
 
 row.names(res_subset) <- create_link_ENSEMBL(row.names(res_subset), species = "Homo_sapiens")
 res_subset$symbol_GC <-  create_link_GeneCards(res_subset$symbol)
-res_subset$symbol_Pub <- create_link_PubMed(res_subset$symbol)
+res_subset$symbol_PubMed <- create_link_PubMed(res_subset$symbol)
 res_subset$symbol_NCBI <- create_link_NCBI(res_subset$symbol)
-res_subset$symbol_dbptm <- create_link_dbPTM(res_subset$symbol)
+res_subset$symbol_dbPTM <- create_link_dbPTM(res_subset$symbol)
 res_subset$symbol_GTEX <- create_link_GTEX(res_subset$symbol)
-res_subset$symbol_UniP <- create_link_UniProt(res_subset$symbol)
+res_subset$symbol_UniProt <- create_link_UniProt(res_subset$symbol)
 res_subset$symbol_HPA <- create_link_HPA(res_subset$symbol)
 
 DT::datatable(res_subset, escape = FALSE,
@@ -602,10 +602,12 @@ This can be a practical way to generate some HTML content to be embedded e.g. in
 
 ## More information on GO terms
 
+We display an interactive table for a subset of GO terms - in this case, we select the first 100 rows.
+
 ```{r golink}
 res_enrich_macrophage_topGO$GO.ID <- create_link_GO(res_enrich_macrophage_topGO$GO.ID)
 
-DT::datatable(res_enrich_macrophage_topGO, 
+DT::datatable(res_enrich_macrophage_topGO[1:100, ], 
               escape = FALSE,
               options = list(
                 scrollX = TRUE
