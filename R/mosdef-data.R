@@ -10,11 +10,12 @@
 #' Specifically, this object contains the differences between the `IFNg` vs
 #' `naive` samples, testing against a logFC threshold of 1 for robustness.
 #'
-#' Details on how this object has been created are included in the
-#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
-#' folder of the `mosdef` package.
-#'
 #' @format A `DESeqResults` object
+#'
+#' @source Details on how this object has been created are included in the
+#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
+#' folder of the `mosdef` package. This is also available at
+#' \url{https://github.com/imbeimainz/mosdef/blob/devel/inst/scripts/create_mosdef_data.R}
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
@@ -36,11 +37,12 @@ NULL
 #' Biological Process ontology, mapping the gene symbol identifiers through the
 #' `org.Hs.eg.db` package.
 #'
-#' Details on how this object has been created are included in the
-#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
-#' folder of the `mosdef` package.
-#'
 #' @format A `data.frame` object
+#'
+#' @source Details on how this object has been created are included in the
+#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
+#' folder of the `mosdef` package. This is also available at
+#' \url{https://github.com/imbeimainz/mosdef/blob/devel/inst/scripts/create_mosdef_data.R}
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
@@ -64,11 +66,12 @@ NULL
 #' `org.Hs.eg.db` package - the gene length information is retrieved by the
 #' internal routines of `goseq`.
 #'
-#' Details on how this object has been created are included in the
-#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
-#' folder of the `mosdef` package.
-#'
 #' @format A `data.frame` object
+#'
+#' @source Details on how this object has been created are included in the
+#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
+#' folder of the `mosdef` package. This is also available at
+#' \url{https://github.com/imbeimainz/mosdef/blob/devel/inst/scripts/create_mosdef_data.R}
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
@@ -93,11 +96,12 @@ NULL
 #' Biological Process ontology, mapping the gene identifiers through the
 #' `org.Hs.eg.db` package.
 #'
-#' Details on how this object has been created are included in the
-#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
-#' folder of the `mosdef` package.
-#'
 #' @format An `enrichResult` object
+#'
+#' @source Details on how this object has been created are included in the
+#' `create_mosdef_data.R` script, included in the (installed) `inst/scripts`
+#' folder of the `mosdef` package. This is also available at
+#' \url{https://github.com/imbeimainz/mosdef/blob/devel/inst/scripts/create_mosdef_data.R}
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
 #' expression indicate a role for enhancer priming in immune response",
