@@ -296,11 +296,12 @@ Importantly, `keyType` is relevant for the `enrichGO()` function that is wrapped
 If using `DESeqDataset` and `DESeqResults`, this has to be "SYMBOL" which is also the default. 
 If you use vectors please specify here what type of IDs you provide.
 
-Again, to save time when rendering the vignette, we load the objects provided alongside this package to demonstrate the output:
+Again, to save time when rendering the vignette, we load the objects provided alongside this package to demonstrate the output (see also [this script included in the package](https://github.com/imbeimainz/mosdef/blob/devel/inst/scripts/create_mosdef_data.R) to inspect the code used to generate the objects):
 
 ```{r resultsclupro}
 data(res_enrich_macrophage_cluPro, package = "mosdef")
 ```
+
 The function will return a large enrich result containing some metadata and the enrichment results with `r ncol(as.data.frame(res_enrich_macrophage_cluPro))` columns.
 
 ```{r cluproview}

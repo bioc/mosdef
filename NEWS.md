@@ -1,3 +1,7 @@
+# mosdef 0.99.4
+
+* Added persistent location to the script that generates the data objects
+
 # mosdef 0.99.3
 
 * Working on the size and time constraints for the vignette/package to build and check on the BBS

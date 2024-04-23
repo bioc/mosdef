@@ -7,6 +7,12 @@
 \format{
 An \code{enrichResult} object
 }
+\source{
+Details on how this object has been created are included in the
+\code{create_mosdef_data.R} script, included in the (installed) \code{inst/scripts}
+folder of the \code{mosdef} package. This is also available at
+\url{https://github.com/imbeimainz/mosdef/blob/devel/inst/scripts/create_mosdef_data.R}
+}
 \description{
 A sample enrichment object, generated in the \code{mosdef} and \code{clusterProfiler}
 framework
@@ -17,10 +23,6 @@ This enrichment object is on the data from the \code{macrophage} package
 Specifically, this set of enrichment results was created using the
 Biological Process ontology, mapping the gene identifiers through the
 \code{org.Hs.eg.db} package.
-
-Details on how this object has been created are included in the
-\code{create_mosdef_data.R} script, included in the (installed) \code{inst/scripts}
-folder of the \code{mosdef} package.
 }
 \references{
 Alasoo, et al. "Shared genetic effects on chromatin and gene
