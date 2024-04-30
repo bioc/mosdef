@@ -1,6 +1,6 @@
 Package: mosdef
 Title: MOSt frequently used and useful Differential Expression Functions
-Version: 0.99.4
+Version: 1.0.0
 Authors@R: 
     c(
         person(
