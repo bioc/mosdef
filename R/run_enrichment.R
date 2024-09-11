@@ -155,7 +155,7 @@ run_topGO <- function(de_container = NULL,
     )
   }
 
-  # Check if de_type is used with vectors and if so stop the function to avoid false interpretaion of the
+  # Check if de_type is used with vectors and if so stop the function to avoid false interpretation of the
   # results. de_type needs the L2FC to determine up/down regulation. It can't be used with vectors.
   if ((de_type == "up" | de_type == "down") && !is.null(de_genes)) {
     stop(
