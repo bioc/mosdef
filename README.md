@@ -15,7 +15,7 @@ This streamlines the generation of comprehensive analysis reports.
 
 ## Installation
 
-You can install the version of `mosdef` which is ob Bioconductor with these commands:
+You can install the version of `mosdef` which is on Bioconductor with these commands:
 
 ``` r
 if (!require("BiocManager")) {
