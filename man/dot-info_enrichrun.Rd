@@ -23,5 +23,5 @@ Prints out an informative summary message.
 Printing some info before the enrichment runs
 }
 \examples{
-# .info_enrichrun(10, c("geneA", "geneB"), "up")
+# .info_enrichrun(10, length(c("geneA", "geneB")), "up")
 }
