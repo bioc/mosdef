@@ -236,7 +236,7 @@ run_topGO <- function(de_container = NULL,
       de_genes <- de_genes[seq_len(top_de)]
     }
     if (verbose) {
-      .info_enrichrun(n_de = nrow(all_de),
+      .info_enrichrun(n_de = all_de,
                       n_de_selected = length(de_genes),
                       de_type = de_type,
                       res_de = NULL)
@@ -843,7 +843,7 @@ run_cluPro <- function(de_container = NULL,
 #' @return Prints out an informative summary message.
 #'
 #' @examples
-#' # .info_enrichrun(10, c("geneA", "geneB"), "up")
+#' # .info_enrichrun(10, length(c("geneA", "geneB")), "up")
 .info_enrichrun <- function(n_de, n_de_selected, de_type, res_de = NULL) {
   message(
     "Your dataset has ", n_de, " DE genes.\n",
