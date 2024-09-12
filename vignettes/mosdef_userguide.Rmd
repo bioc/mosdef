@@ -36,6 +36,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+<style type="text/css">
+.smaller {
+  font-size: 10px
+}
+</style>
+
 # Introduction {#introduction}
 
 This vignette describes how to use the `r BiocStyle::Biocpkg("mosdef")` package for performing tasks commonly associated to your Differential Expression workflows.
@@ -101,7 +107,7 @@ BiocManager::install("imbeimainz/mosdef")
 
 Once installed, the `r BiocStyle::Biocpkg("mosdef")` package can be loaded and attached to your current workspace as follows:
 
-```{r loadlib, eval = TRUE}
+```{r loadlib, eval = TRUE, message=FALSE}
 library("mosdef")
 ```
 
@@ -628,7 +634,7 @@ This not only creates a link to the AmiGO database, but also extracts some infor
 
 This approach can be extended to link to additional external resources on genesets, such as MSigDB or Reactome.
 
-# Session Info {-}
+# Session Info {- .smaller}
 
 ```{r sessioninfo}
 sessionInfo()
