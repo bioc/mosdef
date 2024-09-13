@@ -24,6 +24,8 @@ Imports:
     ggplot2,
     ggforce, 
     ggrepel,
+    graphics,
+    grDevices,
     htmltools,
     methods,
     AnnotationDbi,
