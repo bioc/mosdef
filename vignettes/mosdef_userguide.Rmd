@@ -67,7 +67,7 @@ Historically, many of these functions (at least conceptually) have been develope
 
 In order to use `r BiocStyle::Biocpkg("mosdef")` in your workflow, two main inputs are required: 
 
-- `de_container`, a dataset containing the expression matrix for example a `DESeqDataSet`
+- `de_container`, a dataset containing the expression matrix. For example, a `DESeqDataSet` object in the `r BiocStyle::Biocpkg("DESeq2")` workflow
 - `res_de`, a dataset, such as a `DESeqResults` storing the results of the differential expression analysis
 
 Additionally, the `mapping` parameters, shared by a number of functions, refers to the annotation of your species provided by `r BiocStyle::Biocpkg("AnnotationDbi")`-like packages, which are commonplace in the Bioconductor environment. 
