@@ -1,3 +1,11 @@
+# mosdef 1.2.0
+
+* New functionality added for general scope tasks, such as feature annotation and summaries on the expression tables
+
+# mosdef 1.0.0
+
+* mosdef is on Bioconductor!
+
 # mosdef 0.99.4
 
 * Added persistent location to the script that generates the data objects
