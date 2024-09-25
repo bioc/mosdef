@@ -98,7 +98,7 @@ gene_plot <- function(de_container,
     c("auto", "jitteronly", "boxplot", "violin", "sina")
   )
 
-  if (!intgroup %in% colnames(colData(de_container))) {
+  if (!(all(intgroup %in% colnames(colData(de_container))))) {
     stop(
       "`intgroup` not found in the colData slot of the de_container object",
       "\nPlease specify one of the following: \n",
