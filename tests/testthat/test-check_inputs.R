@@ -192,15 +192,18 @@ test_that("res_de and de_container are related", {
 
 test_that("res_de and de_container are related", {
   expect_warning(
-    {
-      run_goseq(
-        res_de = res_mock,
-        de_container = dds_mock,
-        mapping = "org.Hs.eg.db",
-        add_gene_to_terms = FALSE
-      )
-    },
-    "not related"
+    expect_warning(
+      {
+        run_goseq(
+          res_de = res_mock,
+          de_container = dds_mock,
+          mapping = "org.Hs.eg.db",
+          add_gene_to_terms = FALSE
+        )
+      },
+      "not related"
+    ),
+    "has length > 1"
   )
 })
 
