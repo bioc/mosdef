@@ -20,7 +20,15 @@ test_that("All columns are created", {
   )
   expect_s3_class(test, "data.frame")
 })
+
 test_that("Errors are triggered correctly", {
   expect_error(buttonifier(macrophage_df, col_to_use = "yaddayadda"))
   expect_error(buttonifier(macrophage_df, create_buttons_to = "Genes"))
+})
+
+test_that("Painting tables", {
+  out <- de_table_painter(res_macrophage_IFNg_vs_naive,
+                          rounding_digits = 3,
+                          signif_digits = 5)
+  expect_true(is(out, "htmlwidget"))
 })
