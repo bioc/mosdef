@@ -1,6 +1,7 @@
 # mosdef 1.2.0
 
 * New functionality added for general scope tasks, such as feature annotation and summaries on the expression tables
+* The `gene_plot()` function now is (again) able to handle the specification of more than one grouping variable
 
 # mosdef 1.0.0
 
