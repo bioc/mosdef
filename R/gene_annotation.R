@@ -7,7 +7,7 @@
 #' @param orgdb_package Character string, named as the `org.XX.eg.db`
 #' package which should be available in Bioconductor
 #' @param id_type Character, the ID type of the genes as in the row names of
-#' the `de_container`, to be used in the call to [mapIds()]
+#' the `de_container`, to be used in the call to [AnnotationDbi::mapIds()]
 #' @param key_for_genenames Character, corresponding to the column name for the
 #' key in the orgDb package containing the official gene name (often called
 #' gene symbol).
@@ -18,6 +18,7 @@
 #' information encoded in the `gene_id` and `gene_name` columns.
 #'
 #' @importFrom AnnotationDbi mapIds keytypes
+#'
 #' @export
 #'
 #' @examples
