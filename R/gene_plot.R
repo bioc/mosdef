@@ -13,7 +13,8 @@
 #' @param gene Character, specifies the identifier of the feature (gene) to be
 #' plotted
 #' @param intgroup A character vector of names in `colData(de_container)` to use for
-#' grouping. Note: the vector components should be categorical variables.
+#' grouping. Note: the vector components should be categorical variables. Defaults
+#' to NULL, which which would then select the first column of the `colData` slot.
 #' @param assay Character, specifies with assay of the `de_container` object to use for
 #' reading out the expression values. Defaults to "counts".
 #' @param annotation_obj A `data.frame` object with the feature annotation
@@ -80,7 +81,7 @@
 #' )
 gene_plot <- function(de_container,
                       gene,
-                      intgroup = "condition",
+                      intgroup = NULL,
                       assay = "counts",
                       annotation_obj = NULL,
                       normalized = TRUE,
@@ -91,6 +92,16 @@ gene_plot <- function(de_container,
                       return_data = FALSE) {
   if (!is(de_container, "DESeqDataSet")) {
     stop("The provided `de_container` is not a DESeqDataSet object, please check your input parameters.")
+  }
+
+  if (is.null(intgroup)) {
+    # gently fall back to the first colData element if it is there
+    if (length(names(colData(de_container))) > 0) {
+      intgroup <- names(colData(de_container))[1]
+      message("Defaulting to '", intgroup, "' as the `intgroup` parameter...")
+    } else {
+      stop("No colData has been provided, therefore `intgroup` cannot be selected properly")
+    }
   }
 
   plot_type <- match.arg(
