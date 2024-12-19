@@ -1,3 +1,7 @@
+# mosdef 1.4.0
+
+* `gene_plot()` defaults now to NULL in the `intgroup` parameter, which translates into using the first `colData` item
+
 # mosdef 1.2.0
 
 * New functionality added for general scope tasks, such as feature annotation and summaries on the expression tables
