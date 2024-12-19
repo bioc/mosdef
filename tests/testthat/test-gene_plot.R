@@ -20,6 +20,18 @@ test_that("Basic gene plot is generated", {
   )
   expect_s3_class(p2_noanno_normallabels_untransformed, "gg")
 
+  expect_message({
+    gene_plot(
+      de_container = dds_macrophage,
+      gene = "ENSG00000285982",
+      assay = "counts",
+      intgroup = NULL,
+      annotation_obj = anno_df,
+      transform = TRUE,
+      labels_repel =  FALSE
+    )
+  }, "Defaulting to")
+
   expect_error({
     gene_plot(
       de_container = dds_macrophage,
@@ -28,7 +40,7 @@ test_that("Basic gene plot is generated", {
       intgroup = "factor_not_there",
       annotation_obj = anno_df,
       transform = TRUE,
-      labels_repe
+      labels_repel = FALSE
     )
   })
 })
